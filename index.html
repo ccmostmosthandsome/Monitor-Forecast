@@ -1,0 +1,896 @@
+﻿﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/pstyle.css">
+    <title></title>
+    <script src="Cesium/Cesium.js"></script>
+    <style>
+        @import url(Cesium/Widgets/widgets.css);
+
+        html, body, #cesiumContainer {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+    <script src="js/lang.js"></script>
+    <script type="text/javascript">
+        window.GetQueryString = function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            } else {
+                return null;
+            }
+        };
+        const DEFAULT_LANGUAGE = 'zh-cn'; // en-au | zh-cn
+        window.language = GetQueryString("l") || DEFAULT_LANGUAGE;
+        language = language.toLocaleLowerCase();
+        if (language !== 'en-au' && language !== 'zh-cn') {
+            language = DEFAULT_LANGUAGE;
+        }
+        // 验证是否授权登录
+        //if(window.sessionStorage) {
+        //    var vals = window.sessionStorage.getItem("login");
+        //    if (vals != 'success') {
+        //        window.location.href = 'login.html?l=' + language;
+        //    }
+        //}
+        // 设置页面Title属性
+        window.dlang = txt_lang[language];
+        document.title = dlang.title;
+    </script>
+    <script type="text/javascript">
+        window.onload = function () {
+            var cd = document.getElementsByClassName("menue-box");
+            var displaycd = false;
+            //鼠标点击时的效果
+            cd[0].children[0].onclick = function () {
+                if (displaycd) {
+                    // 隐藏子菜单
+                    for (var i = 1; i < cd[0].children.length; i++) {
+                        cd[0].children[i].style.display = "none";
+                    }
+                    $("#data1")[0].style.display = "none";
+                    $("#data2")[0].style.display = "none";
+                    claar1();
+                } else {
+                    // 显示子菜单
+                    for (var i = 1; i < cd[0].children.length; i++) {
+                        cd[0].children[i].style.display = "block";
+                    }
+                }
+                displaycd = !displaycd;
+            };
+
+
+        };
+    </script>
+    <script src="js/deal.js"></script>
+</head>
+<body>
+<div id="cesiumContainer" class="pmapbox"></div>
+<script src="js/Cesium_Viewer.js"></script>
+<!--logo-->
+<div id="floatWindow">
+    <div class="logo"></div>
+    <div class="disaster-title">
+        <div class="disaster-title-en">${title_min}</div>
+        <div class="disaster-title-cn">${title}</div>
+    </div>
+
+    <!--天气-->
+    <div class="weatherbox">
+        <div class="weather-prlt-box">
+            <!--日期-->
+            <div class="daybox">
+                <span id="day"></span>
+            </div>
+            <div class="wenduBox">
+                <div id="wdval">10</div>
+                <label>℃</label>
+            </div>
+            <div class="fengliBox" style="display: none;">
+                <div class="fengxian">
+                    <span>${weather_fx}</span>
+                    <label>${weather_xnf}</label>
+                </div>
+                <div class="shidu">
+                    <span>${weather_xdsd}</span>
+                    <label>45%</label>
+                </div>
+            </div>
+            <div class="weatherIcon">
+                <img id="weatherIcon" src="img/weather-0.png">
+                <img id="windIcon" src="img/flt.png" style="display: none;">
+            </div>
+            <!--时钟-->
+            <div class="timebox">
+                <span id="lblCHours"></span>
+                <label id="clockcolon" class="animated flash infinite animated-2s">:</label>
+                <span id="lblCMinute"></span>
+            </div>
+        </div>
+    </div>
+    <!--KPI指标项-->
+    <ul class="mkpi-box" style="display: none">
+        <li><span>2010·4·14</span><label>${zhxq_szrk}</label></li>
+        <li><span id="jjtime"></span><label>${zhxq_szmj}</label></li>
+        <li><span>14833</span><label>${zhxq_yjss}</label></li>
+    </ul>
+    <!--下拉菜单-->
+    <ul class="menue-box">
+        <li style="display:block;"><span>${menu}</span></li>
+        <li><span onclick="location1()">${menu_loc}</span></li>
+        <li><span>${menu_typhoon_path}</span>
+        </li>
+        <li><span onclick="importdata()">${menu_house}</span></li>
+        <li><span onclick="importdata_water()">${menu_road}</span></li>
+        <li><span onclick="importdata_road()">${menu_extra}</span></li>
+    </ul>
+    <ul id="data1" class="mtab-box" style="left: 850px;display: none;">
+        <li onclick="beforetiff()">${menu_pre_house_data}</li>
+        <li onclick="aftertiff01()">${menu_pos_house_data}</li>
+    </ul>
+    <ul id="data2" class="mtab-box" style="left: 1035px;display: none;">
+        <li onclick="beforewater()">${menu_pre_road}</li>
+        <li onclick="afterewater()">${menu_pos_road}</li>
+        <li onclick="scope_extract()">${menu_des_road}</li>
+    </ul>
+    <ul id="data3" class="mtab-box" style="left: 1220px;display: none;">
+        <li onclick="beforewater()">${menu_pre_water}</li>
+        <li onclick="afterewater()">${menu_pos_water}</li>
+        <li onclick="scope_extract()">${menu_flood}</li>
+    </ul>
+
+    <!--灾害概况-->
+    <div class="smart-cg-box">
+        <div class="kpi-title">
+            <div class="kpi-title-cn">${situation}</div>
+            <div class="kpi-title-en">
+                <div class="kpi-title-en1">Overview</div>
+                <div class="kpi-title-en2">of Disaster</div>
+            </div>
+        </div>
+        <div class="kpi-box">
+            <!--灾害分析-->
+            <ul class="ggaq-source-area">
+                <li>
+                    <div class="ggaq-area-num">
+                        <svg width="100%" height="100%">
+                            <g stroke="#ffffff" fill="none" stroke-width="4">
+                                <circle r="34" cx="36" cy="36" stroke-dasharray="5,5"></circle>
+                                <animateTransform attributeName="transform" type="rotate" from="0,36,36" to="360,36,36"
+                                                  dur="10s" repeatCount="indefinite"/>
+                            </g>
+                            <circle r="26" cx="36" cy="36" fill="none" stroke="#3da1ee" stroke-width="2"></circle>
+                            <text x="25" y="45" class="area-num-text">171</text>
+                        </svg>
+                    </div>
+                    <div class="ggaq-area-name">${situation_num}</div>
+                </li>
+                <li>
+                    <div class="ggaq-area-num">
+                        <svg width="100%" height="100%">
+                            <g stroke="#ffffff" fill="none" stroke-width="4">
+                                <circle r="34" cx="36" cy="36" stroke-dasharray="5,5"></circle>
+                                <animateTransform attributeName="transform" type="rotate" from="0,36,36" to="360,36,36"
+                                                  dur="10s" repeatCount="indefinite"/>
+                            </g>
+                            <circle r="26" cx="36" cy="36" fill="none" stroke="#3da1ee" stroke-width="2"></circle>
+                            <text x="28" y="45" class="area-num-text">14</text>
+                        </svg>
+                    </div>
+                    <div class="ggaq-area-name" style="width: 100px">${situation_fre}</div>
+                </li>
+                <li>
+                    <div class="ggaq-area-num">
+                        <svg width="100%" height="100%">
+                            <g stroke="#ffffff" fill="none" stroke-width="4">
+                                <circle r="34" cx="36" cy="36" stroke-dasharray="5,5"></circle>
+                                <animateTransform attributeName="transform" type="rotate" from="0,36,36" to="360,36,36"
+                                                  dur="10s" repeatCount="indefinite"/>
+                            </g>
+                            <circle r="26" cx="36" cy="36" fill="none" stroke="#3da1ee" stroke-width="2"></circle>
+                            <text x="20" y="45" class="area-num-text">1278</text>
+                        </svg>
+                    </div>
+                    <div class="ggaq-area-name">${situation_loss}</div>
+                </li>
+            </ul>
+            <!--灾区概况-->
+            <div class="ggaq-source">
+
+                <!--伤亡数类型分析-->
+                <div class="ggaq-source-type">
+                    <div class="ggaq-source-pie" id="ggaq_pie"></div>
+                    <ul class="ggaq-type-ul">
+                        <li>
+                            <div class="type-icon" style="background-color: #1b70a8;"></div>
+                            <div class="type-name">${situation_vicNum}</div>
+                            <div class="type-num">2698</div>
+                        </li>
+                        <li>
+                            <div class="type-icon" style="background-color: #26baff;"></div>
+                            <div class="type-name">${situation_injNum}</div>
+                            <div class="type-num">2687</div>
+                        </li>
+                        <li>
+                            <div class="type-icon" style="background-color: #8ce2ff;"></div>
+                            <div class="type-name">${situation_missNum}</div>
+                            <div class="type-num"><span id="ggaq_jt">270</span></div>
+                        </li>
+                        <li>
+                            <div class="type-icon" style="background-color: #2f8fb4;"></div>
+                            <div class="type-name">${situation_totalNum}</div>
+                            <div class="type-num">12135</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--经济损失-->
+    <div class="smart-ggaq-box">
+        <div class="kpi-title">
+            <div class="kpi-title-cn">${economic}</div>
+            <div class="kpi-title-en">
+                <div class="kpi-title-en1">Economics</div>
+                <div class="kpi-title-en2">losses</div>
+            </div>
+        </div>
+        <div class="kpi-box">
+            <!--数字统计-->
+            <ul class="cg-num-stat">
+                <li class="cg-num-box">
+                    <div class="cg-num">
+                        <div class="fkh-left"></div>
+                        <div class="cg-fkh-num" id="cg_blzs">12409</div>
+                        <div class="fkh-right"></div>
+                    </div>
+                    <div class="cg-title">${economic_dirLoss}</div>
+                </li>
+                <li class="cg-num-box">
+                    <div class="cg-num">
+                        <div class="fkh-left"></div>
+                        <div class="cg-fkh-num" id="cg_bls">42718</div>
+                        <div class="fkh-right"></div>
+                    </div>
+                    <div class="cg-title">${economic_indLoss}</div>
+                </li>
+                <li class="cg-num-box">
+                    <div class="cg-num">
+                        <div class="fkh-left"></div>
+                        <div class="cg-fkh-num"><span id="cg_bzl">55127</span><span></span></div>
+                        <div class="fkh-right"></div>
+                    </div>
+                    <div class="cg-title">${economic_totalLoss}</div>
+                </li>
+            </ul>
+            <!--自然系统受损面积-->
+            <ul class="cg-analyse">
+                <li>
+                    <div class="cg-anal-left">
+                        <div class="cg-anal-bar">
+                            <div class="cg-anal-val" style="width: 13.8%;"></div>
+                        </div>
+                        <div class="cg-anal-text">
+                            <div class="cg-anal-name">${economic_farmLoss}</div>
+                            <div class="cg-anal-num"><span>（13.8%）</span><span>34</span></div>
+                        </div>
+                    </div>
+                    <!--<div class="cg-anal-right">
+                        <div class="cg-anal-icon"><img src="img/arrow-down-white.png" height="16" width="12"/></div>
+                        <div class="cg-anal-hb">${dw_hb}<br/>12%</div>
+                    </div>-->
+                </li>
+                <li>
+                    <div class="cg-anal-left">
+                        <div class="cg-anal-bar">
+                            <div class="cg-anal-val" style="width: 19.8%;"></div>
+                        </div>
+                        <div class="cg-anal-text">
+                            <div class="cg-anal-name">${economic_roadLoss}</div>
+                            <div class="cg-anal-num"><span>（19.8%）</span><span>147</span></div>
+                        </div>
+                    </div>
+                    <!--<div class="cg-anal-right">
+                        <div class="cg-anal-icon"><img src="img/arrow-down-white.png" height="16" width="12"/></div>
+                        <div class="cg-anal-hb">${dw_hb}<br/>26%</div>
+                    </div>-->
+                </li>
+                <li>
+                    <div class="cg-anal-left">
+                        <div class="cg-anal-bar">
+                            <div class="cg-anal-val" style="width: 42.07%;"></div>
+                        </div>
+                        <div class="cg-anal-text">
+                            <div class="cg-anal-name">${economic_houseLoss}</div>
+                            <div class="cg-anal-num"><span>（42.07%）</span><span>2263</span></div>
+                        </div>
+                    </div>
+                    <!--<div class="cg-anal-right">
+                        <div class="cg-anal-icon"><img src="img/arrow-down-white.png" height="16" width="12"/></div>
+                        <div class="cg-anal-hb">${dw_hb}<br/>35%</div>
+                    </div>-->
+                </li>
+                <li>
+                    <div class="cg-anal-left">
+                        <div class="cg-anal-bar">
+                            <div class="cg-anal-val" style="width: 24.33%;"></div>
+                        </div>
+                        <div class="cg-anal-text">
+                            <div class="cg-anal-name">${economic_otherLoss}</div>
+                            <div class="cg-anal-num"><span>（24.33%）</span><span>14</span></div>
+                        </div>
+                    </div>
+                    <!--<div class="cg-anal-right">
+                        <div class="cg-anal-icon"><img src="img/arrow-down-white.png" height="16" width="12"/></div>
+                        <div class="cg-anal-hb">${dw_hb}<br/>35%</div>
+                    </div>-->
+                </li>
+            </ul>
+            <!--二次灾害文字-->
+            <div class="ggaq-title" style="width: 300px">${economic_annLoss}</div>
+            <!--降雨量-->
+            <div id="kind3" style="left:85px;top: 20px;height: 300px;width: 380px;bottom: 40px;"></div>
+            <div class="smt-sw-jylbox" style="display: none">
+                <span>${zhsw_qsljjyl}</span>
+                <ul>
+                    <li class="selected"></li>
+                    <li class="selected"></li>
+                    <li class="selected"></li>
+                    <li class="selected"></li>
+                    <li class="selected"></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+                <span>1269MM</span>
+            </div>
+            <!--KPI-->
+            <ul class="smt-sw-kpibox" style="display: none">
+                <li>
+                    <div class="smt-sw-zztbox">
+                        <canvas id="smt-sw-cvs-1" class="smt-sw-zztcvs" width="93" height="38"></canvas>
+                        <div class="smt-sw-zztjt" xtype="1"></div>
+                    </div>
+                    <div class="smt-sw-zztbt">
+                        <span>98%</span>
+                        <label>${zhsw_cscll}</label>
+                    </div>
+                </li>
+                <li>
+                    <div class="smt-sw-zztbox">
+                        <canvas id="smt-sw-cvs-2" class="smt-sw-zztcvs" width="93" height="38"></canvas>
+                        <div class="smt-sw-zztjt" xtype="2"></div>
+                    </div>
+                    <div class="smt-sw-zztbt">
+                        <span>92%</span>
+                        <label>${zhsw_zsssyl}</label>
+                    </div>
+                </li>
+                <li>
+                    <div class="smt-sw-zztbox">
+                        <canvas id="smt-sw-cvs-3" class="smt-sw-zztcvs" width="93" height="38"></canvas>
+                        <div class="smt-sw-zztjt" xtype="3"></div>
+                    </div>
+                    <div class="smt-sw-zztbt">
+                        <span>86%</span>
+                        <label>${zhsw_xfswhl}</label>
+                    </div>
+                </li>
+            </ul>
+            <!--表格-->
+            <div class="smt-zw-table" style="display: none">
+                <table cellspacing="0" width="100%" height="100%">
+                    <thead>
+                    <tr>
+                        <td width="28%">${eczh_clmc}</td>
+                        <td width="42%">${eczh_clsm}</td>
+                        <td width="30%">${eczh_clsc}</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!--<tr>
+                        <td>《施工许可》</td>
+                        <td>房管局</td>
+                        <td>3h</td>
+                    </tr>-->
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <!--通讯设备状态-->
+    <div class="smart-hb-box">
+        <div class="kpi-title">
+            <div class="kpi-title-cn">${communication}</div>
+            <div class="kpi-title-en">
+                <div class="kpi-title-en1">State of</div>
+                <div class="kpi-title-en2">Communication equipment</div>
+            </div>
+        </div>
+        <div class="kpi-box">
+            <!--通讯设备数量-->
+            <div class="smart-hb-radar-title">${communication_deviceNum}</div>
+            <div class="smart-hb-radar" id="hb_radar"></div>
+            <!--通讯设备情况-->
+            <div class="smart-hb-air">
+                <div class="smart-air-title">${communication_smoothrate}</div>
+                <div class="fkh-left"></div>
+                <div class="smart-fkh-num">1820/71.28%</div>
+                <div class="fkh-right"></div>
+                <div class="smart-air-title" style="margin-left: 10px;">${communication_major}</div>
+                <div class="fkh-left"></div>
+                <div class="smart-fkh-num">199/200</div>
+                <div class="fkh-right"></div>
+            </div>
+            <!--水质监测-->
+            <ul class="smart-hb-water">
+                <!--<li>
+                    <span>湖泊名</span>
+                    <span>水质</span>
+                    <span>营养状态</span>
+                    <span>达标情况</span>
+                    <span>水质变化</span>
+                </li>
+                <li>
+                    <span>湖泊名</span>
+                    <span>IV</span>
+                    <span>轻度富营养</span>
+                    <span>达标</span>
+                    <span>稳定</span>
+                </li>-->
+            </ul>
+        </div>
+    </div>
+    <!--数据处理进度-->
+    <div class="smart-jt-box">
+        <div class="kpi-title">
+            <div class="kpi-title-cn">${process}</div>
+            <div class="kpi-title-en">
+                <div class="kpi-title-en1">Data</div>
+                <div class="kpi-title-en2">Processing progress</div>
+            </div>
+        </div>
+        <div class="kpi-box">
+            <!--交通数值统计-->
+            <ul class="jt-stat">
+                <li>
+                    <div class="jt-stat-title">${process_num}</div>
+                    <div class="fkh-left"></div>
+                    <div class="jt-fkh-num" id="jt_sgs">28</div>
+                    <div class="fkh-right"></div>
+                </li>
+                <li>
+                    <div class="jt-stat-title">${process_tobe}</div>
+                    <div class="fkh-left"></div>
+                    <div class="jt-fkh-num" id="jt_zpwg">5</div>
+                    <div class="fkh-right"></div>
+                </li>
+                <li>
+                    <div class="jt-stat-title">${process_totaldata}</div>
+                    <div class="fkh-left"></div>
+                    <div class="jt-fkh-num">33</div>
+                    <div class="fkh-right"></div>
+                </li>
+                <li>
+                    <div class="jt-stat-title">${process_status}</div>
+                    <div class="fkh-left"></div>
+                    <div class="jt-fkh-num" style="font-size:18px;">${process_processing}</div>
+                    <div class="fkh-right"></div>
+                </li>
+            </ul>
+            <!--图表区域-->
+            <div class="jt-chart-area">
+                <!--数据处理运行图-->
+                <div class="jt-chart-gfsd">
+                    <div class="jt-gfsd-title">${process_runchat}</div>
+                    <div class="jt-gfsd-poly" id="jt_poly"></div>
+                </div>
+                <!--拥堵指数圆环表-->
+                <div class="jt-chart-pie">
+                    <svg width="100%" height="100%">
+                        <g stroke="#1b4476" fill="none" stroke-width="4">
+                            <circle r="58" cx="60" cy="60" stroke-dasharray="20,5"></circle>
+                        </g>
+                        <g fill="none" stroke="#3399ff" stroke-width="4">
+                            <path stroke-dasharray="20,5" transform="translate(60,60)"
+                                  d="M 0 -58 A 58 58 0 0 1 57.974 7.27"></path>
+                            <animateTransform attributeName="transform" type="rotate" from="0,60,60" to="360,60,60"
+                                              dur="5s"
+                                              repeatCount="indefinite"/>
+                        </g>
+                        <circle r="50" cx="60" cy="60" fill="none" stroke="#635638" stroke-width="3"></circle>
+                        <path id="jt_cir" fill="none" stroke="#eabc4f" stroke-width="3" transform="translate(60,60)"
+                              d="M 0 -50 A 50 50 0 1 1 -42.22 -26.79"></path>
+                        <text x="45" y="55" class="area-num-text">90%</text>
+                        <text x="30" y="80" class="area-num-title">${process_progress}</text>
+                    </svg>
+                </div>
+                <!--拥堵延迟指数-->
+                <!--MAX:5 MIN:0 1.4以下绿色  1.5--1.9：拥堵 橙色 >1.9 红色-->
+                <div class="jt-chart-ydzs">
+                    <div class="jt-ydzs-title">
+                        <span>${process_name}</span>
+                        <span>${process_instructions}</span>
+                        <span>${process_time}</span>
+                    </div>
+                    <ul class="jt-ydzs-list" id="jt_ydzs_list">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--&lt;!&ndash;新闻和舆情&ndash;&gt;-->
+    <!--<div class="smart-sw-box">-->
+        <!--<div class="kpi-title">-->
+            <!--<div class="kpi-title-cn">${distype}</div>-->
+            <!--<div class="kpi-title-en">-->
+                <!--<div class="kpi-title-en1">Disasters</div>-->
+                <!--<div class="kpi-title-en2">type</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="kpi-box">-->
+            <!--&lt;!&ndash;重点场所分析&ndash;&gt;-->
+            <!--<div class="ggaq-zdcs-box" id="kind" style="top: 10px"></div>-->
+        <!--</div>-->
+
+    <!--</div>-->
+    <!--救援指标-->
+    <div class="smart-zw-box">
+        <div class="kpi-title">
+            <div class="kpi-title-cn">${rescue}</div>
+            <div class="kpi-title-en">
+                <div class="kpi-title-en1">Rescue</div>
+                <div class="kpi-title-en2">Targets</div>
+            </div>
+        </div>
+        <!--指标值-->
+        <div class="smt-zw-yh-box">
+            <canvas id="smt-zw-cvs" class="smt-zw-sxbox" width="140" height="140"></canvas>
+            <div class="smt-zw-sxkpi">
+                <label>33%</label>
+                <span>${rescue_short}</span>
+            </div>
+        </div>
+        <!--KPI-->
+        <ul class="smt-zw-kpi-box">
+            <li>
+                <span>${rescue_need}</span>
+                <label>${rescue_tent}</label>
+            </li>
+            <li>
+                <span>${rescue_quan}</span>
+                <label>2200</label>
+            </li>
+        </ul>
+        <!--MPA-->
+        <div id="smt-sw-mpaarea" class="smt-sc-chart"></div>
+    </div>
+    <!--数据加载-->
+    <div class="smart-sw-box">
+        <div class="kpi-title">
+            <div class="kpi-title-cn">${disfrequency}</div>
+            <div class="kpi-title-en">
+                <div class="kpi-title-en1">Disaster</div>
+                <div class="kpi-title-en2">frequency</div>
+            </div>
+        </div>
+        <!--指标值-->
+        <div class="kpi-box">
+            <!--重点场所分析-->
+            <div class="ggaq-zdcs-box" id="kind1">
+
+            </div>
+        </div>
+    </div>
+
+    <!--下述：突发事件各窗口-->
+    <!--矢量/影像切换-->
+    <ul class="mapgis-box">
+        <li xtype="mvec" class="selected">${map_vector}</li>
+        <li xtype="mimg">${map_image}</li>
+    </ul>
+    <!--地图gis资源-->
+    <div class="tfsj-gis-box">
+        <!--影响类型-->
+        <ul class="tfj-gis-yxlx">
+            <li xtype="rq">${map_rqyx}</li>
+            <li xtype="gs">${map_gsyx}</li>
+            <li xtype="dl">${map_dlyx}</li>
+            <li xtype="jt">${map_jtyx}</li>
+        </ul>
+        <!--街景-->
+        <div class="tfj-mapstreet-box">
+            <div class="tfj-mapboxs-street">
+                <div id="street-mapbox" class="tfj-mapboxs-street-sjbox"></div>
+            </div>
+            <div class="tfj-srtjbiao"></div>
+        </div>
+        <!--三维-->
+        <div class="tfj-map25d-box">
+            <div id="25d-mapbox" class="tfj-mapboxs-25d"></div>
+            <div class="tfj-25djbiao"></div>
+        </div>
+    </div>
+    <!--处置布防-->
+    <div class="tfsj-czbf-box">
+        <!--消防-->
+        <div class="czbf-tbox">
+            <div class="czbf-tbox-title">
+                <div class="czbf-tbox-txt">${czbk_xf}</div>
+                <div class="czbf-tbox-icon" type="xf"></div>
+            </div>
+            <div class="czbf-tbox-main">
+                <div class="czbf-main-box">
+                    <div class="czbf-xf-title">${czbk_xfzhan}:&nbsp;${czbk_xfxxfzd}</div>
+                    <div class="czbf-xf-power">
+                        <div class="czbf-power-box">
+                            <div class="czbf-power-num">
+                                <div class="fkh-left"></div>
+                                <div class="zdcs-fkh-num" id="czbf_xfy_num">46</div>
+                                <div class="fkh-right"></div>
+                            </div>
+                            <div class="czbf-power-name">${czbk_xfdmxfy}</div>
+                        </div>
+                        <div class="czbf-power-box">
+                            <div class="czbf-power-num">
+                                <div class="fkh-left"></div>
+                                <div class="zdcs-fkh-num" id="czbf_xfc_num">10</div>
+                                <div class="fkh-right"></div>
+                            </div>
+                            <div class="czbf-power-name">${czbk_xfc}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="czbf-main-btn" xtype="ljgh">${czbk_ljgh}</div>
+            </div>
+        </div>
+        <!--周边警力-->
+        <div class="czbf-tbox">
+            <div class="czbf-tbox-title">
+                <div class="czbf-tbox-txt">${czbk_zbjl}</div>
+                <div class="czbf-tbox-icon" type="zbjl"></div>
+            </div>
+            <div class="czbf-tbox-main">
+                <div class="czbf-main-box">
+                    <div class="czbf-zbjl-chart" id="zbjl_chart"></div>
+                    <ul class="czbf-zbjl-ul">
+                        <li>
+                            <span class="blue"></span>
+                            <span>${czbk_zbjl_jj}</span>
+                            <span>16</span>
+                        </li>
+                        <li>
+                            <span class="yellow"></span>
+                            <span>${czbk_zbjl_mj}</span>
+                            <span>14</span>
+                        </li>
+                        <li>
+                            <span class="orange"></span>
+                            <span>${czbk_zbjl_xj}</span>
+                            <span>8</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="czbf-main-btn" xtype="fsx">${czbk_sdfsx}</div>
+            </div>
+        </div>
+        <!--重点区域-->
+        <div class="czbf-tbox">
+            <div class="czbf-tbox-title">
+                <div class="czbf-tbox-txt">${czbk_zdqyu}</div>
+                <div class="czbf-tbox-icon" type="zdqy"></div>
+            </div>
+            <div class="czbf-tbox-main" id="czbf_zdqy_chart">
+                <!--<div class="czbf-main-box" ></div>-->
+            </div>
+        </div>
+        <!--医疗-->
+        <div class="czbf-tbox">
+            <div class="czbf-tbox-title">
+                <div class="czbf-tbox-txt">${czbk_yiliao}</div>
+                <div class="czbf-tbox-icon" type="yl"></div>
+            </div>
+            <div class="czbf-tbox-main" id="czbf_yl_chart">
+
+            </div>
+        </div>
+        <!--职能部门-->
+        <div class="czbf-tbox">
+            <div class="czbf-tbox-title">
+                <div class="czbf-tbox-txt">${czbk_znbmen}</div>
+                <div class="czbf-tbox-icon" type="znbm"></div>
+            </div>
+            <ul class="czbf-tbox-main">
+                <li>
+                    <span>${czbk_znbm_rqfzr}：${czbk_znbm_xmz}</span>
+                    <img src="img/icon-tel.png" height="20" width="18"/>
+                    <span>132****2312</span>
+                </li>
+                <li>
+                    <span>${czbk_znbm_swfzr}：${czbk_znbm_xmw}</span>
+                    <img src="img/icon-tel.png" height="20" width="18"/>
+                    <span>156****4353</span>
+                </li>
+                <li>
+                    <span>${czbk_znbm_dlfzr}：${czbk_znbm_xml}</span>
+                    <img src="img/icon-tel.png" height="20" width="18"/>
+                    <span>180****7699</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--处置流程记录-->
+    <div class="tfsj-czlcjl-box">
+        <div class="czlcjl-title">${sjczlcjl_title}</div>
+        <div class="czlcjl-main-box">
+            <div class="czlcjl-list" id="czlcjl_list">
+                <!--<div class="czlcjl-list-item">-->
+                <!--<div class="list-time-icon"></div>-->
+                <!--<div class="list-event">-->
+                <!--<div class="list-event-time">**时**分**秒</div>-->
+                <!--<div class="list-event-text">**</div>-->
+                <!--</div>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+    <!--楼栋分户信息-->
+    <div class="tfsj-fht-box">
+        <div class="tfj-fht-border">
+            <div class="tfj-border-lt"></div>
+            <div class="tfj-border-rt"></div>
+            <div class="tfj-border-lb"></div>
+            <div class="tfj-border-rb"></div>
+            <!--信息内容-->
+            <div class="tfj-fht-infbox">
+                <ul class="tfj-fht-lpb">
+                    <li>
+                        <span>9${dw_lou}</span>
+                        <ul>
+                            <li>901</li>
+                            <li class="icon-baby">902</li>
+                            <li>903</li>
+                            <li>904</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span>8${dw_lou}</span>
+                        <ul>
+                            <li>801</li>
+                            <li>802</li>
+                            <li>803</li>
+                            <li>804</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span>7${dw_lou}</span>
+                        <ul>
+                            <li>701</li>
+                            <li class="icon-cjr">702</li>
+                            <li class="red animated red-pulse infinite">703</li>
+                            <li>704</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span>6${dw_lou}</span>
+                        <ul>
+                            <li>601</li>
+                            <li>602</li>
+                            <li class="icon-lnr">603</li>
+                            <li>604</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span>5${dw_lou}</span>
+                        <ul>
+                            <li>501</li>
+                            <li>502</li>
+                            <li>503</li>
+                            <li>504</li>
+                        </ul>
+                    </li>
+                </ul>
+                <!--楼栋统计信息-->
+                <div class="tfj-build-info">
+                    <div class="tfj-build-title">${ldfht_ddian}</div>
+                    <div class="tfj-build-ttxt"><span>${ldfht_zjnd}：</span><label>2004</label></div>
+                    <div class="tfj-build-ttxt"><span>${ldfht_jzcs}：</span><label>24${dw_ceng}</label></div>
+                    <div class="tfj-build-chart margin-top-20">
+                        <div class="tfj-bldchart-title">${ldfht_lnzzhs}：<label>325</label>${dw_ren}</div>
+                        <div class="tfj-bldchart-pie">
+                            <div id="tfj-bldpie-rk"></div>
+                            <label>43</label>
+                        </div>
+                        <ul class="tfj-bldchart-lenged">
+                            <li>
+                                <div xtype="1"></div>
+                                <span>${ldfht_laor}</span><label>20</label></li>
+                            <li>
+                                <div xtype="2"></div>
+                                <span>${ldfht_ert}</span><label>7</label></li>
+                            <li>
+                                <div xtype="3"></div>
+                                <span>${ldfht_cjr}</span><label>16</label></li>
+                        </ul>
+                    </div>
+                    <div class="tfj-build-chart">
+                        <div class="tfj-bldchart-title">${ldfht_lnshs}：<label>109</label>${dw_jia}</div>
+                        <div class="tfj-bldchart-pie">
+                            <div id="tfj-bldpie-sh"></div>
+                            <label style="left: 36px;">109</label>
+                        </div>
+                        <ul class="tfj-bldchart-lenged">
+                            <li>
+                                <div xtype="1"></div>
+                                <span>${ldfht_spu}</span><label>75</label></li>
+                            <li>
+                                <div xtype="2"></div>
+                                <span>${ldfht_qiye}</span><label>28</label></li>
+                            <li>
+                                <div xtype="3"></div>
+                                <span>${ldfht_cku}</span><label>6</label></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<div class="infwin-box" style="display: inherit;">-->
+<!--<div class="infwin-ctbox">-->
+<!--<div class="infwin-border-lt"></div>-->
+<!--<div class="infwin-border-rt"></div>-->
+<!--<div class="infwin-border-lb"></div>-->
+<!--<div class="infwin-border-rb"></div>-->
+<!--<div class="infwin-line fax-xb"></div>-->
+
+<!--<div class="infwin-content">-->
+<!--<div class="infwin-ctitle"><span>封锁线区域</span><div class="infwin-ctitle-close"></div></div>-->
+<!--<div class="infwin-contbox">-->
+<!--<div class="yxfwei-cbox" style="width: 310px;">-->
+<!--<span>封锁范围：<label>地铁站至500m&nbsp;&nbsp;中南二路交汇口</label></span>-->
+<!--<span>距离：<label>50m</label>&nbsp;&nbsp;&nbsp;&nbsp;封锁时间：<label>4h</label></span>-->
+<!--<span>存在隐患：<label>地铁及人员聚集区，流动性人员较大</label></span>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+</body>
+<!--加载Js脚本文件-->
+<!--模版替换-->
+<script type="text/javascript">
+    // 设置页面的语言样式
+    document.body.setAttribute('lng', language);
+    // 替换语言模版
+    var xhtml_template = document.getElementById('floatWindow').innerHTML;
+    xhtml_template = xhtml_template.replace(/\$\{([^\s\:\}]+)(?:\:([^\s\:\}]+))?\}/g, function (match, key) {
+        return (dlang[key] === undefined) ? '' : dlang[key];
+    });
+    document.getElementById('floatWindow').innerHTML = xhtml_template;
+</script>
+<!--插件-->
+<script src="plugins/jquery/jquery-3.1.1.min.js"></script>
+<script src="plugins/echart/echarts.min.js"></script>
+<script src="js/jquery.dataStatistics.js"></script>
+<script src="js/countUp.min.js"></script>
+<!--业务-->
+<script src="js/data.js"></script>
+<script src="js/wuhan.min.js"></script>
+<script src="js/fire.js"></script>
+<script src="js/emergency.js"></script>
+<script src="js/index.js"></script>
+</html>
