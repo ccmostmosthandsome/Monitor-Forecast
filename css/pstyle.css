@@ -63,8 +63,8 @@ body {
 }
 
 .pmapbox {
-    width: 100%;
-    height: 100%;
+    width: 50%;
+    height: 50%;
 }
 
 .logo {
@@ -443,7 +443,7 @@ ul.menue-box > li > span {
     height: 39px;
 }
 
-/*智慧城管*/
+/*卫星概况*/
 .smart-cg-box {
     position: absolute;
     background: url("../img/smart-cg-box.png") no-repeat;
@@ -602,13 +602,13 @@ ul.ggaq-source-area > li > .ggaq-area-num {
 /*数字统计*/
 ul.cg-num-stat {
     position: relative;
-    left: 20px;
+    right: 20px;
     top: 0;
     height: 70px;
 }
 
 .cg-num-box {
-    float: left;
+    float: right;
     width: 95px;
     margin-top: 13px;
     margin-left: 10px;
@@ -732,8 +732,36 @@ ul.cg-analyse > li > .cg-anal-right > .cg-anal-hb {
     position: relative;
     width: 100%;
     height: 560px;
-    font-family: "microsoft yahei";
+    /*font-family: "microsoft yahei";*/
 }
+
+.smart-ggaq-box > .kpi-box > .ggaq-title > table, table tr td {
+    border: 1px solid;
+    border-color: white;
+    border-collapse: collapse;
+}
+
+.smart-ggaq-box > .kpi-box > .ggaq-title > table {
+
+    width: 320px;
+    height: 282px;
+    overflow-y: scroll;
+    display: block;
+}
+
+.smart-ggaq-box > .kpi-box > .ggaq-title > table > tr {
+    /*width: 30%;*/
+}
+
+.smart-ggaq-box > .kpi-box > .ggaq-title > table > th {
+    /*text-align: center;*/
+    background: #818182;
+}
+
+.smart-ggaq-box > .kpi-box > .ggaq-title > table > td {
+    /*text-align: center;*/
+}
+
 
 .area-num-text {
     fill: #ffffff;
@@ -750,7 +778,7 @@ ul.cg-analyse > li > .cg-anal-right > .cg-anal-hb {
 .smart-ggaq-box > .kpi-box > .ggaq-title {
     position: relative;
     left: 30px;
-    top: 25px;
+    /*top: 25px;*/
     font-size: 18px;
     width: 80px;
     height: 30px;
@@ -764,6 +792,7 @@ ul.cg-analyse > li > .cg-anal-right > .cg-anal-hb {
     top: 12px;
     height: 240px;
 }
+
 
 .smart-sw-box > .kpi-box > .ggaq-zdcs-box > .ggaq-zdcs-wxrs {
     float: left;
@@ -1413,7 +1442,7 @@ ul.smt-sw-kpibox > li {
     width: 401px;
     height: 291px;
     top: 210px;
-    right: 10px;
+    right: -9px;
     z-index: 8999;
 }
 
@@ -1799,10 +1828,6 @@ ul.tfj-gis-yxlx > li.selected[xtype='jt'] {
     margin-right: 55px;
     background: url("../img/icon-hide.png") no-repeat;
     cursor: pointer;
-}
-
-.tfsj-czbf-box > .czbf-tbox > .czbf-tbox-title > .czbf-tbox-icon.hide {
-    background: url("../img/icon-show.png") no-repeat;
 }
 
 .tfsj-czbf-box > .czbf-tbox > .czbf-tbox-main > .czbf-main-box {
@@ -2379,25 +2404,6 @@ ul.tfj-fht-lpb > li > ul > li.red {
     left: -92px;
 }
 
-.infwin-line.fax-xb {
-    background-image: url("../img/line-xb.png");
-    left: inherit;
-    right: -92px;
-}
-
-.infwin-line.fax-dn {
-    background-image: url("../img/line-dn.png");
-    bottom: inherit;
-    top: -85px;
-}
-
-.infwin-line.fax-xn {
-    background-image: url("../img/line-xn.png");
-    top: -85px;
-    left: inherit;
-    right: -92px;
-}
-
 .infwin-ctitle {
     float: left;
     background: url("../img/xxtt-bg.png") repeat-x;
@@ -2577,11 +2583,6 @@ ul.tfj-fht-lpb > li > ul > li.red {
     background-position: bottom left;
 }
 
-.station_marker.thjc {
-    background: url("../img/marker/thjc.png") no-repeat;
-    background-position: bottom left;
-}
-
 /*翻页动画*/
 @-webkit-keyframes flipTop {
     0% {
@@ -2745,14 +2746,6 @@ ul.tfj-fht-lpb > li > ul > li.red {
     background: url("../img/marker/popup-jtsg.png") no-repeat;
 }
 
-.case.tel {
-    background: url("../img/marker/popup-122.png") no-repeat;
-}
-
-.case.wg {
-    background: url("../img/marker/popup-wz.png") no-repeat;
-}
-
 /*!**********************英文版的覆盖样式**********************!*/
 body[lng='en-au'] .kpi-title-en {
     display: none;
@@ -2844,549 +2837,125 @@ body[lng='en-au'] ul.jt-stat > li:nth-child(4) > .jt-fkh-num {
     width: 40px;
 }
 
-/*body[lng='en-au'] .logo {*/
-/*background-image: url("../img/logo-geostar-en.png");*/
-/*}*/
+.orbital_predictor_box {
+    position: absolute;
+    background-color: rgba(0, 0, 1, 0.5);
+    width: 400px;
+    height: 460px;
+    top: 188px;
+    left: 400px;
+    z-index: 8999;
+}
+
+.sat-list {
+    overflow: hidden;
+    overflow-y: scroll;
+    max-height: 244px;
+    width: 210px;
+}
+
+.orbitals_box {
+    position: absolute;
+    background-color: rgba(0, 0, 1, 0.5);
+    width: 240px;
+    height: 460px;
+    top: 188px;
+    left: 800px;
+    z-index: 8999;
+}
+
+
+#toolbar {
+    position: relative;
+    margin-left: 20px;
+}
+
+.fullSize {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: none;
+    width: 100%;
+    height: 100%;
+}
+
+
+/*灾害概况*/
+.smart-dis-box {
+    position: absolute;
+    background: url("../img/smart-cg-box.png") no-repeat;
+    width: 362px;
+    height: 298px;
+    top: 200px;
+    right: 40px;
+    z-index: 8999;
+}
+
+/*内框*/
+.smart-dis-box > .kpi-title {
+    position: relative;
+    width: 100%;
+    height: 52px;
+    font-family: "microsoft yahei";
+    top: 18px;
+    left: 30px;
+}
+
+.smart-dis-box > .kpi-box {
+    position: relative;
+    width: 100%;
+    height: 238px;
+}
+
+.smart-dis-box > .kpi-box > .ggaq-source {
+    position: relative;
+    left: 20px;
+    top: 0;
+    width: 320px;
+    height: 240px;
+}
+
+.smart-dis-box > .kpi-box > .ggaq-source > .ggaq-source-type {
+    float: left;
+    width: 100%;
+    height: 125px;
+}
+
+.smart-dis-box > .kpi-box > .ggaq-source-area {
+    float: left;
+    width: 100%;
+    height: 110px;
+    margin-top: 5px;
+}
+
+
+/*灾害损失*/
+.dis-loss-box {
+    position: absolute;
+    background: url("../img/smart-sw-box.png") no-repeat;
+    width: 401px;
+    height: 291px;
+    bottom: 288px;
+    right: 10px;
+    z-index: 8999;
+}
+
+.dis-loss-box > .kpi-title {
+    position: relative;
+    width: 100%;
+    height: 30px;
+    font-family: "microsoft yahei";
+    top: 15px;
+    left: 50px;
+}
+
+.dis-loss-box > .kpi-box {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding-top: 10px;
+    font-family: "microsoft yahei";
+}
 
-/*!*菜单切换Tab*!*/
-/*body[lng='en-au'] ul.mtab-box > li[xtype='zl'] {*/
-/*background: url("../img/tab-m-normal-zl-en.png") no-repeat;*/
-/*}*/
 
-/*body[lng='en-au'] ul.mtab-box > li[xtype='tf'] {*/
-/*background: url("../img/tab-m-normal-tf-en.png") no-repeat;*/
-/*}*/
-
-/*body[lng='en-au'] ul.mtab-box > li[xtype='ly'] {*/
-/*background: url("../img/tab-m-normal-ly-en.png") no-repeat;*/
-/*}*/
-
-/*body[lng='en-au'] ul.mtab-box > li[xtype='zl'].selected {*/
-/*background-image: url("../img/tab-m-select-zl-en.png")*/
-/*}*/
-
-/*body[lng='en-au'] ul.mtab-box > li[xtype='tf'].selected {*/
-/*background-image: url("../img/tab-m-select-tf-en.png")*/
-/*}*/
-
-/*!*天气风向*!*/
-/*body[lng='en-au'] .weatherbox > .weather-prlt-box > .daybox {*/
-/*font-size: 18px;*/
-/*font-family: AgencyFBBold;*/
-/*letter-spacing: 1px;*/
-/*}*/
-
-/*body[lng='en-au'] .fengliBox > .fengxian > span,*/
-/*body[lng='en-au'] .fengliBox > .shidu > span {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*margin-top: 15px;*/
-/*}*/
-
-/*body[lng='en-au'] .fengliBox > .fengxian > span {*/
-/*margin-top: 20px;*/
-/*}*/
-
-/*body[lng='en-au'] .fengliBox > .fengxian > label {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 14px;*/
-/*margin-top: 0px;*/
-/*}*/
-
-/*!*总览KPI*!*/
-/*body[lng='en-au'] ul.mkpi-box > li > label {*/
-/*margin-top: 2px;*/
-/*font-size: 18px;*/
-/*font-family: AgencyFBBold;*/
-/*line-height: 16px;*/
-/*}*/
-
-/*!*火车站*!*/
-/*body[lng='en-au'] .station_marker.station_wcz {*/
-/*background-image: url("../img/marker/wcz-en.png");*/
-/*}*/
-
-/*body[lng='en-au'] .station_marker.station_hkz {*/
-/*background-image: url("../img/marker/hkz-en.png");*/
-/*}*/
-
-/*body[lng='en-au'] .station_marker.station_whz {*/
-/*background-image: url("../img/marker/whz-en.png");*/
-/*}*/
-
-/*!*智慧城管*!*/
-/*body[lng='en-au'] .smart-cg-box {*/
-/*background-image: url("../img/smart-cg-box-en.png");*/
-/*}*/
-
-/*body[lng='en-au'] .cg-num-box > .cg-title {*/
-/*font-size: 18px;*/
-/*font-family: AgencyFBBold;*/
-/*line-height: 16px;*/
-/*}*/
-
-/*body[lng='en-au'] ul.cg-analyse > li > .cg-anal-left > .cg-anal-text > .cg-anal-name {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*width: 160px;*/
-/*padding-left: 10px;*/
-/*}*/
-
-/*body[lng='en-au'] ul.cg-analyse > li > .cg-anal-left > .cg-anal-text > .cg-anal-num {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*}*/
-
-/*body[lng='en-au'] ul.cg-analyse > li > .cg-anal-right > .cg-anal-hb {*/
-/*float: left;*/
-/*width: 35px;*/
-/*margin-top: 4px;*/
-/*line-height: 22px;*/
-/*font-size: 16px;*/
-/*font-family: AgencyFBBold;*/
-/*}*/
-
-/*!*公共安全*!*/
-/*body[lng='en-au'] .smart-ggaq-box {*/
-/*background-image: url("../img/smart-ggaq-box-en.png");*/
-/*}*/
-
-/*body[lng='en-au'] .ggaq-source-type > .ggaq-type-ul > li > .type-name {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*}*/
-
-/*body[lng='en-au'] .ggaq-source-type > .ggaq-type-ul > li > .type-num {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*}*/
-
-/*body[lng='en-au'] ul.ggaq-source-area > li > .ggaq-area-name {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*}*/
-
-/*body[lng='en-au'] .smart-ggaq-box > .kpi-box > .ggaq-title {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 20px;*/
-/*width: 100px;*/
-/*}*/
-
-/*body[lng='en-au'] .ggaq-zdcs-wxrs > .zdcs-wxrs-title {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*}*/
-
-/*body[lng='en-au'] .ggaq-zdcs-sbbox > .ggaq-zdcs-title {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*}*/
-
-/*body[lng='en-au'] .ggaq-li-info > .ggaq-info-list {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 16px;*/
-/*}*/
-
-/*!*智慧环保*!*/
-/*body[lng='en-au'] .smart-hb-box {*/
-/*background-image: url("../img/smart-hb-box-en.png");*/
-/*}*/
-
-/*body[lng='en-au'] .smart-hb-air > .smart-air-title {*/
-/*font-size: 18px;*/
-/*font-family: AgencyFBBold;*/
-/*line-height: 18px;*/
-/*}*/
-
-/*body[lng='en-au'] .smart-hb-air > .smart-air-title:first-child {*/
-/*margin-left: 30px;*/
-/*}*/
-
-/*body[lng='en-au'] ul.smart-hb-water > li {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*line-height: 32px;*/
-/*}*/
-
-/*body[lng='en-au'] ul.smart-hb-water > li:first-child > span {*/
-/*line-height: 22px;*/
-/*}*/
-
-/*body[lng='en-au'] ul.smart-hb-water > li > span:nth-child(3),*/
-/*body[lng='en-au'] ul.smart-hb-water > li > span:nth-child(4) {*/
-/*line-height: 16px;*/
-/*font-size: 16px;*/
-/*}*/
-
-/*body[lng='en-au'] ul.smart-hb-water > li:first-child > span:nth-child(3),*/
-/*body[lng='en-au'] ul.smart-hb-water > li:first-child > span:nth-child(4) {*/
-/*line-height: 22px;*/
-/*}*/
-
-/*!*智慧交通*!*/
-/*body[lng='en-au'] .smart-jt-box {*/
-/*background-image: url("../img/smart-jt-box-en.png");*/
-/*}*/
-
-/*body[lng='en-au'] ul.jt-stat > li > .jt-stat-title {*/
-/*font-size: 18px;*/
-/*font-family: AgencyFBBold;*/
-/*}*/
-
-/*body[lng='en-au'] .smart-jt-box > .kpi-box > .jt-chart-area > .jt-chart-gfsd > .jt-gfsd-title {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*}*/
-
-/*body[lng='en-au'] .area-num-title {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*}*/
-
-/*body[lng='en-au'] .smart-jt-box > .kpi-box > .jt-chart-area > .jt-chart-ydzs > .jt-ydzs-title {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*}*/
-
-/*body[lng='en-au'] ul.jt-ydzs-list > li > .jt-ydzs-name > span {*/
-/*line-height: 12px;*/
-/*font-size: 16px;*/
-/*font-family: AgencyFBBold;*/
-/*}*/
-
-/*body[lng='en-au'] ul.jt-ydzs-list > li > .jt-ydzs-name > span:first-child {*/
-/*line-height: 25px;*/
-/*font-size: 16px;*/
-/*}*/
-
-/*!*智慧水务*!*/
-/*body[lng='en-au'] .smart-sw-box {*/
-/*background-image: url("../img/smart-sw-box-en.png");*/
-/*}*/
-
-/*body[lng='en-au'] .smt-sw-jylbox > span:first-child {*/
-/*font-size: 18px;*/
-/*font-family: AgencyFBBold;*/
-/*line-height: 16px;*/
-/*font-weight: normal;*/
-/*letter-spacing: 0;*/
-/*text-align: center;*/
-/*margin-left: 10px;*/
-/*}*/
-
-/*body[lng='en-au'] ul.smt-sw-kpibox {*/
-/*height: 78px;*/
-/*}*/
-
-/*body[lng='en-au'] .smt-sw-zztbt > label {*/
-/*font-size: 14px;*/
-/*font-family: AgencyFBBold;*/
-/*line-height: 12px;*/
-/*}*/
-
-/*!*智慧政务*!*/
-/*body[lng='en-au'] .smart-zw-box {*/
-/*background-image: url("../img/smart-zw-box-en.png");*/
-/*}*/
-
-/*body[lng='en-au'] .smt-zw-yh-box .smt-zw-sxkpi > span {*/
-/*font-size: 18px;*/
-/*font-family: AgencyFBBold;*/
-/*line-height: 18px;*/
-/*}*/
-
-/*body[lng='en-au'] ul.smt-zw-kpi-box {*/
-/*position: relative;*/
-/*width: 205px;*/
-/*left: 124px;*/
-/*}*/
-
-/*body[lng='en-au'] ul.smt-zw-kpi-box > li > span {*/
-/*width: 80px;*/
-/*font-size: 18px;*/
-/*font-family: AgencyFBBold;*/
-/*line-height: 39px;*/
-/*font-weight: normal;*/
-/*}*/
-
-/*body[lng='en-au'] .smt-zw-table thead > tr > td {*/
-/*font-size: 18px;*/
-/*font-family: AgencyFBBold;*/
-/*line-height: 22px;*/
-/*}*/
-
-/*body[lng='en-au'] .smt-zw-table tbody > tr > td {*/
-/*font-size: 14px;*/
-/*font-family: AgencyFBBold;*/
-/*line-height: 18px;*/
-/*}*/
-
-/*!*地图切换*!*/
-/*body[lng='en-au'] ul.mapgis-box > li {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*line-height: 51px;*/
-/*}*/
-
-/*!*地图资源*!*/
-/*body[lng='en-au'] ul.tfj-gis-yxlx > li {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*}*/
-
-/*body[lng='en-au'] ul.tfj-gis-yxlx > li:nth-child(1) {*/
-/*width: 51px;*/
-/*padding-left: 48px;*/
-/*}*/
-
-/*body[lng='en-au'] ul.tfj-gis-yxlx > li:nth-child(2),*/
-/*body[lng='en-au'] ul.tfj-gis-yxlx > li:nth-child(4) {*/
-/*width: 61px;*/
-/*padding-left: 38px;*/
-/*}*/
-
-/*body[lng='en-au'] ul.tfj-gis-yxlx > li:nth-child(3) {*/
-/*width: 71px;*/
-/*padding-left: 28px;*/
-/*}*/
-
-/*body[lng='en-au'] .tfj-srtjbiao {*/
-/*background-image: url("../img/jbiao-sj-en.png");*/
-/*}*/
-
-/*body[lng='en-au'] .tfj-25djbiao {*/
-/*background-image: url("../img/jbiao-sw-en.png");*/
-/*}*/
-
-/*!*详细窗口*!*/
-/*body[lng='en-au'] .yxfwei-cbox {*/
-/*width: 360px;*/
-/*}*/
-
-/*body[lng='en-au'] .infwin-ctitle > span {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*font-weight: normal;*/
-/*}*/
-
-/*body[lng='en-au'] .yxfwei-cbox > span {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 16px;*/
-/*}*/
-
-/*body[lng='en-au'] .yxfwei-cbox > span > label {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 14px;*/
-/*}*/
-
-/*!*楼层信息*!*/
-/*body[lng='en-au'] .tfj-build-title {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*background-position-x: 22px;*/
-/*padding-left: 64px;*/
-/*}*/
-
-/*body[lng='en-au'] .tfj-build-ttxt {*/
-/*margin-left: 22px;*/
-/*}*/
-
-/*body[lng='en-au'] .tfj-build-ttxt > span,*/
-/*body[lng='en-au'] .tfj-build-ttxt > label {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*}*/
-
-/*body[lng='en-au'] .tfj-build-chart > .tfj-bldchart-title {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*margin-left: 22px;*/
-/*}*/
-
-/*body[lng='en-au'] .tfj-build-chart > .tfj-bldchart-pie {*/
-/*margin-left: 10px;*/
-/*}*/
-
-/*body[lng='en-au'] .tfj-build-chart > ul.tfj-bldchart-lenged {*/
-/*margin: 5px 0 0 12px;*/
-/*}*/
-
-/*body[lng='en-au'] .tfj-build-chart > ul.tfj-bldchart-lenged > li > span {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*width: 82px;*/
-/*}*/
-
-/*body[lng='en-au'] .tfj-build-chart > ul.tfj-bldchart-lenged > li > label {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*}*/
-
-/*body[lng='en-au'] .fwrk-infobox {*/
-/*width: 500px;*/
-/*}*/
-
-/*body[lng='en-au'] .fwrk-trbox > span {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*font-weight: normal;*/
-/*letter-spacing: 0;*/
-/*}*/
-
-/*body[lng='en-au'] .fwrk-trbox > .fwrk-xxitem > span {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*}*/
-
-/*body[lng='en-au'] .fwrk-trbox > .fwrk-xxitem > span > label {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 16px;*/
-/*}*/
-
-/*body[lng='en-au'] .fwrk-trbox > ul.fwrk-thu-items {*/
-/*width: 490px;*/
-/*}*/
-
-/*body[lng='en-au'] .fwrk-trbox > ul.fwrk-thu-items > li > .fwrk-thu-bsgx {*/
-/*width: 50px;*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 14px;*/
-/*line-height: 14px;*/
-/*}*/
-
-/*body[lng='en-au'] .fwrk-trbox > ul.fwrk-thu-items > li > .fwrk-thu-ryxx {*/
-/*width: 440px;*/
-/*}*/
-
-/*body[lng='en-au'] .fwrk-trbox > ul.fwrk-thu-items > li > .fwrk-thu-ryxx > span {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 16px;*/
-/*margin-left: 10px;*/
-/*margin-top: 3px;*/
-/*}*/
-
-/*body[lng='en-au'] .fwrk-trbox > ul.fwrk-thu-items > li > .fwrk-thu-ryxx > span > label {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 14px;*/
-/*}*/
-
-/*!*处置记录流程*!*/
-/*body[lng='en-au'] .tfsj-czlcjl-box {*/
-/*background-image: url("../img/czlc-box-en.png");*/
-/*}*/
-
-/*body[lng='en-au'] .tfsj-czlcjl-box > .czlcjl-title {*/
-/*line-height: 28px;*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 24px;*/
-/*}*/
-
-/*body[lng='en-au'] .tfsj-czlcjl-box > .czlcjl-main-box > .czlcjl-list > .czlcjl-list-item {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*}*/
-
-/*!*处置布防*!*/
-/*body[lng='en-au'] .tfsj-czbf-box {*/
-/*background-image: url("../img/czbf-box-en.png");*/
-/*}*/
-
-/*body[lng='en-au'] .tfsj-czbf-box > .czbf-tbox > .czbf-tbox-title > .czbf-tbox-txt {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*line-height: 30px;*/
-/*}*/
-
-/*!*消防*!*/
-/*body[lng='en-au'] .tfsj-czbf-box > .czbf-tbox > .czbf-tbox-main > .czbf-main-box > .czbf-xf-title {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*}*/
-
-/*body[lng='en-au'] .czbf-main-box > .czbf-xf-power > .czbf-power-box > .czbf-power-name {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 16px;*/
-/*line-height: 16px;*/
-/*}*/
-
-/*body[lng='en-au'] .tfsj-czbf-box > .czbf-tbox > .czbf-tbox-main > .czbf-main-btn {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 18px;*/
-/*}*/
-
-/*!*周边警力*!*/
-/*body[lng='en-au'] .tfsj-czbf-box > .czbf-tbox > .czbf-tbox-main > .czbf-main-box > .czbf-zbjl-ul {*/
-/*margin-top: 8px;*/
-/*}*/
-
-/*body[lng='en-au'] ul.czbf-zbjl-ul > li {*/
-/*font-size: 14px;*/
-/*font-family: AgencyFBBold;*/
-/*line-height: 20px;*/
-/*margin-top: 3px;*/
-/*float: left;*/
-/*display: block;*/
-/*}*/
-
-/*body[lng='en-au'] ul.czbf-zbjl-ul > li > span:first-child {*/
-/*width: 10px;*/
-/*height: 10px;*/
-/*margin-top: 5px;*/
-/*display: block;*/
-/*float: left;*/
-/*}*/
-
-/*body[lng='en-au'] ul.czbf-zbjl-ul > li > span:nth-child(2) {*/
-/*display: block;*/
-/*float: left;*/
-/*width: 80px;*/
-/*margin-left: 5px;*/
-/*}*/
-
-/*body[lng='en-au'] ul.czbf-zbjl-ul > li > span:last-child {*/
-/*display: block;*/
-/*float: right;*/
-/*}*/
-
-/*body[lng='en-au'] ul.czbf-zbjl-ul > li:nth-child(3) > span:nth-child(1) {*/
-/*margin-top: 11px;*/
-/*}*/
-
-/*body[lng='en-au'] ul.czbf-zbjl-ul > li:nth-child(3) > span:nth-child(2) {*/
-/*line-height: 14px;*/
-/*}*/
-
-/*body[lng='en-au'] ul.czbf-zbjl-ul > li:nth-child(3) > span:nth-child(3) {*/
-/*margin-top: 5px;*/
-/*}*/
-
-/*!*职能部门*!*/
-/*body[lng='en-au'] ul.czbf-tbox-main > li {*/
-/*margin-left: 10px;*/
-/*}*/
-
-/*body[lng='en-au'] ul.czbf-tbox-main > li > span {*/
-/*font-family: AgencyFBBold;*/
-/*font-size: 16px;*/
-/*line-height: 28px;*/
-/*}*/
-
-/*!* 分辨率1440*900 *!*/
-/*!**/
-/*@media screen and (max-height: 900px) {*/
-/*body {*/
-/*transform: scale(0.75);*/
-/*transform-origin: 0 17%;*/
-/*}*/
-/*}*/
-/**!*/
-
-/*!* 分辨率1366*768 *!*/
-/*!**/
-/*@media screen and (max-height: 768px) {*/
-/*body {*/
-/*transform: scale(0.711);*/
-/*transform-origin: 0 0;*/
-/*}*/
-/*}*/
-/**!*/

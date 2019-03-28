@@ -1,6 +1,6 @@
 ﻿﻿const txt_lang = {
     'zh-cn': {
-        title: '海南省遥感灾情决策辅助系统',
+        title: '海南省遥感灾情辅助决策系统',
         title_min: 'Hainan Remote sensing disaster decision support system',
 
         time_mon: '星期一',
@@ -13,28 +13,44 @@
 
         menu: '菜单',
         menu_loc: '灾害现场定位',
-        menu_typhoon_path: '台风路径',
-        menu_house: '灾害房屋数据',
-        menu_road: '灾害道路数据',
+        menu_typhoon_path: '台风降雨分析',
+        menu_house: '房屋损毁检测',
+        menu_road: '道路损毁检测',
         menu_load: '灾害数据载入',
-        menu_extra: '洪涝水体提取',
+        menu_extra: '洪涝灾情评估',
         menu_assess: '洪涝灾情评估',
         menu_report: '评估决策报告',
+        menu_pre_typh_data:'预测台风路径图',
+        menu_pos_typh_data:'实际台风路径图',
+        menu_rain: '降雨分布图',
         menu_pre_house_data: '灾前房屋数据',
         menu_pos_house_data: '灾后房屋数据',
         menu_pre_road: '灾前道路数据',
         menu_pos_road: '灾后道路数据',
         menu_des_road: '道路损毁数据',
-        menu_pre_water: '灾前水体数据',
-        menu_pos_water: '灾后水体数据',
+        menu_pre_wat_tif:'灾前影像',
+        menu_pos_wat_tif:'灾后影像',
+        menu_pre_water: '灾前水体提取',
+        menu_pos_water: '灾后水体提取',
         menu_flood: '洪涝范围提取',
+        menu_flood_ass:'评估报告',
 
-        situation: '灾害概况',
+        situation_sat: '卫星概况',
+        satellite_gaofen: '高分卫星',
+        satellite_ziyuan: '资源卫星',
+        satellite_shaobin: '哨兵卫星',
+        gaofen1: '高分一号',
+        satellite_height: '轨道高度',
+        satellite_resolution: '空间分辨率',
+        satellite_return: '回归周期',
+        satellite_time: '重访时间',
+
+        situation_dis: '灾害概况',
         situation_num: '灾害数量',
         situation_fre: '灾害频次',
         situation_loss: '总经济损失',
-        situation_casual: '伤亡数',
-        situation_vicNum: '遇难人数',
+        situation_casual: '死亡数',
+        situation_vicNum: '总经济损失',
         situation_injNum: '受伤人数',
         situation_missNum: '失踪人数',
         situation_totalNum: '总人数',
@@ -48,6 +64,11 @@
         economic_houseLoss: '房屋经济损失',
         economic_otherLoss: '其他经济损失',
         economic_annLoss: '各年经济损失',
+
+        typhoon: '台风历史数据',
+
+        history_data:'历史数据',
+
 
 
         communication: '通讯设备状态',
@@ -126,7 +147,7 @@
 
         rescue: '救援指标',
         rescue_short: '物资紧缺',
-        rescue_tent: '帐篷',
+        rescue_tent: '救生船',
         rescue_need: '急需',
         rescue_quan: '数量',
         rescue_staff: '医护人员',
@@ -148,7 +169,8 @@
         distype_fire: '火灾',
         distype_other: '其他',
 
-        disfrequency: '各年灾害频次'
+        disfrequency: '各年灾害频次',
+        Casualties_loss: '灾害损失'
 
 
     },
@@ -195,6 +217,8 @@
         economic_houseLoss: 'Honey economic loss',
         economic_otherLoss: 'Other economic losses',
         economic_annLoss: 'Economic loss per year',
+
+        history_data:'Historical data',
 
         communication: 'Communication equipment status',
         communication_deviceNum: 'communication devices',

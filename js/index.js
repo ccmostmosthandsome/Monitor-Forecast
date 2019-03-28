@@ -33,10 +33,10 @@
                 var originY = window.screen.height - scaleHeight > 0 ? parseFloat((window.screen.height - scaleHeight) / 2) : 0;
                 var nX = originX === 0 ? 0 : parseFloat((originX / scale).toFixed(1));
                 var nY = originY === 0 ? 0 : parseFloat((originY / scale).toFixed(1));
-                console.log('sW: ' + window.screen.width + '，scW: ' + scaleWidth + '，sH: ' + window.screen.height + '，scH: ' + scaleHeight);
-                console.log('originX: ' + originX + '，originY: ' + originY);
-                console.log('nX: ' + nX + '，nX: ' + nY);
-                console.log('scale: ' + scale);
+                // console.log('sW: ' + window.screen.width + '，scW: ' + scaleWidth + '，sH: ' + window.screen.height + '，scH: ' + scaleHeight);
+                // console.log('originX: ' + originX + '，originY: ' + originY);
+                // console.log('nX: ' + nX + '，nX: ' + nY);
+                // console.log('scale: ' + scale);
                 $("body").css({
                     'transform': 'scale(' + scale + ') translate(' + (nX) + 'px, ' + (nY) + 'px)',
                     'transform-origin': '0 0'
@@ -206,7 +206,8 @@
     };
     global.ggaq = {
         startnum: 1, telChart: null, init: function () {
-            ggaq.telChart = global.ggaq.loadSourceType();
+            ggaq.telChart = global.ggaq.loadSourceType();  ////load pie chart from satellite overview
+            global.ggaq.loadDisPie(); //load pie chart from disaster overview
             //global.ggaq.loadZdcsPie("ggaq_sw", 0.35);
             //global.ggaq.loadZdcsPie("ggaq_sf", 0.65);
         }, loadSourceType: function () {
@@ -219,6 +220,44 @@
                 _fontFamily = 'AgencyFBBold';
                 _fontSize = 20;
             }
+
+            //Overview of satellite, pie chart options
+            var option = {
+                title: {
+                    text: dlang.gaofen1,
+                    // subtext: '03',
+                    x: 'center',
+                    y: '40%',
+                    textStyle: {color: '#fff', fontFamily: _fontFamily, fontSize: _fontSize},
+                    subtextStyle: {color: '#fff', fontFamily: "AgencyFBBold", fontSize: 20}
+                },
+                tooltip: {show: true},
+                legend: {show: false},
+                animation: false,
+                series: [{
+                    type: 'pie',
+                    selectedMode: 'single',
+                    radius: ['65%', '95%'],
+                    color: ['#1b70a8', '#26baff', '#8ce2ff', '#2f8fb4'],
+                    label: {normal: {show: false}},
+                    data: data
+                }]
+            };
+            var chart = echarts.init($("#ggaq_pie")[0]);
+            chart.setOption(option);
+            return chart;
+        },loadDisPie: function () {
+            var data = [{value: 2698, name: dlang.cal_ynrs}, {value: 270, name: dlang.cal_sz}, {
+                value: 12135,
+                name: dlang.cal_ss
+            }];
+            var _fontFamily = 'microsoft yahei', _fontSize = 16;
+            if (language === 'en-au') {
+                _fontFamily = 'AgencyFBBold';
+                _fontSize = 20;
+            }
+
+            //Overview of satellite, pie chart options
             var option = {
                 title: {
                     text: dlang.situation_casual,
@@ -240,7 +279,7 @@
                     data: data
                 }]
             };
-            var chart = echarts.init($("#ggaq_pie")[0]);
+            var chart = echarts.init($("#ggaq_pie_dis")[0]);
             chart.setOption(option);
             return chart;
         }, loadZdcsPie: function (id, percent) {
@@ -604,9 +643,9 @@
     global.pcanvas = {
         init: function () {
             pcanvas.drawZwPie();
-            pcanvas.drawSwZzt1();
-            pcanvas.drawSwZzt2();
-            pcanvas.drawSwZzt3();
+            // pcanvas.drawSwZzt1();
+            // pcanvas.drawSwZzt2();
+            // pcanvas.drawSwZzt3();
         }, drawZwPie: function () {
             // var ctx = document.getElementById('smt-zw-cvs').getContext('2d');
             // var img = new Image();
@@ -668,6 +707,8 @@
                 ctx.fillStyle = woodfill1;
                 ctx.sector(46.5, 46.5, 46.5, -180 * deg, -60 * deg).fill();
             };
+        },drawSatCat: function () {
+            var ctx = document.getElementById('')
         }
     };
     global.zhsw = {
@@ -718,47 +759,47 @@
                     data: [0.26, 0.32, 0.28, 0.39, 0.34, 0.33, 0.41]
                 }]
             };*/
-            var option = {
-                tooltip: {trigger: 'axis'},
-                grid: {left: 15, right: 25, bottom: 5, top: 10, containLabel: true},
-                yAxis: {
-                    type: 'value',
-                    axisLabel: {textStyle: {color: '#fff', fontFamily: "AgencyFBBold", fontSize: 16}},
-                },
-                xAxis: {
-                    type: 'category',
-                    data: [dlang.rescue_staff, dlang.rescue_team, dlang.rescue_volun, dlang.rescue_equip, dlang.rescue_tent, dlang.rescue_water, dlang.rescue_drug],
-                    axisLabel: {textStyle: {color: '#fff', fontFamily: _fontFamily, fontSize: _fontSize}}
-                },
-                series: [
-                    {
-                        name: dlang.rescue_exist,
-                        type: 'bar',
-                        stack: dlang.rescue_total,
-                        label: {
-                            normal: {
-                                show: true,
-                                position: 'insideRight'
-                            }
-                        },
-                        data: [120, 132, 101, 134, 90, 230, 210]
-                    },
-                    {
-                        name: dlang.rescue_demand,
-                        type: 'bar',
-                        stack: dlang.rescue_total,
-                        label: {
-                            normal: {
-                                show: true,
-                                position: 'insideRight'
-                            }
-                        },
-                        data: [320, 302, 301, 334, 390, 330, 320]
-                    }
-                ]
-            };
-            var chart = echarts.init($("#smt-sw-mpaarea")[0]);
-            chart.setOption(option);
+            // var option = {
+            //     tooltip: {trigger: 'axis'},
+            //     grid: {left: 15, right: 25, bottom: 5, top: 10, containLabel: true},
+            //     yAxis: {
+            //         type: 'value',
+            //         axisLabel: {textStyle: {color: '#fff', fontFamily: "AgencyFBBold", fontSize: 16}},
+            //     },
+            //     xAxis: {
+            //         type: 'category',
+            //         data: [dlang.rescue_staff, dlang.rescue_team, dlang.rescue_volun, dlang.rescue_equip, dlang.rescue_tent, dlang.rescue_water, dlang.rescue_drug],
+            //         axisLabel: {textStyle: {color: '#fff', fontFamily: _fontFamily, fontSize: _fontSize}}
+            //     },
+            //     series: [
+            //         {
+            //             name: dlang.rescue_exist,
+            //             type: 'bar',
+            //             stack: dlang.rescue_total,
+            //             label: {
+            //                 normal: {
+            //                     show: true,
+            //                     position: 'insideRight'
+            //                 }
+            //             },
+            //             data: [120, 132, 101, 134, 90, 230, 210]
+            //         },
+            //         {
+            //             name: dlang.rescue_demand,
+            //             type: 'bar',
+            //             stack: dlang.rescue_total,
+            //             label: {
+            //                 normal: {
+            //                     show: true,
+            //                     position: 'insideRight'
+            //                 }
+            //             },
+            //             data: [320, 302, 301, 334, 390, 330, 320]
+            //         }
+            //     ]
+            // };
+            // var chart = echarts.init($("#smt-sw-mpaarea")[0]);
+            // chart.setOption(option);
         }
     };
     global.zhzw = {
@@ -927,77 +968,77 @@
 })(window);
 
 
-var myChart2 = echarts.init(document.getElementById('kind1'));
-option2 = {
-    xAxis: {
-        type: 'category',
-        data: ['1990', '1994', '1998', '2002', '2006', '2010'],
-        axisLabel: {
-            show: true,
-            textStyle: {
-                color: '#fff'
-            }
-        },
-        axisLine: {
-            lineStyle: {
-                color: '#FFFFFF',
-                width: 3,//这里是为了突出显示加上的
-            }
-        }
-    },
-    yAxis: {
-        type: 'value',
-        axisLine: {
-            lineStyle: {
-                color: '#FFFFFF',
-                width: 3,//这里是为了突出显示加上的
-            }
-        }
-    },
-    series: [{
-        data: [80, 120, 140, 220, 160, 230],
-        type: 'line',
-        lineStyle: {
-            color: '#FFFFFF',
-            width: 9
-        },
-    }],
-    axisLabel: {
-        formatter: '{value}',
-        textStyle: {
-            color: '#fff'
-        }
-    },
-    grid: {left: 2, right: 25, bottom: 8, top: 15, containLabel: true}
-};
-myChart2.setOption(option2);
+// var myChart2 = echarts.init(document.getElementById('kind1'));
+// option2 = {
+//     xAxis: {
+//         type: 'category',
+//         data: ['1990', '1994', '1998', '2002', '2006', '2010'],
+//         axisLabel: {
+//             show: true,
+//             textStyle: {
+//                 color: '#fff'
+//             }
+//         },
+//         axisLine: {
+//             lineStyle: {
+//                 color: '#FFFFFF',
+//                 width: 3,//这里是为了突出显示加上的
+//             }
+//         }
+//     },
+//     yAxis: {
+//         type: 'value',
+//         axisLine: {
+//             lineStyle: {
+//                 color: '#FFFFFF',
+//                 width: 3,//这里是为了突出显示加上的
+//             }
+//         }
+//     },
+//     series: [{
+//         data: [80, 120, 140, 220, 160, 230],
+//         type: 'line',
+//         lineStyle: {
+//             color: '#FFFFFF',
+//             width: 9
+//         },
+//     }],
+//     axisLabel: {
+//         formatter: '{value}',
+//         textStyle: {
+//             color: '#fff'
+//         }
+//     },
+//     grid: {left: 2, right: 25, bottom: 8, top: 15, containLabel: true}
+// };
+// myChart2.setOption(option2);
 
-var myChart3 = echarts.init(document.getElementById('kind3'));
-option3 = {
-    xAxis: {
-        type: 'category',
-        data: ['2004', '2005', '2006', '2007', '2008', '2009', '2010'],
-        axisLabel: {
-            formatter: '{value}',
-            textStyle: {
-                color: '#fff'
-            }
-        }
-    },
-    yAxis: {
-        type: 'value',
-        axisLabel: {
-            formatter: '{value}',
-            textStyle: {
-                color: '#fff'
-            }
-        }
-    },
-    series: [{
-        data: [120, 200, 150, 80, 70, 110, 130],
-        type: 'bar'
-    }],
-    grid: {left: 22, right: 35, bottom: 12, top: 75, containLabel: true}
-};
-myChart3.setOption(option3);
+// var myChart3 = echarts.init(document.getElementById('kind3'));
+// option3 = {
+//     xAxis: {
+//         type: 'category',
+//         data: ['2004', '2005', '2006', '2007', '2008', '2009', '2010'],
+//         axisLabel: {
+//             formatter: '{value}',
+//             textStyle: {
+//                 color: '#fff'
+//             }
+//         }
+//     },
+//     yAxis: {
+//         type: 'value',
+//         axisLabel: {
+//             formatter: '{value}',
+//             textStyle: {
+//                 color: '#fff'
+//             }
+//         }
+//     },
+//     series: [{
+//         data: [120, 200, 150, 80, 70, 110, 130],
+//         type: 'bar'
+//     }],
+//     grid: {left: 22, right: 35, bottom: 12, top: 75, containLabel: true}
+// };
+// myChart3.setOption(option3);
 
