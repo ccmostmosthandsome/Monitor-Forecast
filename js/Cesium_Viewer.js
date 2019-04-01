@@ -59,7 +59,7 @@ function init() {
     // }, 3000);
 
     //绘制台风
-    // drawTyphoon();
+    drawTyphoon();
     //定期修改颜色
     // setInterval(function () {
     //     // var attributes = primitive_t.getGeometryInstanceAttributes('typhoon');//获取某个实例的属性集
@@ -144,25 +144,25 @@ function createPrimitives(scene, lon, len) {
 //卫星轨道数据
 function drawSatellite() {
     //Multi Satellites
-    var multiSate  = new Cesium.CzmlDataSource();
-    multiSate.load('./assets/multiSats.czml');
+    var multiSate = new Cesium.CzmlDataSource();
+    multiSate.load('./assets/multiSats_Chinese.czml');
     this.viewer.dataSources.add(multiSate);
 }
 
 //台风绘制
 function drawTyphoon() {
     //绘制台风图标
-    var typhoon = viewer.entities.add({
-        id:'typhoon_icon',
-        position: Cesium.Cartesian3.fromDegrees(109.77158035673244, 19.165324458238587),
-        // position: Cesium.Cartesian3.fromDegrees(159.2, 13.9),
-        ellipse: {
-            semiMinorAxis: 4000.0,
-            semiMajorAxis: 4000.0,
-            material: "./img/map/Typhoon_track.svg",
-            rotation: Cesium.Math.toRadians(60.0)
-        }
-    });
+    // var typhoon = viewer.entities.add({
+    //     id:'typhoon_icon',
+    //     position: Cesium.Cartesian3.fromDegrees(109.77158035673244, 19.165324458238587),
+    //     // position: Cesium.Cartesian3.fromDegrees(159.2, 13.9),
+    //     ellipse: {
+    //         semiMinorAxis: 4000.0,
+    //         semiMajorAxis: 4000.0,
+    //         material: "./img/map/Typhoon_track.svg",
+    //         rotation: Cesium.Math.toRadians(60.0)
+    //     }
+    // });
 
 
     //提取台风路径坐标点
@@ -173,7 +173,8 @@ function drawTyphoon() {
         for (var i = 0; i < BABJ.length; i++) {
             var position = BABJ[i];
             if (i % 8 == 0) {
-                createPrimitives(scene, position[2], position[3]);
+                // createPrimitives(scene, position[2], position[3]);  //Draw typhoon locations
+                drawIconTyp(position[2], position[3]);  //Draw typhoon icon by two points
                 points.push(position[2], position[3]);
             }
         }
@@ -198,29 +199,33 @@ function drawTyphoon() {
         })
     }));
 
-    //绘制台风
-    primitive_t = new Cesium.GeometryInstance({
-        geometry: new Cesium.RectangleGeometry({
-            rectangle: Cesium.Rectangle.fromDegrees(points[0] - 0.25, points[1] - 0.25, points[0] + 0.25, points[1] + 0.25),//west,south,east,north 2,-50,152,35
-            vertexFormat: Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT
-        }),
-        id: "typhoon"
-    });
-    primitive_f = new Cesium.Primitive({
-        geometryInstances: primitive_t,
-        appearance: new Cesium.EllipsoidSurfaceAppearance({
-            material: new Cesium.Material({
-                fabric: {
-                    type: 'Image',
-                    uniforms: {
-                        image: './img/map/Typhoon_track.svg'// '../images/wumenchenglou.svg'
-                    }
-                }
+
+    //Draw typhoon icon by two points
+    function drawIconTyp(point1, point2) {
+        primitive_t = new Cesium.GeometryInstance({
+            geometry: new Cesium.RectangleGeometry({
+                rectangle: Cesium.Rectangle.fromDegrees(point1 - 0.1, point2 - 0.1, point1 + 0.1, point2 + 0.1),//west,south,east,north 2,-50,152,35
+                vertexFormat: Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT
             }),
-            aboveGround: false
-        })
-    });
-    scene.primitives.add(primitive_f);
+            id: "typhoon"
+        });
+        primitive_f = new Cesium.Primitive({
+            geometryInstances: primitive_t,
+            appearance: new Cesium.EllipsoidSurfaceAppearance({
+                material: new Cesium.Material({
+                    fabric: {
+                        type: 'Image',
+                        uniforms: {
+                            image: './img/map/Typhoon_track.svg'// '../images/wumenchenglou.svg'
+                        }
+                    }
+                }),
+                aboveGround: false
+            })
+        });
+        scene.primitives.add(primitive_f);
+    }
+
 
     //set material
     // applyImageMaterial(rectangles, scene);
@@ -233,7 +238,7 @@ function drawTyphoon() {
 
 }
 
-function addClickEvent(){
+function addClickEvent() {
     var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
     handler.setInputAction(function (movement) {
         var pick = viewer.scene.pick(movement.position);
@@ -386,26 +391,26 @@ viewer.dataSources.add(yidaiyilu);
 // });
 
 
-// viewer.camera.flyTo({
-//     destination: Cesium.Cartesian3.fromDegrees(109.761547, 19.19274, 20000000),
-//     orientation: {
-//         heading: Cesium.Math.toRadians(0),
-//         pitch: Cesium.Math.toRadians(-90),
-//         roll: Cesium.Math.toRadians(0)
-//     }
-// });
-
-
 function location1() {
-
+    // locate to hainan
     viewer.camera.flyTo({
-        destination: Cesium.Cartesian3.fromDegrees(116.911, 29.21, 10000),
+        destination: Cesium.Cartesian3.fromDegrees(109.761547, 19.19274, 2000000),
         orientation: {
             heading: Cesium.Math.toRadians(0),
-            pitch: Cesium.Math.toRadians(-80),
+            pitch: Cesium.Math.toRadians(-90),
             roll: Cesium.Math.toRadians(0)
         }
     });
+
+    // locate to lake
+    // viewer.camera.flyTo({
+    //     destination: Cesium.Cartesian3.fromDegrees(116.911, 29.21, 10000),
+    //     orientation: {
+    //         heading: Cesium.Math.toRadians(0),
+    //         pitch: Cesium.Math.toRadians(-80),
+    //         roll: Cesium.Math.toRadians(0)
+    //     }
+    // });
 }
 
 var datasource = new Array();
@@ -500,8 +505,6 @@ function loadScoExt() {
 function loadWatAss() {
 
 }
-
-
 
 
 // Shane Carty - 12713771
