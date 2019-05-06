@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="css/animate.css">
     <link rel="stylesheet" href="css/pstyle.css">
     <title></title>
-    <script type="text/javascript" src="plugins/Cesium/Cesium.js"></script>
-    <script type="text/javascript" src="plugins/Cesium/Cesium_ext_min.js"></script>
+    <!--<script type="text/javascript" src="plugins/Cesium/Cesium.js"></script>-->
+    <!--<script type="text/javascript" src="plugins/Cesium/Cesium_ext_min.js"></script>-->
     <style>
-        @import url(Cesium/Widgets/widgets.css);
+        /*@import url(Cesium/Widgets/widgets.css);*/
 
         html, body, #cesiumContainer {
             width: 100%;
@@ -23,6 +23,9 @@
     </style>
     <script type="text/javascript" src="js/lang.js"></script>
     <script type="text/javascript">
+        /**
+         * @return {string}
+         */
         window.GetQueryString = function (name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
             var r = window.location.search.substr(1).match(reg);
@@ -82,7 +85,9 @@
 </head>
 <body>
 <!--Cesium-->`
-<div id="cesiumContainer" class="fullSize"></div>
+<div id="cesiumContainer" class="globeWindow"></div>
+<div id="loadingIndicator" class="loadingIndicator"></div>
+<!--<div id="cesiumContainer" class="fullSize"></div>-->
 <!--windows float on cesium viewer-->
 <div id="floatWindow">
     <!--logo-->
@@ -114,8 +119,8 @@
                 </div>
             </div>
             <div class="weatherIcon">
-                <img id="weatherIcon" src="img/weather-0.png">
-                <img id="windIcon" src="img/flt.png" style="display: none;">
+                <img id="weatherIcon" src="img/weather-0.png" alt="">
+                <img id="windIcon" src="img/flt.png" style="display: none;" alt="">
             </div>
             <!--时钟-->
             <div class="timebox">
@@ -136,10 +141,9 @@
         <li style="display:block;"><span>${menu}</span></li>
         <li><span onclick="location1()">${menu_loc}</span></li>
         <li><span onclick="importdata_typh()">${menu_typhoon_path}</span></li>
-        <li><span onclick="importdata()">${menu_house}</span></li>
-        <li><span onclick="importdata_water()">${menu_road}</span></li>
+        <li><span onclick="importdata()">${menu_house_road}</span></li>
         <li><span onclick="importdata_road()">${menu_extra}</span></li>
-        <li><span><a href="assets/decision.pdf" target="_blank" style="text-decoration: none;color:#ffffff;">${menu_report}</a></span>
+        <li><span onclick="import_report()">${menu_report}</a></span>
         </li>
     </ul>
     <!--二级下拉菜单-->
@@ -149,26 +153,26 @@
         <li onclick="loadAftTyp()">${menu_rain}</li>
     </ul>
     <ul id="data1" class="mtab-box" style="left: 850px;display: none;">
-        <li onclick="loadBefTif()">${menu_pre_house_data}</li>
-        <li onclick="loadAftTif()">${menu_pos_house_data}</li>
-        <li><span><a href="./.pdf" target="_blank"
-                     style="text-decoration: none;color:#ffffff;">${menu_flood_ass}</a></span></li>
+        <li onclick="loadBefTif()">${menu_pre_road}</li>
+        <li onclick="loadAftTif()">${menu_pos_road}</li>
+        <!--<li><span><a href="./.pdf" target="_blank"-->
+                     <!--style="text-decoration: none;color:#ffffff;">${menu_flood_ass}</a></span></li>-->
     </ul>
-    <ul id="data2" class="mtab-box" style="left: 1035px;display: none;">
-        <li onclick="beforeroad()">${menu_pre_road}</li>
-        <li onclick="aftereroad()">${menu_pos_road}</li>
-        <li onclick="scope_extract()">${menu_des_road}</li>
-        <li><span><a href="./.pdf" target="_blank"
-                     style="text-decoration: none;color:#ffffff;">${menu_flood_ass}</a></span></li>
-    </ul>
-    <ul id="data3" class="mtab-box" style="left: 1225px;display: none;">
+    <ul id="data2" class="mtab-box" style="left: 1075px;display: none;">
         <li onclick="loadBefWatTif()">${menu_pre_wat_tif}</li>
         <li onclick="loadAftWatTif()">${menu_pos_wat_tif}</li>
         <li onclick="loadBefWat()">${menu_pre_water}</li>
         <li onclick="loadAftWat()">${menu_pos_water}</li>
         <li onclick="loadScoExt()">${menu_flood}</li>
-        <li><span><a href="assets/assess.pdf" target="_blank" style="text-decoration: none;color:#ffffff;">${menu_flood_ass}</a></span>
-        </li>
+        <!--<li><span><a href="assets/assess.pdf" target="_blank" style="text-decoration: none;color:#ffffff;">${menu_flood_ass}</a></span>-->
+        <!--</li>-->
+    </ul>
+    <ul id="data3" class="mtab-box" style="left: 1260px;display: none;">
+        <li onclick="loadPopDis()">${menu_report_pop}</li>
+        <li onclick="loadRoadRes()">${menu_report_road}</li>
+        <li onclick="loadAssRep()">${menu_report_ass}</li>
+        <!--<li><span><a href="assets/assess.pdf" target="_blank" style="text-decoration: none;color:#ffffff;">${menu_flood_ass}</a></span>-->
+        <!--</li>-->
     </ul>
 
     <!--卫星概况-->
@@ -189,7 +193,7 @@
                             <g stroke="#ffffff" fill="none" stroke-width="4">
                                 <circle r="34" cx="36" cy="36" stroke-dasharray="5,5"></circle>
                                 <animateTransform attributeName="transform" type="rotate" from="0,36,36" to="360,36,36"
-                                                  dur="10s" repeatCount="indefinite"/>
+                                                  dur="10s" repeatCount="indefinite"></animateTransform>
                             </g>
                             <circle r="26" cx="36" cy="36" fill="none" stroke="#3da1ee" stroke-width="2"></circle>
                             <text x="29" y="45" class="area-num-text">3</text>
@@ -203,7 +207,7 @@
                             <g stroke="#ffffff" fill="none" stroke-width="4">
                                 <circle r="34" cx="36" cy="36" stroke-dasharray="5,5"></circle>
                                 <animateTransform attributeName="transform" type="rotate" from="0,36,36" to="360,36,36"
-                                                  dur="10s" repeatCount="indefinite"/>
+                                                  dur="10s" repeatCount="indefinite"></animateTransform>
                             </g>
                             <circle r="26" cx="36" cy="36" fill="none" stroke="#3da1ee" stroke-width="2"></circle>
                             <text x="32" y="45" class="area-num-text">2</text>
@@ -217,7 +221,7 @@
                             <g stroke="#ffffff" fill="none" stroke-width="4">
                                 <circle r="34" cx="36" cy="36" stroke-dasharray="5,5"></circle>
                                 <animateTransform attributeName="transform" type="rotate" from="0,36,36" to="360,36,36"
-                                                  dur="10s" repeatCount="indefinite"/>
+                                                  dur="10s" repeatCount="indefinite"></animateTransform>
                             </g>
                             <circle r="26" cx="36" cy="36" fill="none" stroke="#3da1ee" stroke-width="2"></circle>
                             <text x="30" y="45" class="area-num-text">4</text>
@@ -258,136 +262,6 @@
             </div>
         </div>
     </div>
-
-
-    <!--satellite orbital predictor-->
-    <!--<div class="orbitals_box">-->
-    <!--<h4>Satellites:</h4>-->
-
-    <!--<input type='hidden' name='csrfmiddlewaretoken' value='HGLUjfbwp5BRmE8bRkjXD5PXAK4R97Bd'/>-->
-
-    <!--<div class="sat-list">-->
-    <!--<ul class="list-unstyled">-->
-    <!--<li><input type="checkbox" name="sats[]" value="37256" id="sat-37256"> <a href="/home/37256/"-->
-    <!--class="satLink">BEIDOU</a>-->
-    <!--</li>-->
-
-
-    <!--<li><input type="checkbox" name="sats[]" value="39150" id="sat-39150"> <a href="/home/39150/"-->
-    <!--class="satLink">GAOFEN-->
-    <!--1</a></li>-->
-
-
-    <!--<li><input type="checkbox" name="sats[]" value="70052" id="sat-70052"> <a href="/home/70052/"-->
-    <!--class="satLink">GAOFEN-->
-    <!--1,39150</a><span class="tool_tip"-->
-    <!--title="User created satellite, due to launch in the future"> (FS)</span>-->
-    <!--</li>-->
-
-
-    <!--<li><input type="checkbox" name="sats[]" value="43585" id="sat-43585"> <a href="/home/43585/"-->
-    <!--class="satLink">GAOFEN-->
-    <!--11</a></li>-->
-
-
-    <!--<li><input type="checkbox" name="sats[]" value="40118" id="sat-40118"> <a href="/home/40118/"-->
-    <!--class="satLink">GAOFEN-->
-    <!--2</a></li>-->
-
-
-    <!--<li><input type="checkbox" name="sats[]" value="25682" id="sat-25682"> <a href="/home/25682/"-->
-    <!--class="satLink">LANDSAT-->
-    <!--7</a></li>-->
-
-
-    <!--<li><input type="checkbox" name="sats[]" value="38038" id="sat-38038"> <a href="/home/38038/"-->
-    <!--class="satLink">ZIYUAN-->
-    <!--1-02C (ZY 1-02C)</a></li>-->
-
-
-    <!--<li><input type="checkbox" name="sats[]" value="38046" id="sat-38046"> <a href="/home/38046/"-->
-    <!--class="satLink">ZIYUAN 3-->
-    <!--(ZY 3)</a></li>-->
-
-
-    <!--<li><input type="checkbox" name="sats[]" value="41556" id="sat-41556"> <a href="/home/41556/"-->
-    <!--class="satLink">ZIYUAN 3-2-->
-    <!--(ZY 3-2)</a></li>-->
-
-
-    <!--</ul>-->
-    <!--</div>-->
-    <!--<input type="checkbox" onClick="toggle(this)"/> Select All-->
-    <!--</form>-->
-
-
-    <!--<div class="query-buttons">-->
-    <!--<input type="submit" name="submit" value="Show Orbits" class="btn btn-default"-->
-    <!--onclick="checkButton(this)">-->
-    <!--</div>-->
-    <!--<hr>-->
-
-
-    <!--<div style="text-align:center;">-->
-    <!--<a class="btn btn-default" href="/future_satellite/">Add Future Satellite</a>-->
-    <!--</div>-->
-    <!--</div>-->
-
-
-    <!--<div class="orbital_predictor_box">-->
-    <!--<div id="toolbar"></div>-->
-    <!--<h4>Ground Station(s):</h4>-->
-    <!--<input type="text" name="latitude" id="lat" size="10" placeholder="Latitude"/>-->
-    <!--<input type="text" name="longitude" id="long" size="10" placeholder="Longitude"/>-->
-    <!--<input type="button" value="Get Location" onclick="getUserLocation()" class="btn btn-default"/>-->
-    <!--<br/>-->
-
-    <!--<h4>Date Range:</h4>-->
-    <!--<input type="date" name="query_start_date"/>-->
-    <!--<input type="time" name="query_start_time"/>-->
-    <!--<label for="start_now_id">Current time</label>-->
-    <!--<input type="checkbox" name="start_now" value="True" id="start_now_id" onClick="setDateRateForNext24Hours()"-->
-    <!--/>-->
-    <!--<br/>-->
-
-    <!--<input type="date" name="query_end_date"/>-->
-    <!--<input type="time" name="query_end_time"/>-->
-    <!--<br/>-->
-
-    <!--<div id="overpass-type">-->
-    <!--<input type="radio" name="pass_type" value="Swath_Passes" id="Swath_Passes"-->
-    <!--checked="checked"/>-->
-    <!--<label for="Swath_Passes">Within Instrument Swath</label><br/>-->
-
-    <!--<input type="radio" name="pass_type" value="All_Passes" id="All_Passes"/>-->
-    <!--<label for="All_Passes">All Passes</label><br/>-->
-
-    <!--<input type="radio" name="pass_type" value="Visible_Passes" id="Visible_Passes"/>-->
-    <!--<label for="Visible_Passes">Visible Passes Only</label><br/>-->
-    <!--</div>-->
-
-    <!--<div class="query-buttons">-->
-    <!--<input type="submit" name="submit" value="Get Over Passes" class="btn btn-default"-->
-    <!--onclick="checkButton(this)"/>-->
-    <!--</div>-->
-    <!--<hr>-->
-
-
-    <!--<h4>Add Satellite:</h4>-->
-    <!--<textarea id="satellites_result" name="user_tle" rows="3" cols="74" form="add_tle" class="pre-style tle-view" placeholder="Satellite Name-->
-    <!--First Line of TLE-->
-    <!--Second Line of TLE" style="width:100%"></textarea>-->
-
-    <!--<form onsubmit="return validateForm()" action="/add_tle/" method="post" id="add_tle">-->
-    <!--<input type='hidden' name='csrfmiddlewaretoken' value='HGLUjfbwp5BRmE8bRkjXD5PXAK4R97Bd'/>-->
-    <!--<input type="text" name="instrument_name" placeholder="Instrument Name" class="tle-view"/>-->
-    <!--<input type="text" name="instrument_swath_width" placeholder="Swath Width in km's" class="tle-view"/>-->
-    <!--<input type="submit" name="submit" value="Add Satellite" class="btn btn-default"-->
-    <!--onclick="checkButton(this)"/>-->
-    <!--</form>-->
-
-    <!--</div>-->
-
 
     <!--台风-->
     <div class="smart-ggaq-box">
@@ -659,7 +533,7 @@
                                   d="M 0 -58 A 58 58 0 0 1 57.974 7.27"></path>
                             <animateTransform attributeName="transform" type="rotate" from="0,60,60" to="360,60,60"
                                               dur="5s"
-                                              repeatCount="indefinite"/>
+                                              repeatCount="indefinite"></animateTransform>
                         </g>
                         <circle r="50" cx="60" cy="60" fill="none" stroke="#635638" stroke-width="3"></circle>
                         <path id="jt_cir" fill="none" stroke="#eabc4f" stroke-width="3" transform="translate(60,60)"
@@ -701,7 +575,7 @@
                             <g stroke="#ffffff" fill="none" stroke-width="4">
                                 <circle r="34" cx="36" cy="36" stroke-dasharray="5,5"></circle>
                                 <animateTransform attributeName="transform" type="rotate" from="0,36,36" to="360,36,36"
-                                                  dur="10s" repeatCount="indefinite"/>
+                                                  dur="10s" repeatCount="indefinite"></animateTransform>
                             </g>
                             <circle r="26" cx="36" cy="36" fill="none" stroke="#3da1ee" stroke-width="2"></circle>
                             <text x="25" y="45" class="area-num-text">171</text>
@@ -715,7 +589,7 @@
                             <g stroke="#ffffff" fill="none" stroke-width="4">
                                 <circle r="34" cx="36" cy="36" stroke-dasharray="5,5"></circle>
                                 <animateTransform attributeName="transform" type="rotate" from="0,36,36" to="360,36,36"
-                                                  dur="10s" repeatCount="indefinite"/>
+                                                  dur="10s" repeatCount="indefinite"></animateTransform>
                             </g>
                             <circle r="26" cx="36" cy="36" fill="none" stroke="#3da1ee" stroke-width="2"></circle>
                             <text x="28" y="45" class="area-num-text">14</text>
@@ -729,7 +603,7 @@
                             <g stroke="#ffffff" fill="none" stroke-width="4">
                                 <circle r="34" cx="36" cy="36" stroke-dasharray="5,5"></circle>
                                 <animateTransform attributeName="transform" type="rotate" from="0,36,36" to="360,36,36"
-                                                  dur="10s" repeatCount="indefinite"/>
+                                                  dur="10s" repeatCount="indefinite"></animateTransform>
                             </g>
                             <circle r="26" cx="36" cy="36" fill="none" stroke="#3da1ee" stroke-width="2"></circle>
                             <text x="20" y="45" class="area-num-text">1278</text>
@@ -771,38 +645,6 @@
         </div>
     </div>
 
-
-    <!--救援指标-->
-    <!--<div class="smart-zw-box">-->
-    <!--<div class="kpi-title">-->
-    <!--<div class="kpi-title-cn">${rescue}</div>-->
-    <!--<div class="kpi-title-en">-->
-    <!--<div class="kpi-title-en1">Rescue</div>-->
-    <!--<div class="kpi-title-en2">Targets</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--&lt;!&ndash;指标值&ndash;&gt;-->
-    <!--<div class="smt-zw-yh-box">-->
-    <!--<canvas id="smt-zw-cvs" class="smt-zw-sxbox" width="140" height="140"></canvas>-->
-    <!--<div class="smt-zw-sxkpi">-->
-    <!--<label>33%</label>-->
-    <!--<span>${rescue_short}</span>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--&lt;!&ndash;KPI&ndash;&gt;-->
-    <!--<ul class="smt-zw-kpi-box">-->
-    <!--<li>-->
-    <!--<span>${rescue_need}</span>-->
-    <!--<label>${rescue_tent}</label>-->
-    <!--</li>-->
-    <!--<li>-->
-    <!--<span>${rescue_quan}</span>-->
-    <!--<label>26</label>-->
-    <!--</li>-->
-    <!--</ul>-->
-    <!--&lt;!&ndash;MPA&ndash;&gt;-->
-    <!--<div id="smt-sw-mpaarea" class="smt-sc-chart"></div>-->
-    <!--</div>-->
     <!--各年灾害频次-->
     <div class="dis-loss-box">
         <div class="kpi-title">
@@ -812,14 +654,6 @@
                 <div class="kpi-title-en2">And losses</div>
             </div>
         </div>
-        <!--指标值-->
-        <!--<div class="kpi-box">-->
-        <!--&lt;!&ndash;重点场所分析&ndash;&gt;-->
-        <!--<div class="ggaq-zdcs-box" id="kind1">-->
-        <!--</div>-->
-
-
-        <!--</div>-->
 
         <div class="kpi-box">
             <!--数字统计-->
@@ -875,18 +709,6 @@
                     </div>
 
                 </li>
-                <!--<li>-->
-                    <!--<div class="cg-anal-left">-->
-                        <!--<div class="cg-anal-bar">-->
-                            <!--<div class="cg-anal-val" style="width: 92.07%;"></div>-->
-                        <!--</div>-->
-                        <!--<div class="cg-anal-text">-->
-                            <!--<div class="cg-anal-name">草地受损面积</div>-->
-                            <!--<div class="cg-anal-num"><span>（92.07%）</span><span>2263</span></div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-
-                <!--</li>-->
                 <li>
                     <div class="cg-anal-left">
                         <div class="cg-anal-bar">
@@ -1023,17 +845,17 @@
             <ul class="czbf-tbox-main">
                 <li>
                     <span>${czbk_znbm_rqfzr}：${czbk_znbm_xmz}</span>
-                    <img src="img/icon-tel.png" height="20" width="18"/>
+                    <img src="img/icon-tel.png" height="20" width="18" alt=""/>
                     <span>132****2312</span>
                 </li>
                 <li>
                     <span>${czbk_znbm_swfzr}：${czbk_znbm_xmw}</span>
-                    <img src="img/icon-tel.png" height="20" width="18"/>
+                    <img src="img/icon-tel.png" height="20" width="18" alt=""/>
                     <span>156****4353</span>
                 </li>
                 <li>
                     <span>${czbk_znbm_dlfzr}：${czbk_znbm_xml}</span>
-                    <img src="img/icon-tel.png" height="20" width="18"/>
+                    <img src="img/icon-tel.png" height="20" width="18" alt=""/>
                     <span>180****7699</span>
                 </li>
             </ul>
@@ -1044,13 +866,7 @@
         <div class="czlcjl-title">${sjczlcjl_title}</div>
         <div class="czlcjl-main-box">
             <div class="czlcjl-list" id="czlcjl_list">
-                <!--<div class="czlcjl-list-item">-->
-                <!--<div class="list-time-icon"></div>-->
-                <!--<div class="list-event">-->
-                <!--<div class="list-event-time">**时**分**秒</div>-->
-                <!--<div class="list-event-text">**</div>-->
-                <!--</div>-->
-                <!--</div>-->
+
             </div>
         </div>
     </div>
@@ -1171,177 +987,18 @@
     document.getElementById('floatWindow').innerHTML = xhtml_template;
 </script>
 
-<!--satellite orbital predictor-->
-<script>
-    // add ticks beside selected satellites
-    var sat_list = [];
-
-    function getUserLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(onSuccess, onErrorFunc, {
-                maximumAge: 60000,
-                timeout: 5000,
-                enableHighAccuracy: true
-            });
-        } else {
-            alert('Error finding location, please use Select Location button instead');
-        }
-    }
-
-    function onSuccess(location) {
-        document.getElementById('lat').value = location.coords.latitude;
-        document.getElementById('long').value = location.coords.longitude;
-
-        var p = viewer.entities.add({
-            position: new Cesium.Cartesian3.fromDegrees(location.coords.longitude, location.coords.latitude),
-
-            point: {
-                pixelSize: 5,
-                color: Cesium.Color.YELLOW
-            }
-        });
-        viewer.flyTo(p, {offset: new Cesium.HeadingPitchRange(0.0, Cesium.Math.toRadians(-60.0), 5000 * 1000)})
-    }
-
-    function onErrorFunc() {
-        alert('Error finding location, please use Select Location button instead');
-    }
-
-    function toggle(source) {
-        var checkboxes = document.getElementsByName('sats[]');
-        for (var i = 0, n = checkboxes.length; i < n; i++) {
-            checkboxes[i].checked = source.checked;
-        }
-    }
-
-    function setDateRateForNext24Hours() {
-        var dateInput = document.getElementsByName('query_start_date')
-        var timeInput = document.getElementsByName('query_start_time')
-
-
-        var dateInput2 = document.getElementsByName('query_end_date')
-        var timeInput2 = document.getElementsByName('query_end_time')
-        var currentDate = new Date();
-
-        fullYear = currentDate.getFullYear();
-        month = addZero(currentDate.getMonth() + 1);
-        day = addZero(currentDate.getDate());
-
-        hour = addZero(currentDate.getHours());
-        minute = addZero(currentDate.getMinutes());
-        second = addZero(currentDate.getSeconds());
-
-        dateInput[0].value = fullYear + "-" + month + "-" + day;
-        timeInput[0].value = hour + ":" + minute
-
-        // add 24 hours to it by default
-        day = currentDate.getDate();
-        month = currentDate.getMonth() + 1;
-
-        if (day == 29 && month == 2) {
-            day = "01";
-            month = "03"
-        } else if (day == 30 && (month == 9 || month == 4 || month == 6 || month == 11)) {
-            day = "01";
-            month = addZero(month + 1);
-        } else if (day == 31 && month == 12) {
-            day = "01";
-            month = "01"
-            year = fullYear + 1;
-        } else if (day == 31) {
-            day = "01";
-            month = addZero(month + 1);
-        } else {
-            day = addZero(day + 1);
-            month = addZero(month);
-        }
-
-        dateInput2[0].value = fullYear + "-" + month + "-" + day;
-        timeInput2[0].value = hour + ":" + minute
-
-        function addZero(i) {
-            if (i < 10) {
-                i = "0" + i;
-            }
-            return i;
-        }
-    }
-
-    var satElems;
-
-    function noneChecked(sats) {
-        for (var i = 0, n = sats.length; i < n; i++) {
-            if (sats[i].checked) {
-                return false;
-            }
-        }
-        return true;
-
-    }
-
-    var submit_type;
-
-    function validateForm(formElement) {
-        var sats = document.forms["myform"]["sats[]"];
-
-        var w = document.forms["myform"]["query_start_date"].value;
-        var x = document.forms["myform"]["query_start_time"].value;
-        var y = document.forms["myform"]["query_end_date"].value;
-        var z = document.forms["myform"]["query_end_time"].value;
-
-        if (submit_type == "Get Over Passes") {
-
-            var latitude = document.forms["myform"]["latitude"].value;
-            var longitude = document.forms["myform"]["longitude"].value;
-
-            if (noneChecked(sats) || latitude == null || latitude == "" || longitude == null || longitude == "") {
-                alert("You must select the Satellite(s) and coordinates or polygon area for this query");
-                return false;
-            }
-
-        } else if (submit_type == "Show Orbits") {
-            if (noneChecked(sats)) {
-                alert("You must select the Satellite(s) for this query");
-                return false;
-            }
-        } else if (submit_type == "Delete Satellites") {
-
-            alert("You must create an account or login in order to edit Satellite list")
-            return false;
-
-
-        } else if (submit_type == "Update TLE's") {
-
-            alert("You must create an account or login in order to edit Satellite list")
-            return false;
-
-
-        } else if (submit_type == "Add Satellite") {
-
-            alert("You must create an account or login in order to edit Satellite list")
-            return false;
-
-        }
-
-        if (w == null || w == "" || x == null || x == "" || y == null || y == "" || z == null || z == "") {
-            setDateRateForNext24Hours();
-        }
-        return true;
-    }
-
-
-</script>
 <!--插件-->
 <script src="plugins/jquery/jquery-3.1.1.min.js"></script>
 <script src="plugins/echart/echarts.min.js"></script>
 <script src="js/jquery.dataStatistics.js"></script>
 <script src="js/countUp.min.js"></script>
 <!--业务-->
+<script src="plugins/library/globe/GlobeEx/api/initGlobe.js"></script>
 <script src="js/data.js"></script>
 <script src="js/wuhan.min.js"></script>
 <script src="js/fire.js"></script>
 <script src="js/emergency.js"></script>
-<script src="js/Cesium_Viewer.js"></script>
+<!--<script src="js/Cesium_Viewer.js"></script>-->
 <script type="text/javascript" src="js/satellite.js"></script>
 <script src="js/index.js"></script>
 </html>

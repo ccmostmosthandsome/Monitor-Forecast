@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b6473e00-0b70-4a58-bd44-8090cce42da8" name="Default" comment="version 0.1.1&#10;fix: 修改面板，灾害概况、灾害损失&#10;build: 添加卫星轨道">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/pstyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/pstyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/deal.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/deal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/lang.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/lang.js" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/Cesium_Viewer.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="304">
+              <caret line="115" column="35" lean-forward="true" selection-start-line="115" selection-start-column="35" selection-end-line="115" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/plugins/library/globe/GlobeEx/api/initGlobe.js">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>pie</find>
+      <find>fre</find>
+      <find>ggaq-title</find>
+      <find>smart-sw-box</find>
+      <find>cg-fkh-num</find>
+      <find>cg_bls</find>
+      <find>dis-loss</find>
+      <find>灾害</find>
+      <find>概况</find>
+      <find>卫星</find>
+      <find>cg_blzs</find>
+      <find>${</find>
+      <find>situation_casual</find>
+      <find>cg</find>
+      <find>ul</find>
+      <find>title</find>
+      <find>cg-num-stat</find>
+      <find>cg-num-box</find>
+      <find>灾害损失</find>
+      <find>disfre</find>
+      <find>frequency</find>
+      <find>2</find>
+      <find>svg</find>
+      <find>applyImageMaterial</find>
+      <find>menu</find>
+      <find>menu_report</find>
+      <find>menu_house</find>
+      <find>menue-box</find>
+      <find>menu_pre_road</find>
+      <find>importdata_road</find>
+    </findStrings>
+    <dirStrings>
+      <dir>D:\Workspace\HaiNan-workspace\Monitor-Forecast</dir>
+    </dirStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="ZxZhang" />
+      </list>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/cesium.html" />
+        <option value="$PROJECT_DIR$/js/vue.js" />
+        <option value="$PROJECT_DIR$/css/normalize.css" />
+        <option value="$PROJECT_DIR$/js/data.js" />
+        <option value="$PROJECT_DIR$/test.html" />
+        <option value="$PROJECT_DIR$/Cesium/Sandcastle-header.js" />
+        <option value="$PROJECT_DIR$/js/satellite.js" />
+        <option value="$PROJECT_DIR$/test2.html" />
+        <option value="$PROJECT_DIR$/js/index.js" />
+        <option value="$PROJECT_DIR$/js/Cesium_Viewer.js" />
+        <option value="$PROJECT_DIR$/js/lang.js" />
+        <option value="$PROJECT_DIR$/js/deal.js" />
+        <option value="$PROJECT_DIR$/css/pstyle.css" />
+        <option value="$PROJECT_DIR$/index.html" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1912" />
+    <option name="y" value="186" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Monitor-Forecast" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Monitor-Forecast" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Monitor-Forecast" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Monitor-Forecast" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Monitor-Forecast" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Monitor-Forecast" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Monitor-Forecast" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Monitor-Forecast" type="462c0819:PsiDirectoryNode" />
+              <item name="plugins" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Monitor-Forecast" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Monitor-Forecast" type="462c0819:PsiDirectoryNode" />
+              <item name="plugins" type="462c0819:PsiDirectoryNode" />
+              <item name="library" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Monitor-Forecast" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Monitor-Forecast" type="462c0819:PsiDirectoryNode" />
+              <item name="plugins" type="462c0819:PsiDirectoryNode" />
+              <item name="library" type="462c0819:PsiDirectoryNode" />
+              <item name="globe" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Monitor-Forecast" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Monitor-Forecast" type="462c0819:PsiDirectoryNode" />
+              <item name="plugins" type="462c0819:PsiDirectoryNode" />
+              <item name="library" type="462c0819:PsiDirectoryNode" />
+              <item name="globe" type="462c0819:PsiDirectoryNode" />
+              <item name="GlobeEx" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Monitor-Forecast" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Monitor-Forecast" type="462c0819:PsiDirectoryNode" />
+              <item name="plugins" type="462c0819:PsiDirectoryNode" />
+              <item name="library" type="462c0819:PsiDirectoryNode" />
+              <item name="globe" type="462c0819:PsiDirectoryNode" />
+              <item name="GlobeEx" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../HaiNanVue" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Workspace\HaiNan-workspace\Monitor-Forecast\js\cesiumTool" />
+      <recent name="D:\Workspace\HaiNan-workspace\Monitor-Forecast\assets" />
+      <recent name="D:\Workspace\HaiNan-workspace\Monitor-Forecast\plugins\vue" />
+      <recent name="D:\Workspace\HaiNan-workspace\Monitor-Forecast\plugins" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Workspace\HaiNan-workspace\Monitor-Forecast\assets" />
+      <recent name="D:\Workspace\HaiNan-workspace\Monitor-Forecast\img\test" />
+      <recent name="D:\Workspace\HaiNan-workspace\Monitor-Forecast\js" />
+      <recent name="D:\Workspace\HaiNan-workspace\Monitor-Forecast\img\map" />
+      <recent name="D:\Workspace\HaiNan-workspace\Monitor-Forecast\plugins" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b6473e00-0b70-4a58-bd44-8090cce42da8" name="Default" comment="" />
+      <created>1547436908611</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1547436908611</updated>
+      <workItem from="1547436911446" duration="14791000" />
+      <workItem from="1547534744872" duration="2736000" />
+      <workItem from="1547543775775" duration="3623000" />
+      <workItem from="1547547947633" duration="594000" />
+      <workItem from="1547549918370" duration="184000" />
+      <workItem from="1547601881003" duration="2094000" />
+      <workItem from="1547604010633" duration="30000" />
+      <workItem from="1547606436454" duration="575000" />
+      <workItem from="1547610194936" duration="2358000" />
+      <workItem from="1547631275972" duration="794000" />
+      <workItem from="1547632352668" duration="2587000" />
+      <workItem from="1547716624284" duration="1767000" />
+      <workItem from="1547782874718" duration="596000" />
+      <workItem from="1547793761853" duration="258000" />
+      <workItem from="1547795013242" duration="5634000" />
+      <workItem from="1547805469987" duration="637000" />
+      <workItem from="1547809744424" duration="1353000" />
+      <workItem from="1547812274379" duration="565000" />
+      <workItem from="1548034938270" duration="8565000" />
+      <workItem from="1548051802599" duration="844000" />
+      <workItem from="1548052705897" duration="274000" />
+      <workItem from="1548053072490" duration="40000" />
+      <workItem from="1548053397046" duration="1618000" />
+      <workItem from="1548056146524" duration="4020000" />
+      <workItem from="1548060704237" duration="1455000" />
+      <workItem from="1548066795023" duration="2986000" />
+      <workItem from="1548119180499" duration="24604000" />
+      <workItem from="1548225075369" duration="2647000" />
+      <workItem from="1548227890802" duration="43000" />
+      <workItem from="1548227982393" duration="1641000" />
+      <workItem from="1548230016250" duration="27000" />
+      <workItem from="1548230265771" duration="50000" />
+      <workItem from="1548230474948" duration="238000" />
+      <workItem from="1548310681123" duration="3242000" />
+      <workItem from="1548314789683" duration="723000" />
+      <workItem from="1548317715230" duration="614000" />
+      <workItem from="1548326641809" duration="24000" />
+      <workItem from="1551944468055" duration="8207000" />
+      <workItem from="1552269013322" duration="4185000" />
+      <workItem from="1552283701494" duration="2370000" />
+      <workItem from="1552296275739" duration="599000" />
+      <workItem from="1552381588830" duration="1771000" />
+      <workItem from="1552419865683" duration="9852000" />
+      <workItem from="1552469143644" duration="599000" />
+      <workItem from="1552539518469" duration="875000" />
+      <workItem from="1552549031420" duration="945000" />
+      <workItem from="1552612490316" duration="1390000" />
+      <workItem from="1552615989909" duration="2621000" />
+      <workItem from="1552983052518" duration="2391000" />
+      <workItem from="1552986252650" duration="1915000" />
+      <workItem from="1553049918932" duration="4135000" />
+      <workItem from="1553061607083" duration="521000" />
+      <workItem from="1553068394068" duration="1041000" />
+      <workItem from="1553151896919" duration="6087000" />
+      <workItem from="1553218992508" duration="3164000" />
+      <workItem from="1553484064046" duration="14502000" />
+      <workItem from="1553503958338" duration="1280000" />
+      <workItem from="1553671455856" duration="7806000" />
+      <workItem from="1553736776028" duration="2599000" />
+      <workItem from="1553744992468" duration="7409000" />
+      <workItem from="1553928717697" duration="619000" />
+      <workItem from="1554090133094" duration="1113000" />
+      <workItem from="1554104695431" duration="2979000" />
+      <workItem from="1554182475048" duration="387000" />
+      <workItem from="1554184570912" duration="302000" />
+      <workItem from="1554185702513" duration="1039000" />
+      <workItem from="1554189084335" duration="621000" />
+      <workItem from="1555919815541" duration="3470000" />
+      <workItem from="1555923701841" duration="8000" />
+      <workItem from="1557023286708" duration="2788000" />
+      <workItem from="1557040077301" duration="4257000" />
+      <workItem from="1557104467216" duration="676000" />
+    </task>
+    <task id="LOCAL-00001" summary="version 0">
+      <created>1547535273153</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1547535273153</updated>
+    </task>
+    <task id="LOCAL-00002" summary="version 0.1.1&#10;fix: 修改面板，灾害概况、灾害损失&#10;build: 添加卫星轨道">
+      <created>1553747233043</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1553747233043</updated>
+    </task>
+    <task id="LOCAL-00003" summary="version 0.1.1&#10;fix: 修改面板，灾害概况、灾害损失&#10;build: 添加卫星轨道">
+      <created>1554104887809</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1554104887809</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="199354000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="1912" y="186" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17755532" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49867898" weight="0.56080115" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5019815" side_tool="true" weight="0.32956153" />
+      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.4980185" weight="0.3275488" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="version 0" />
+    <MESSAGE value="version 0.1.1&#10;fix: 修改面板，灾害概况、灾害损失&#10;build: 添加卫星轨道" />
+    <option name="LAST_COMMIT_MESSAGE" value="version 0.1.1&#10;fix: 修改面板，灾害概况、灾害损失&#10;build: 添加卫星轨道" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/cesium.html" />
+    <entry file="file://$PROJECT_DIR$/plugins/vue/vue.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="5" column="22" lean-forward="true" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/img/smart-cg-box.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/img/smart-ggaq-box.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/animate.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2964" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/normalize.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="6" column="9" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/countUp.min.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/img/weather-box.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cesium/Cesium_ext_min.js" />
+    <entry file="file://$PROJECT_DIR$/img/map/typhoon.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/data.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-437">
+          <caret line="2" column="1709" selection-start-line="2" selection-start-column="1709" selection-end-line="2" selection-end-column="1709" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plugins/Cesium/Assets/images/Earth.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-57" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/img/test/smart-ggaq-box1.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plugins/bootstrap-4.0.0-dist/css/bootstrap.css" />
+    <entry file="file://$PROJECT_DIR$/plugins/bootstrap-4.0.0-dist/js/bootstrap.js" />
+    <entry file="file://$PROJECT_DIR$/Cesium/Assets/approximateTerrainHeights.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/languages.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/Scenario20190106.czml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="855">
+          <caret line="45" column="44" lean-forward="true" selection-start-line="45" selection-start-column="10" selection-end-line="45" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/Gaofen1.czml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cesium/Cesium.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="530" column="24590" selection-start-line="530" selection-start-column="24590" selection-end-line="530" selection-end-column="24590" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/MultiSatellites.czml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/echarts_import.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/emergency.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/img/marker/popup-jtsg.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test2.html" />
+    <entry file="file://$PROJECT_DIR$/js/satellite.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="609">
+          <caret line="58" column="110" selection-start-line="58" selection-start-column="110" selection-end-line="58" selection-end-column="110" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/cesiumTool/Sandcastle-header.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="34" column="33" lean-forward="true" selection-start-line="34" selection-start-column="33" selection-end-line="34" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="589">
+          <caret line="31" column="49" selection-start-line="31" selection-start-column="49" selection-end-line="31" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/multiSats.czml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/multiSats_Chinese.czml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/img/map/Typhoon_track.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/img/map/typhoon_o.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/img/map/typhoon.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/img/map/typhoon (1).png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/img/map/Typhoon_track.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor />
+          <second_editor />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lang.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" column="31" selection-start-line="2" selection-start-column="31" selection-end-line="2" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/pstyle.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4959">
+          <caret line="261" selection-start-line="261" selection-end-line="261" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18962">
+          <caret line="998" column="47" selection-start-line="998" selection-start-column="47" selection-end-line="998" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/deal.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="23" column="1" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plugins/library/globe/GlobeEx/api/initGlobe.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/Cesium_Viewer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="115" column="35" lean-forward="true" selection-start-line="115" selection-start-column="35" selection-end-line="115" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

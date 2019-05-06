@@ -23,7 +23,7 @@ function importdata() {
     }
 }
 
-function importdata_water() {
+function importdata_road() {
     if ($("#data2")[0].style.display == "none") {
         $("#data0")[0].style.display = "none";
         $("#data1")[0].style.display = "none";
@@ -35,7 +35,7 @@ function importdata_water() {
     }
 }
 
-function importdata_road() {
+function import_report(){
     if ($("#data3")[0].style.display == "none") {
         $("#data0")[0].style.display = "none";
         $("#data1")[0].style.display = "none";
