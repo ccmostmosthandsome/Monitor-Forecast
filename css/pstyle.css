@@ -2877,7 +2877,7 @@ body[lng='en-au'] ul.jt-stat > li:nth-child(4) > .jt-fkh-num {
 
 
 #toolbar {
-    position: relative;
+    /* position: relative; */
     margin-left: 20px;
 }
 
@@ -2968,5 +2968,3 @@ body[lng='en-au'] ul.jt-stat > li:nth-child(4) > .jt-fkh-num {
     padding-top: 10px;
     font-family: "microsoft yahei";
 }
-
-

@@ -44,6 +44,7 @@ var eGlobe = eGlobe || {};
 
 
     eGlobe.global.serverURL = "http://202.114.118.61:8099/DESP/queryDataConfig?did="+getQueryVariable("did");
+    eGlobe.global.serverURL = "plugins/library/globe/GlobeEx/conf/dataconfig.json"
     if (getUrlParam("geocode")) {
         eGlobe.global.geocode = eval("(" + getUrlParam("geocode") + ")");
     }
