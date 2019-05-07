@@ -2,7 +2,7 @@
     "map": {
         "layer": [
             {
-                "name": "基础图层",
+                "name": "地图服务",
                 "groupid": "0",
                 "expandstate": true,
                 "image": [
@@ -22,7 +22,7 @@
                         "name": "2015年影像服务",
                         "visible": true,
                         "url": "http://59.212.146.170:80/ime-cloud/rest/hainan_img_2015/wmts",
-                        "driver": "tms"
+                        "driver": "wmts"
                     },
                     {
                         "name": "2016年影像服务",
@@ -47,56 +47,6 @@
                         "visible": false,
                         "url": "http://59.212.146.170:80/ime-cloud/rest/hainan_img_zj/wmts",
                         "driver": "tms"
-                    }
-                ]
-            },
-            {
-                "name": "AOI",
-                "groupid": "1",
-                "expandstate": true,
-                "vector": [
-                    {
-                        "name": "AOI范围",
-                        "visible": true,
-                        "url": "http://202.114.118.61:8099/DESP/queryAOI?disasterId=juvwl898",
-                        "driver": "geojson"
-                    }
-                ]
-            },
-            {
-                "name": "遥感处理",
-                "groupid": "2",
-                "expandstate": true,
-                "image": []
-            },
-            {
-                "name": "现场标绘",
-                "groupid": "3",
-                "expandstate": true,
-                "vector": [
-                    {
-                        "name": "安置点",
-                        "visible": true,
-                        "url": "http://202.114.118.61:8099/WFST/wfs?VERSION=1.0.0&SERVICE=WFS&REQUEST=GetFeature&TYPENAME=DIMERS_PLOT_POINT&FILTER=<Filter><PropertyIsEqualTo><PropertyName>PlotUsage</PropertyName><Literal>Camp_Info</Literal></PropertyIsEqualTo></Filter>&RESULTTYPE=result&OUTPUTFORMAT=XML",
-                        "driver": "GML"
-                    },
-                    {
-                        "name": "基础设施",
-                        "visible": true,
-                        "url": "http://202.114.118.61:8099/WFST/wfs?VERSION=1.0.0&SERVICE=WFS&REQUEST=GetFeature&TYPENAME=DIMERS_PLOT_POINT&FILTER=<Filter><PropertyIsEqualTo><PropertyName>PlotUsage</PropertyName><Literal>Infra_Info</Literal></PropertyIsEqualTo></Filter>&RESULTTYPE=result&OUTPUTFORMAT=XML",
-                        "driver": "GML"
-                    },
-                    {
-                        "name": "单体建筑",
-                        "visible": true,
-                        "url": "http://202.114.118.61:8099/WFST/wfs?VERSION=1.0.0&SERVICE=WFS&REQUEST=GetFeature&TYPENAME=DIMERS_PLOT_POINT&FILTER=<Filter><PropertyIsEqualTo><PropertyName>PlotUsage</PropertyName><Literal>Building_Info</Literal></PropertyIsEqualTo></Filter>&RESULTTYPE=result&OUTPUTFORMAT=XML",
-                        "driver": "GML"
-                    },
-                    {
-                        "name": "MESH节点",
-                        "visible": true,
-                        "url": "http://202.114.118.61:8099/WFST/wfs?VERSION=1.0.0&SERVICE=WFS&REQUEST=GetFeature&TYPENAME=DIMERS_PLOT_POINT&FILTER=<Filter><PropertyIsEqualTo><PropertyName>PlotUsage</PropertyName><Literal>MESHNode_Info</Literal></PropertyIsEqualTo></Filter>&RESULTTYPE=result&OUTPUTFORMAT=XML",
-                        "driver": "GML"
                     }
                 ]
             }
