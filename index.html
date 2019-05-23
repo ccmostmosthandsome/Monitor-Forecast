@@ -1,15 +1,21 @@
-﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title></title>
+    <!--<link rel="stylesheet" href="plugins/bootstrap-4.3.1-dist/css/bootstrap.min.css">-->
+    <!--<link rel="stylesheet" href="plugins/bulma-0.7.4/css/bulma.min.css">-->
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/animate.css">
     <link rel="stylesheet" href="css/pstyle.css">
-    <title></title>
-    <!--<script type="text/javascript" src="plugins/Cesium/Cesium.js"></script>-->
-    <!--<script type="text/javascript" src="plugins/Cesium/Cesium_ext_min.js"></script>-->
+    <link rel="stylesheet" href="plugins/Cesium/Widgets/widgets.css">
+
+
+    <!--<script src="plugins/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>-->
+    <script type="text/javascript" src="plugins/Cesium/Cesium.js"></script>
+    <script type="text/javascript" src="plugins/Cesium/Cesium_ext_min.js"></script>
     <script type="text/javascript" src="js/lang.js"></script>
     <script type="text/javascript">
         /**
@@ -57,7 +63,7 @@
                     $("#data1")[0].style.display = "none";
                     $("#data2")[0].style.display = "none";
                     $("#data3")[0].style.display = "none";
-                    claar1();
+                    // claar1();
                 } else {
                     // 显示子菜单
                     for (var i = 1; i < cd[0].children.length; i++) {
@@ -66,19 +72,37 @@
                 }
                 displaycd = !displaycd;
             };
-
-
         };
     </script>
     <script src="js/deal.js"></script>
 </head>
 <body>
-<!--Cesium-->`
-<div id="cesiumContainer" class="globeWindow"></div>
-<div id="loadingIndicator" class="loadingIndicator"></div>
-<!--<div id="cesiumContainer" class="fullSize"></div>-->
+
+
+<!--Cesium-->
+<!--zhangxq-->
+<!--<div id="cesiumContainer" class="globeWindow"></div>-->
+<!--<div id="loadingIndicator" class="loadingIndicator"></div>-->
+<div id="cesiumContainer" class="fullSize"></div>
 <!--windows float on cesium viewer-->
 <div id="floatWindow">
+
+    <!--react component-->
+    <!--<div id="like_button_container"></div>-->
+    <!--<div id="rc_menu"></div>-->
+
+
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Dropdown button
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+    </div>
+
     <!--logo-->
     <div class="logo"></div>
     <div class="disaster-title">
@@ -125,10 +149,13 @@
         <li><span id="jjtime"></span><label>${zhxq_szmj}</label></li>
         <li><span>14833</span><label>${zhxq_yjss}</label></li>
     </ul>
+
+
+
     <!--一级下拉菜单-->
     <ul class="menue-box">
         <li style="display:block;"><span>${menu}</span></li>
-        <li><span onclick="location1()">${menu_loc}</span></li>
+        <li><span onclick="mainMap.location()">${menu_loc}</span></li>
         <li><span onclick="importdata_typh()">${menu_typhoon_path}</span></li>
         <li><span onclick="importdata()">${menu_house_road}</span></li>
         <li><span onclick="importdata_road()">${menu_extra}</span></li>
@@ -139,30 +166,43 @@
     <ul id="data0" class="mtab-box" style="left: 670px;display: none;">
         <li onclick="loadBefTyp()">${menu_pre_typh_data}</li>
         <li onclick="loadAftTyp()">${menu_pos_typh_data}</li>
-        <li onclick="loadAftTyp()">${menu_rain}</li>
+        <li onclick="mainMap.loadImageLayer('rainRange')">${menu_rain}</li>
     </ul>
     <ul id="data1" class="mtab-box" style="left: 850px;display: none;">
-        <li onclick="loadBefTif()">${menu_pre_road}</li>
-        <li onclick="loadAftTif()">${menu_pos_road}</li>
+        <li onclick="mainMap.loadPreRoad()">${menu_pre_road}</li>
+        <li onclick="mainMap.loadPreRailway()">${menu_pre_railway}</li>
+        <li onclick="mainMap.loadPosRoad()">${menu_pos_road}</li>
         <!--<li><span><a href="./.pdf" target="_blank"-->
-                     <!--style="text-decoration: none;color:#ffffff;">${menu_flood_ass}</a></span></li>-->
+        <!--style="text-decoration: none;color:#ffffff;">${menu_flood_ass}</a></span></li>-->
     </ul>
     <ul id="data2" class="mtab-box" style="left: 1075px;display: none;">
-        <li onclick="loadBefWatTif()">${menu_pre_wat_tif}</li>
-        <li onclick="loadAftWatTif()">${menu_pos_wat_tif}</li>
-        <li onclick="loadBefWat()">${menu_pre_water}</li>
-        <li onclick="loadAftWat()">${menu_pos_water}</li>
-        <li onclick="loadScoExt()">${menu_flood}</li>
+        <li onclick="mainMap.loadImageLayer('beforeWater')">${menu_pre_wat_tif}</li>
+        <li onclick="mainMap.loadImageLayer('afterWater')">${menu_pos_wat_tif}</li>
+        <li onclick="mainMap.loadDataSource('beforeWater')">${menu_pre_water}</li>
+        <li onclick="mainMap.loadDataSource('afterWater')">${menu_pos_water}</li>
+        <li onclick="mainMap.loadDataSource('floodDif')">${menu_flood}</li>
         <!--<li><span><a href="assets/assess.pdf" target="_blank" style="text-decoration: none;color:#ffffff;">${menu_flood_ass}</a></span>-->
         <!--</li>-->
     </ul>
     <ul id="data3" class="mtab-box" style="left: 1260px;display: none;">
         <li onclick="loadPopDis()">${menu_report_pop}</li>
         <li onclick="loadRoadRes()">${menu_report_road}</li>
-        <li onclick="loadAssRep()">${menu_report_ass}</li>
+        <li><span><a href="assets/pdf/决策报告.pdf" target="_blank" style="text-decoration: none;color:#ffffff;">${menu_report_ass}</a></span></li>
         <!--<li><span><a href="assets/assess.pdf" target="_blank" style="text-decoration: none;color:#ffffff;">${menu_flood_ass}</a></span>-->
         <!--</li>-->
     </ul>
+
+
+    <!--TreeMenu-->
+    <div style="padding:10px;">
+        <div class="treeMenu">
+            <div style="margin-bottom:5px;"><a class="button" href="javascript:void(0);" id="showchecked">获取选定的节点</a> <a
+                    class="button" href="javascript:void(0);" id="showcurrent">获取当前节点</a></div>
+            <div style="border-bottom: #c3daf9 1px solid; border-left: #c3daf9 1px solid; width: 250px; height: 500px; overflow: auto; border-top: #c3daf9 1px solid; border-right: #c3daf9 1px solid;">
+                <div id="imageTree"></div>
+            </div>
+        </div>
+    </div>
 
     <!--卫星概况-->
     <div class="smart-cg-box">
@@ -251,6 +291,135 @@
             </div>
         </div>
     </div>
+
+    <!--satellite orbital predictor-->
+    <!--<div id="orbitals_box_container" class="orbitals_box">-->
+        <!--<h4>Satellites:</h4>-->
+
+        <!--<input type='hidden' name='csrfmiddlewaretoken' value='HGLUjfbwp5BRmE8bRkjXD5PXAK4R97Bd'/>-->
+
+        <!--<div class="sat-list">-->
+            <!--<ul class="list-unstyled">-->
+                <!--<li><input type="checkbox" name="sats[]" value="37256" id="sat-37256"> <a href="/home/37256/"-->
+                                                                                          <!--class="satLink">BEIDOU</a>-->
+                <!--</li>-->
+
+
+                <!--<li><input type="checkbox" name="sats[]" value="39150" id="sat-39150"> <a href="/home/39150/"-->
+                                                                                          <!--class="satLink">GAOFEN-->
+                    <!--1</a></li>-->
+
+
+                <!--<li><input type="checkbox" name="sats[]" value="70052" id="sat-70052"> <a href="/home/70052/"-->
+                                                                                          <!--class="satLink">GAOFEN-->
+                    <!--1,39150</a><span class="tool_tip"-->
+                                     <!--title="User created satellite, due to launch in the future"> (FS)</span>-->
+                <!--</li>-->
+
+
+                <!--<li><input type="checkbox" name="sats[]" value="43585" id="sat-43585"> <a href="/home/43585/"-->
+                                                                                          <!--class="satLink">GAOFEN-->
+                    <!--11</a></li>-->
+
+
+                <!--<li><input type="checkbox" name="sats[]" value="40118" id="sat-40118"> <a href="/home/40118/"-->
+                                                                                          <!--class="satLink">GAOFEN-->
+                    <!--2</a></li>-->
+
+
+                <!--<li><input type="checkbox" name="sats[]" value="25682" id="sat-25682"> <a href="/home/25682/"-->
+                                                                                          <!--class="satLink">LANDSAT-->
+                    <!--7</a></li>-->
+
+
+                <!--<li><input type="checkbox" name="sats[]" value="38038" id="sat-38038"> <a href="/home/38038/"-->
+                                                                                          <!--class="satLink">ZIYUAN-->
+                    <!--1-02C (ZY 1-02C)</a></li>-->
+
+
+                <!--<li><input type="checkbox" name="sats[]" value="38046" id="sat-38046"> <a href="/home/38046/"-->
+                                                                                          <!--class="satLink">ZIYUAN 3-->
+                    <!--(ZY 3)</a></li>-->
+
+
+                <!--<li><input type="checkbox" name="sats[]" value="41556" id="sat-41556"> <a href="/home/41556/"-->
+                                                                                          <!--class="satLink">ZIYUAN 3-2-->
+                    <!--(ZY 3-2)</a></li>-->
+
+
+            <!--</ul>-->
+        <!--</div>-->
+        <!--<input type="checkbox" onClick="toggle(this)"/> Select All-->
+        <!--</form>-->
+
+
+        <!--<div class="query-buttons">-->
+            <!--<input type="submit" name="submit" value="Show Orbits" class="btn btn-default"-->
+                   <!--onclick="checkButton(this)">-->
+        <!--</div>-->
+        <!--<hr>-->
+
+
+        <!--<div style="text-align:center;">-->
+            <!--<a class="btn btn-default" href="/future_satellite/">Add Future Satellite</a>-->
+        <!--</div>-->
+    <!--</div>-->
+
+
+    <!--<div class="orbital_predictor_box">-->
+        <!--<div id="toolbar"></div>-->
+        <!--<h4>Ground Station(s):</h4>-->
+        <!--<input type="text" name="latitude" id="lat" size="10" placeholder="Latitude"/>-->
+        <!--<input type="text" name="longitude" id="long" size="10" placeholder="Longitude"/>-->
+        <!--<input type="button" value="Get Location" onclick="getUserLocation()" class="btn btn-default"/>-->
+        <!--<br/>-->
+
+        <!--<h4>Date Range:</h4>-->
+        <!--<input type="date" name="query_start_date"/>-->
+        <!--<input type="time" name="query_start_time"/>-->
+        <!--<label for="start_now_id">Current time</label>-->
+        <!--<input type="checkbox" name="start_now" value="True" id="start_now_id" onClick="setDateRateForNext24Hours()"-->
+        <!--/>-->
+        <!--<br/>-->
+
+        <!--<input type="date" name="query_end_date"/>-->
+        <!--<input type="time" name="query_end_time"/>-->
+        <!--<br/>-->
+
+        <!--<div id="overpass-type">-->
+            <!--<input type="radio" name="pass_type" value="Swath_Passes" id="Swath_Passes"-->
+                   <!--checked="checked"/>-->
+            <!--<label for="Swath_Passes">Within Instrument Swath</label><br/>-->
+
+            <!--<input type="radio" name="pass_type" value="All_Passes" id="All_Passes"/>-->
+            <!--<label for="All_Passes">All Passes</label><br/>-->
+
+            <!--<input type="radio" name="pass_type" value="Visible_Passes" id="Visible_Passes"/>-->
+            <!--<label for="Visible_Passes">Visible Passes Only</label><br/>-->
+        <!--</div>-->
+
+        <!--<div class="query-buttons">-->
+            <!--<input type="submit" name="submit" value="Get Over Passes" class="btn btn-default"-->
+                   <!--onclick="checkButton(this)"/>-->
+        <!--</div>-->
+        <!--<hr>-->
+
+
+        <!--<h4>Add Satellite:</h4>-->
+        <!--<textarea id="satellites_result" name="user_tle" rows="3" cols="74" form="add_tle" class="pre-style tle-view"-->
+                  <!--placeholder="Satellite Name-->
+    <!--First Line of TLE-->
+    <!--Second Line of TLE" style="width:100%"></textarea>-->
+
+        <!--<form onsubmit="return validateForm()" action="/add_tle/" method="post" id="add_tle">-->
+            <!--<input type='hidden' name='csrfmiddlewaretoken' value='HGLUjfbwp5BRmE8bRkjXD5PXAK4R97Bd'/>-->
+            <!--<input type="text" name="instrument_name" placeholder="Instrument Name" class="tle-view"/>-->
+            <!--<input type="text" name="instrument_swath_width" placeholder="Swath Width in km's" class="tle-view"/>-->
+            <!--<input type="submit" name="submit" value="Add Satellite" class="btn btn-default"-->
+                   <!--onclick="checkButton(this)"/>-->
+        <!--</form>-->
+
+    <!--</div>-->
 
     <!--台风-->
     <div class="smart-ggaq-box">
@@ -425,126 +594,126 @@
         </div>
     </div>
     <!--通讯设备状态-->
-    <div class="smart-hb-box">
-        <div class="kpi-title">
-            <div class="kpi-title-cn">${communication}</div>
-            <div class="kpi-title-en">
-                <div class="kpi-title-en1">State of</div>
-                <div class="kpi-title-en2">Communication equipment</div>
-            </div>
-        </div>
-        <div class="kpi-box">
-            <!--通讯设备数量-->
-            <div class="smart-hb-radar-title">${communication_deviceNum}</div>
-            <div class="smart-hb-radar" id="hb_radar"></div>
-            <!--通讯设备情况-->
-            <div class="smart-hb-air">
-                <div class="smart-air-title">${communication_smoothrate}</div>
-                <div class="fkh-left"></div>
-                <div class="smart-fkh-num">1820/71.28%</div>
-                <div class="fkh-right"></div>
-                <div class="smart-air-title" style="margin-left: 10px;">${communication_major}</div>
-                <div class="fkh-left"></div>
-                <div class="smart-fkh-num">199/200</div>
-                <div class="fkh-right"></div>
-            </div>
-            <!--水质监测-->
-            <ul class="smart-hb-water">
-                <!--<li>
-                    <span>湖泊名</span>
-                    <span>水质</span>
-                    <span>营养状态</span>
-                    <span>达标情况</span>
-                    <span>水质变化</span>
-                </li>
-                <li>
-                    <span>湖泊名</span>
-                    <span>IV</span>
-                    <span>轻度富营养</span>
-                    <span>达标</span>
-                    <span>稳定</span>
-                </li>-->
-            </ul>
-        </div>
-    </div>
+    <!--<div class="smart-hb-box">-->
+        <!--<div class="kpi-title">-->
+            <!--<div class="kpi-title-cn">${communication}</div>-->
+            <!--<div class="kpi-title-en">-->
+                <!--<div class="kpi-title-en1">State of</div>-->
+                <!--<div class="kpi-title-en2">Communication equipment</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="kpi-box">-->
+            <!--&lt;!&ndash;通讯设备数量&ndash;&gt;-->
+            <!--<div class="smart-hb-radar-title">${communication_deviceNum}</div>-->
+            <!--<div class="smart-hb-radar" id="hb_radar"></div>-->
+            <!--&lt;!&ndash;通讯设备情况&ndash;&gt;-->
+            <!--<div class="smart-hb-air">-->
+                <!--<div class="smart-air-title">${communication_smoothrate}</div>-->
+                <!--<div class="fkh-left"></div>-->
+                <!--<div class="smart-fkh-num">1820/71.28%</div>-->
+                <!--<div class="fkh-right"></div>-->
+                <!--<div class="smart-air-title" style="margin-left: 10px;">${communication_major}</div>-->
+                <!--<div class="fkh-left"></div>-->
+                <!--<div class="smart-fkh-num">199/200</div>-->
+                <!--<div class="fkh-right"></div>-->
+            <!--</div>-->
+            <!--&lt;!&ndash;水质监测&ndash;&gt;-->
+            <!--<ul class="smart-hb-water">-->
+                <!--&lt;!&ndash;<li>-->
+                    <!--<span>湖泊名</span>-->
+                    <!--<span>水质</span>-->
+                    <!--<span>营养状态</span>-->
+                    <!--<span>达标情况</span>-->
+                    <!--<span>水质变化</span>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<span>湖泊名</span>-->
+                    <!--<span>IV</span>-->
+                    <!--<span>轻度富营养</span>-->
+                    <!--<span>达标</span>-->
+                    <!--<span>稳定</span>-->
+                <!--</li>&ndash;&gt;-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</div>-->
     <!--数据处理进度-->
-    <div class="smart-jt-box">
-        <div class="kpi-title">
-            <div class="kpi-title-cn">${process}</div>
-            <div class="kpi-title-en">
-                <div class="kpi-title-en1">Data</div>
-                <div class="kpi-title-en2">Processing progress</div>
-            </div>
-        </div>
-        <div class="kpi-box">
-            <!--交通数值统计-->
-            <ul class="jt-stat">
-                <li>
-                    <div class="jt-stat-title">${process_num}</div>
-                    <div class="fkh-left"></div>
-                    <div class="jt-fkh-num" id="jt_sgs">28</div>
-                    <div class="fkh-right"></div>
-                </li>
-                <li>
-                    <div class="jt-stat-title">${process_tobe}</div>
-                    <div class="fkh-left"></div>
-                    <div class="jt-fkh-num" id="jt_zpwg">5</div>
-                    <div class="fkh-right"></div>
-                </li>
-                <li>
-                    <div class="jt-stat-title">${process_totaldata}</div>
-                    <div class="fkh-left"></div>
-                    <div class="jt-fkh-num">33</div>
-                    <div class="fkh-right"></div>
-                </li>
-                <li>
-                    <div class="jt-stat-title">${process_status}</div>
-                    <div class="fkh-left"></div>
-                    <div class="jt-fkh-num" style="font-size:18px;">${process_processing}</div>
-                    <div class="fkh-right"></div>
-                </li>
-            </ul>
-            <!--图表区域-->
-            <div class="jt-chart-area">
-                <!--数据处理运行图-->
-                <div class="jt-chart-gfsd">
-                    <div class="jt-gfsd-title">${process_runchat}</div>
-                    <div class="jt-gfsd-poly" id="jt_poly"></div>
-                </div>
-                <!--拥堵指数圆环表-->
-                <div class="jt-chart-pie">
-                    <svg width="100%" height="100%">
-                        <g stroke="#1b4476" fill="none" stroke-width="4">
-                            <circle r="58" cx="60" cy="60" stroke-dasharray="20,5"></circle>
-                        </g>
-                        <g fill="none" stroke="#3399ff" stroke-width="4">
-                            <path stroke-dasharray="20,5" transform="translate(60,60)"
-                                  d="M 0 -58 A 58 58 0 0 1 57.974 7.27"></path>
-                            <animateTransform attributeName="transform" type="rotate" from="0,60,60" to="360,60,60"
-                                              dur="5s"
-                                              repeatCount="indefinite"></animateTransform>
-                        </g>
-                        <circle r="50" cx="60" cy="60" fill="none" stroke="#635638" stroke-width="3"></circle>
-                        <path id="jt_cir" fill="none" stroke="#eabc4f" stroke-width="3" transform="translate(60,60)"
-                              d="M 0 -50 A 50 50 0 1 1 -42.22 -26.79"></path>
-                        <text x="45" y="55" class="area-num-text">90%</text>
-                        <text x="30" y="80" class="area-num-title">${process_progress}</text>
-                    </svg>
-                </div>
-                <!--拥堵延迟指数-->
-                <!--MAX:5 MIN:0 1.4以下绿色  1.5--1.9：拥堵 橙色 >1.9 红色-->
-                <div class="jt-chart-ydzs">
-                    <div class="jt-ydzs-title">
-                        <span>${process_name}</span>
-                        <span>${process_instructions}</span>
-                        <span>${process_time}</span>
-                    </div>
-                    <ul class="jt-ydzs-list" id="jt_ydzs_list">
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!--<div class="smart-jt-box">-->
+        <!--<div class="kpi-title">-->
+            <!--<div class="kpi-title-cn">${process}</div>-->
+            <!--<div class="kpi-title-en">-->
+                <!--<div class="kpi-title-en1">Data</div>-->
+                <!--<div class="kpi-title-en2">Processing progress</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="kpi-box">-->
+            <!--&lt;!&ndash;交通数值统计&ndash;&gt;-->
+            <!--<ul class="jt-stat">-->
+                <!--<li>-->
+                    <!--<div class="jt-stat-title">${process_num}</div>-->
+                    <!--<div class="fkh-left"></div>-->
+                    <!--<div class="jt-fkh-num" id="jt_sgs">28</div>-->
+                    <!--<div class="fkh-right"></div>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<div class="jt-stat-title">${process_tobe}</div>-->
+                    <!--<div class="fkh-left"></div>-->
+                    <!--<div class="jt-fkh-num" id="jt_zpwg">5</div>-->
+                    <!--<div class="fkh-right"></div>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<div class="jt-stat-title">${process_totaldata}</div>-->
+                    <!--<div class="fkh-left"></div>-->
+                    <!--<div class="jt-fkh-num">33</div>-->
+                    <!--<div class="fkh-right"></div>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<div class="jt-stat-title">${process_status}</div>-->
+                    <!--<div class="fkh-left"></div>-->
+                    <!--<div class="jt-fkh-num" style="font-size:18px;">${process_processing}</div>-->
+                    <!--<div class="fkh-right"></div>-->
+                <!--</li>-->
+            <!--</ul>-->
+            <!--&lt;!&ndash;图表区域&ndash;&gt;-->
+            <!--<div class="jt-chart-area">-->
+                <!--&lt;!&ndash;数据处理运行图&ndash;&gt;-->
+                <!--<div class="jt-chart-gfsd">-->
+                    <!--<div class="jt-gfsd-title">${process_runchat}</div>-->
+                    <!--<div class="jt-gfsd-poly" id="jt_poly"></div>-->
+                <!--</div>-->
+                <!--&lt;!&ndash;拥堵指数圆环表&ndash;&gt;-->
+                <!--<div class="jt-chart-pie">-->
+                    <!--<svg width="100%" height="100%">-->
+                        <!--<g stroke="#1b4476" fill="none" stroke-width="4">-->
+                            <!--<circle r="58" cx="60" cy="60" stroke-dasharray="20,5"></circle>-->
+                        <!--</g>-->
+                        <!--<g fill="none" stroke="#3399ff" stroke-width="4">-->
+                            <!--<path stroke-dasharray="20,5" transform="translate(60,60)"-->
+                                  <!--d="M 0 -58 A 58 58 0 0 1 57.974 7.27"></path>-->
+                            <!--<animateTransform attributeName="transform" type="rotate" from="0,60,60" to="360,60,60"-->
+                                              <!--dur="5s"-->
+                                              <!--repeatCount="indefinite"></animateTransform>-->
+                        <!--</g>-->
+                        <!--<circle r="50" cx="60" cy="60" fill="none" stroke="#635638" stroke-width="3"></circle>-->
+                        <!--<path id="jt_cir" fill="none" stroke="#eabc4f" stroke-width="3" transform="translate(60,60)"-->
+                              <!--d="M 0 -50 A 50 50 0 1 1 -42.22 -26.79"></path>-->
+                        <!--<text x="45" y="55" class="area-num-text">90%</text>-->
+                        <!--<text x="30" y="80" class="area-num-title">${process_progress}</text>-->
+                    <!--</svg>-->
+                <!--</div>-->
+                <!--&lt;!&ndash;拥堵延迟指数&ndash;&gt;-->
+                <!--&lt;!&ndash;MAX:5 MIN:0 1.4以下绿色  1.5&#45;&#45;1.9：拥堵 橙色 >1.9 红色&ndash;&gt;-->
+                <!--<div class="jt-chart-ydzs">-->
+                    <!--<div class="jt-ydzs-title">-->
+                        <!--<span>${process_name}</span>-->
+                        <!--<span>${process_instructions}</span>-->
+                        <!--<span>${process_time}</span>-->
+                    <!--</div>-->
+                    <!--<ul class="jt-ydzs-list" id="jt_ydzs_list">-->
+                    <!--</ul>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
 
     <!--灾区概况-->
     <div class="smart-dis-box">
@@ -962,6 +1131,9 @@
     </div>
 </div>
 
+<script src="plugins/react/react.development.js"></script>
+<script src="plugins/react/react-dom.development.js"></script>
+
 </body>
 <!--加载Js脚本文件-->
 <!--模版替换-->
@@ -981,14 +1153,22 @@
 <script src="plugins/echart/echarts.min.js"></script>
 <script src="js/jquery.dataStatistics.js"></script>
 <script src="js/countUp.min.js"></script>
+<script src="plugins/react/react.development.js"></script>
+<script src="plugins/react/react-dom.development.js"></script>
 <!--业务-->
-<script src="plugins/library/globe/GlobeEx/api/initGlobe.js"></script>
+<!--<script src="plugins/library/globe/GlobeEx/api/initGlobe.js"></script>-->
+<!--<script src="js/component/like_button.js"></script>-->
 <script src="js/data.js"></script>
 <script src="js/wuhan.min.js"></script>
 <script src="js/fire.js"></script>
 <script src="js/emergency.js"></script>
 <!--<script src="js/Cesium_Viewer.js"></script>-->
-<script type="text/javascript" src="js/satellite.js"></script>
+<script src="js/cesiumTool/CesiumViewer.js"></script>
+<!--<script src="js/satellite.js"></script>-->
+<!--<script src="js/component/orbitals_box.js"></script>-->
+<script src="js/component/TreeMenu/js/jquery.tree.js"></script>
+<script src="js/component/TreeMenu/js/tree1.js"></script>
+<script src="js/cesiumTool/TreeMenu.js"></script>
 <script src="js/index.js"></script>
 
 </html>

@@ -8,13 +8,15 @@
         global.pcanvas.init();
         global.zzcg.init();
         global.ggaq.init();
-        global.zzhb.init();
-        global.zzjt.init();
+        // global.zzhb.init();//smart-hb-box
+        // global.zzjt.init();//smart-jt-box
         global.zhsw.init();
         global.zhzw.init();
         global.zlwin.init();
         // global.disastertype.init();
         emergency.initMapSwitch();
+        global.mainMap.init();
+        global.treeMenu.init();
         // pmap.init();
     });
     global.pfun = {
@@ -54,25 +56,20 @@
                     if (language === 'en-au') {
                         if (url.indexOf('?') >= 0) {
                             url += '&l=zh-cn';
-                        }
-                        else {
+                        } else {
                             url += '?l=zh-cn';
                         }
-                    }
-                    else {
+                    } else {
                         if (url.indexOf('?') >= 0) {
                             url += '&l=en-au';
-                        }
-                        else {
+                        } else {
                             url += '?l=en-au';
                         }
                     }
-                }
-                else {
+                } else {
                     if (language === 'en-au') {
                         url = url.replace('en-au', 'zh-cn');
-                    }
-                    else {
+                    } else {
                         url = url.replace('zh-cn', 'en-au');
                     }
                 }
@@ -246,7 +243,7 @@
             var chart = echarts.init($("#ggaq_pie")[0]);
             chart.setOption(option);
             return chart;
-        },loadDisPie: function () {
+        }, loadDisPie: function () {
             var data = [{value: 2698, name: dlang.cal_ynrs}, {value: 270, name: dlang.cal_sz}, {
                 value: 12135,
                 name: dlang.cal_ss
@@ -707,7 +704,7 @@
                 ctx.fillStyle = woodfill1;
                 ctx.sector(46.5, 46.5, 46.5, -180 * deg, -60 * deg).fill();
             };
-        },drawSatCat: function () {
+        }, drawSatCat: function () {
             var ctx = document.getElementById('')
         }
     };
@@ -923,6 +920,139 @@
                     emergency.reloadZlTimer();
                 });
             }, 460);
+        }
+    };
+    //satellite orbital predictor
+    global.z = {
+        // add ticks beside selected satellites
+        sat_list: [],
+
+        getUserLocation: function () {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(onSuccess, onErrorFunc, {
+                    maximumAge: 60000,
+                    timeout: 5000,
+                    enableHighAccuracy: true
+                });
+            } else {
+                alert('Error finding location, please use Select Location button instead');
+            }
+        },
+
+        onSuccess: function (location) {
+            document.getElementById('lat').value = location.coords.latitude;
+            document.getElementById('long').value = location.coords.longitude;
+            var p = viewer.entities.add({
+                position: new Cesium.Cartesian3.fromDegrees(location.coords.longitude, location.coords.latitude),
+                point: {
+                    pixelSize: 5,
+                    color: Cesium.Color.YELLOW
+                }
+            });
+            viewer.flyTo(p, {offset: new Cesium.HeadingPitchRange(0.0, Cesium.Math.toRadians(-60.0), 5000 * 1000)})
+        },
+
+        onErrorFunc: function () {
+            alert('Error finding location, please use Select Location button instead');
+        },
+
+        toggle: function (source) {
+            var checkboxes = document.getElementsByName('sats[]');
+            for (var i = 0, n = checkboxes.length; i < n; i++) {
+                checkboxes[i].checked = source.checked;
+            }
+        },
+
+        setDateRateForNext24Hours: function () {
+            var dateInput = document.getElementsByName('query_start_date')
+            var timeInput = document.getElementsByName('query_start_time')
+            var dateInput2 = document.getElementsByName('query_end_date')
+            var timeInput2 = document.getElementsByName('query_end_time')
+            var currentDate = new Date();
+            fullYear = currentDate.getFullYear();
+            month = addZero(currentDate.getMonth() + 1);
+            day = addZero(currentDate.getDate());
+            hour = addZero(currentDate.getHours());
+            minute = addZero(currentDate.getMinutes());
+            second = addZero(currentDate.getSeconds());
+            dateInput[0].value = fullYear + "-" + month + "-" + day;
+            timeInput[0].value = hour + ":" + minute
+            // add 24 hours to it by default
+            day = currentDate.getDate();
+            month = currentDate.getMonth() + 1;
+            if (day == 29 && month == 2) {
+                day = "01";
+                month = "03"
+            } else if (day == 30 && (month == 9 || month == 4 || month == 6 || month == 11)) {
+                day = "01";
+                month = addZero(month + 1);
+            } else if (day == 31 && month == 12) {
+                day = "01";
+                month = "01"
+                year = fullYear + 1;
+            } else if (day == 31) {
+                day = "01";
+                month = addZero(month + 1);
+            } else {
+                day = addZero(day + 1);
+                month = addZero(month);
+            }
+            dateInput2[0].value = fullYear + "-" + month + "-" + day;
+            timeInput2[0].value = hour + ":" + minute
+
+            function addZero(i) {
+                if (i < 10) {
+                    i = "0" + i;
+                }
+                return i;
+            }
+        },
+
+        satElems: null,
+
+        noneChecked: function (sats) {
+            for (var i = 0, n = sats.length; i < n; i++) {
+                if (sats[i].checked) {
+                    return false;
+                }
+            }
+            return true;
+        },
+
+        submit_type: null,
+
+        validateForm: function (formElement) {
+            var sats = document.forms["myform"]["sats[]"];
+            var w = document.forms["myform"]["query_start_date"].value;
+            var x = document.forms["myform"]["query_start_time"].value;
+            var y = document.forms["myform"]["query_end_date"].value;
+            var z = document.forms["myform"]["query_end_time"].value;
+            if (submit_type == "Get Over Passes") {
+                var latitude = document.forms["myform"]["latitude"].value;
+                var longitude = document.forms["myform"]["longitude"].value;
+                if (noneChecked(sats) || latitude == null || latitude == "" || longitude == null || longitude == "") {
+                    alert("You must select the Satellite(s) and coordinates or polygon area for this query");
+                    return false;
+                }
+            } else if (submit_type == "Show Orbits") {
+                if (noneChecked(sats)) {
+                    alert("You must select the Satellite(s) for this query");
+                    return false;
+                }
+            } else if (submit_type == "Delete Satellites") {
+                alert("You must create an account or login in order to edit Satellite list")
+                return false;
+            } else if (submit_type == "Update TLE's") {
+                alert("You must create an account or login in order to edit Satellite list")
+                return false;
+            } else if (submit_type == "Add Satellite") {
+                alert("You must create an account or login in order to edit Satellite list")
+                return false;
+            }
+            if (w == null || w == "" || x == null || x == "" || y == null || y == "" || z == null || z == "") {
+                setDateRateForNext24Hours();
+            }
+            return true;
         }
     };
 })(window);

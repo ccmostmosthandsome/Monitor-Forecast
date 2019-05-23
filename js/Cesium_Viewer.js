@@ -1,9 +1,26 @@
-/**
- * Created by lenovo on 2018/3/28.
- */
 // let layerIndex = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19'];
 // let tilingScheme = new Cesium.GeographicTilingScheme();
 // let proxy= "http://192.168.42.50:8989/ProxyServlet/proxyHandler?url=";
+// (function (global) {
+//     window.cesiumWin = {
+//         viewer: new Cesium.Map('cesiumContainer'),
+//         init: function () {
+//             layer = new Cesium.UrlTemplateImageryProvider({url: "http://mt1.google.cn/vt/lyrs=s&hl=zh-CN&x={x}&y={y}&z={z}&s=Gali"});
+//             viewer.imageryLayers.addImageryProvider(layer);
+//
+//             //定位到中国
+//             viewer.camera.flyTo({
+//                 destination: Cesium.Cartesian3.fromDegrees(116.911, 29.21, 20000000),
+//                 orientation: {
+//                     heading: Cesium.Math.toRadians(0),
+//                     pitch: Cesium.Math.toRadians(-90),
+//                     roll: Cesium.Math.toRadians(0)
+//                 }
+//             });
+//         }
+//     }
+// })();
+
 
 var viewer = new Cesium.Map('cesiumContainer');
 var layer;
@@ -11,7 +28,7 @@ var layer;
 var rectangles;
 var primitive_t;
 var primitive_f;
-var points = [];
+
 var scene = viewer.scene;
 
 
@@ -413,49 +430,80 @@ function location1() {
     // });
 }
 
-var datasource = new Array();
-for (var i = 0; i < 4; i++) {
+// let defaultImages = [];
+// defaultImages.push(new Cesium.SingleTileImageryProvider({
+//     url: './assets/rain/ran.png',
+//     rectangle: Cesium.Rectangle.fromDegrees(116.869440415, 29.1936691799, 116.948543516, 29.2698772714)
+// }))
+
+let datasource = [];
+let i;
+for (i = 0; i < 6; i++) {
     datasource[i] = new Cesium.GeoJsonDataSource();
 }
-datasource[0].load('http://202.114.118.61:8099/ERPlatform_proxy/Proxy?url=http://geos.whu.edu.cn/tms/bintian/json/503.geojson', {
+datasource[0].load('./assets/geojson/beforeWater.geojson', {
     stroke: Cesium.Color.BLACK,
     fill: Cesium.Color.BLUE.withAlpha(0.6),
     strokeWidth: 3
 });
-datasource[1].load('http://202.114.118.61:8099/ERPlatform_proxy/Proxy?url=http://geos.whu.edu.cn/tms/bintian/json/622.geojson', {
+datasource[1].load('./assets/geojson/afterWater.geojson', {
     stroke: Cesium.Color.BLACK,
-    fill: Cesium.Color.YELLOW.withAlpha(0.6),
+    fill: Cesium.Color.DARKORANGE.withAlpha(0.6),
     strokeWidth: 3
 });
-datasource[2].load('http://202.114.118.61:8099/ERPlatform_proxy/Proxy?url=http://geos.whu.edu.cn/tms/bintian/json/difference.geojson', {
+datasource[2].load('./assets/geojson/floodDif.geojson', {
     stroke: Cesium.Color.BLACK,
     fill: Cesium.Color.RED.withAlpha(0.4),
     strokeWidth: 3
 });
-datasource[3].load('http://202.114.118.61:8099/ERPlatform_proxy/Proxy?url=http://geos.whu.edu.cn/tms/bintian/json/nongtian.geojson', {
-    stroke: Cesium.Color.HOTPINK,
-    fill: Cesium.Color.PINK.withAlpha(0.6),
-    strokeWidth: 3
+datasource[3].load('./assets/geojson/LX_G.json', {
+    stroke: Cesium.Color.BLUE,
+    fill: Cesium.Color.BLUE.withAlpha(0.6),
+    strokeWidth: 1
 });
+datasource[4].load('./assets/geojson/LX_S.json', {
+    stroke: Cesium.Color(255, 204, 102, 1),
+    fill: Cesium.Color.YELLOW.withAlpha(0.6),
+    strokeWidth: 1
+});
+datasource[5].load('./assets/geojson/Road_Z.json', {
+    stroke: Cesium.Color.GREEN,
+    fill: Cesium.Color.RED.withAlpha(0.4),
+    strokeWidth: 1
+});
+viewer.dataSources.add(datasource[3]);
+viewer.dataSources.add(datasource[4]);
+viewer.dataSources.add(datasource[5]);
+
 
 var imageprovider = new Array();
 var imagelayerpic = new Array();
-for (var i = 0; i < 2; i++) {
+for (i = 0; i < 3; i++) {
     imageprovider[i] = new Cesium.SingleTileImageryProvider();
 }
 imageprovider[0] = new Cesium.SingleTileImageryProvider({
-    url: 'http://202.114.118.61:8099/ERPlatform_proxy/Proxy?url=http://geos.whu.edu.cn/tms/bintian/json/503_1.png',
-    rectangle: Cesium.Rectangle.fromDegrees(116.869440415, 29.1936691799, 116.948543516, 29.2698772714)
+    url: './assets/flood/beforeWater.png',
+    rectangle: Cesium.Rectangle.fromDegrees(108.91, 18.85, 109.10, 19.05)
 });
 imageprovider[1] = new Cesium.SingleTileImageryProvider({
-    url: 'http://202.114.118.61:8099/ERPlatform_proxy/Proxy?url=http://geos.whu.edu.cn/tms/bintian/json/622_1.png',
-    rectangle: Cesium.Rectangle.fromDegrees(116.869064939, 29.1940659558, 116.946987028, 29.2702316496)
+    url: './assets/flood/afterWater.png',
+    rectangle: Cesium.Rectangle.fromDegrees(108.91, 18.85, 109.10, 19.05)
 });
+imageprovider[2] = new Cesium.SingleTileImageryProvider({
+    url: './assets/rain/rain.png',
+    rectangle: Cesium.Rectangle.fromDegrees(108.58251, 18.14273, 111.06905, 20.17357)
+    // rectangle: Cesium.Rectangle.fromDegrees(116.869064939, 29.1940659558, 116.946987028, 29.2702316496)
+    // rectangle: Cesium.Rectangle.fromDegrees(108.586089104, 18.1491993701, 111.273481604, 20.1674519701)
+
+});
+
+
 var imageryLayer = new Array();
 
 function claar1() {
-    viewer.imageryLayers.remove(imagelayerpic[1]);
     viewer.imageryLayers.remove(imagelayerpic[0]);
+    viewer.imageryLayers.remove(imagelayerpic[1]);
+    viewer.imageryLayers.remove(imagelayerpic[2]);
     viewer.dataSources.remove(datasource[0]);
     viewer.dataSources.remove(datasource[1]);
     viewer.dataSources.remove(datasource[2]);
@@ -473,7 +521,7 @@ function beforetiff() {
 //加载灾前水体影像
 function loadBefWatTif() {
     claar1();
-    imagelayerpic[1] = viewer.imageryLayers.addImageryProvider(imageprovider[1]);
+    imagelayerpic[0] = viewer.imageryLayers.addImageryProvider(imageprovider[0]);
 }
 
 //加载灾后水体影像
@@ -501,8 +549,31 @@ function loadScoExt() {
     viewer.dataSources.add(datasource[2]);
 };
 
+//预测台风路径图
+function loadBefTyp() {
+    claar1();
+    viewer.dataSources.add(datasource[0]);
+};
+
+//实际台风路径图
+function loadAftTyp() {
+    claar1();
+    viewer.dataSources.add(datasource[0]);
+};
+
+//降雨分布图
+function loadRain() {
+    claar1();
+    imagelayerpic[2] = viewer.imageryLayers.addImageryProvider(imageprovider[2]);
+};
+
 //加载洪涝灾害评估报告
 function loadWatAss() {
+
+}
+
+// 遥感监测评估报告
+function loadAssRep() {
 
 }
 

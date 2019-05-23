@@ -26,6 +26,7 @@
         menu_pre_house_data: '灾前房屋数据',
         menu_pos_house_data: '灾后房屋数据',
         menu_pre_road: '主干道路分布',
+        menu_pre_railway:'铁路分布',
         menu_pos_road: '受影响道路分布',
         menu_des_road: '道路损毁数据',
         menu_pre_wat_tif:'灾前影像',

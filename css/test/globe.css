@@ -1,0 +1,407 @@
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none
+}
+
+.cameraWindow{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 40%;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+.globeWindow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+.initWindow{
+    position: absolute;
+    width: 88%;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+.sysWindow {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+.panoramaWindow {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 480px;
+    height: 320px;
+}
+
+
+.videoWindow {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 480px;
+    height: 320px;
+}
+
+
+.loadingIndicator {
+    display: block;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(images/ajax-loader.gif);
+    z-index: 1000;
+}
+
+#controllerBt {
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    left: 38px;
+    top: 8px;
+    background-image: url(images/toolbox.png);
+    background-position: center 25%;
+    background-repeat: no-repeat;
+    background-color: #303336;
+    border: none;
+    border-radius: 4px;
+}
+
+.controllerbox {
+    width: 300px;
+    height: 80%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: absolute;
+    left: 10px;
+    top: 44px;
+    background: rgba(38, 38, 38, 0.75);
+    border-radius: 10px;
+    visibility: hidden;
+    transform-origin: 38px 0;
+    transform: scale(0.01);
+    transition: visibility 0s 0.25s, transform 0.25s ease-in;
+}
+
+.controllerbox-visible {
+    visibility: visible;
+    transform: scale(1);
+    transition: transform 0.5s ease-out;
+}
+
+.controlSelect {
+    width: 100%;
+    height: 50%;
+    background: rgba(0, 0, 0, 0.1);
+
+}
+
+.apibox {
+    width: 100%;
+    height: 30%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border-top: 2px solid rgba(128, 128, 128, 0.5);
+
+}
+
+.apiresult {
+    width: 100%;
+    height: 20%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border-top: 2px solid rgba(128, 128, 128, 0.5);
+    background: rgba(128, 128, 128, 0.4);
+}
+
+.apiresultarea {
+    color: #fff;
+    width: 100%;
+    height: 90%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    color: #fff;
+
+}
+
+#control {
+    width: 100%;
+    height: 50%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#log {
+    width: 100%;
+    height: 50%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.ctrBt {
+    margin: 5px;
+    padding: 0px;
+    width: 80px;
+    height: 24px;
+}
+
+.controllerSet {
+    visibility: hidden;
+}
+
+.title {
+    position: absolute;
+    width: 100%;
+    height: 48px;
+    left: 0px;
+    top: 0px;
+    font-size: 24px;
+    color: #fff;
+    padding-left: 18px;
+    padding-top: 4px;
+    background: #303336;
+
+}
+
+.logo {
+    width: 36px;
+    height: 36px;
+    background-image: url('images/logo.png');
+    background-size: 36px;
+    float: left;
+}
+
+.title-text {
+    padding-top: 4px;
+    padding-left: 8px;
+    float: left;
+    font-family: 微软雅黑;
+}
+
+.menu {
+    position: absolute;
+    width: 500px;
+    height: 80px;
+
+    /*
+    bottom: 20px;
+    left: 50%;
+    */
+
+    /*-- 吉奥大屏--*/
+    bottom: 280px;
+    left: 50%;
+
+    margin-left: -200px;
+
+}
+
+.menu-item {
+    width: 70px;
+    height: 70px;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 12px;
+    opacity: 0.9;
+    background-color: rgba(33, 34, 35, 0.7);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 48px;
+    margin-left: 20px;
+    margin-right: 20px;
+
+}
+
+.menu-item:HOVER {
+    background-color: #48b;
+    border-color: #aef;
+    box-shadow: 0px 0px 8px #fff;
+    opacity: 1;
+}
+
+.menu-item-1 {
+    background-image: url('images/menu/menu-item-1.png');
+}
+
+.menu-item-2 {
+    background-image: url('images/menu/menu-item-2.png');
+}
+
+.menu-item-3 {
+    background-image: url('images/menu/menu-item-3.png');
+}
+
+.menu-item-4 {
+    background-image: url('images/menu/menu-item-4.png');
+}
+
+.menu-item-5 {
+    background-image: url('images/menu/menu-item-5.png');
+}
+
+
+.infobox {
+    background-color: rgba(40, 40, 40, 0.7);
+    padding: 4px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    font: bold 12px sans-serif;
+    position: absolute;
+    bottom: 4px;
+    left: 0px;
+    text-align: center;
+}
+
+.layerTreePanel {
+    position: absolute;
+    right: 30px;
+    top: 20%;
+    width: 308px;
+    height: 200px;
+    /*    background-image: url('images/layerTree.jpg');*/
+
+}
+
+.treePanel {
+    position: absolute;
+    width: 26px;
+    height: 80px;
+    right: 0px;
+    top: 20%;
+    background: url('images/toolbar/hide.png');
+    cursor: pointer;
+}
+
+.desktop-map {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    z-index: 0;
+}
+
+.maps-container {
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+    z-index: 0;
+}
+
+.emap-container {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    z-index: 0;
+}
+
+.emap-iframe {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    z-index: 0;
+    frameborder: 0;
+    border: 0;
+    marginwidth: 0;
+    marginheight: 0
+}
+
+.mmsmap-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    overflow: hidden;
+    margin: 0;
+    z-index: 0;
+    transition: height 0.5s;
+    transition-timing-function: linear;
+    display: none
+}
+
+.mmsmap-iframe {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    z-index: 0;
+    frameborder: 0;
+    border: 0;
+    marginwidth: 0;
+    marginheight: 0
+}
+
+.globemap-container {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    z-index: 0;
+}
+
+.globemap-iframe {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    z-index: 0;
+    frameborder: 0;
+    border: 0;
+    marginwidth: 0;
+    marginheight: 0
+}

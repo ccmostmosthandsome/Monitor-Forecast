@@ -3,177 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="plugins/bootstrap-4.0.0-dist/css/bootstrap.css">
+    <!--<link rel="stylesheet" href="plugins/bootstrap-4.0.0-dist/css/bootstrap.css">-->
+    <!--<link rel="stylesheet" href="css/test/globe.css">-->
     <script src="./plugins/jquery/jquery-3.1.1.min.js"></script>
-    <script src="./plugins/bootstrap-4.0.0-dist/js/bootstrap.js"></script>
+    <!--<script src="./plugins/bootstrap-4.0.0-dist/js/bootstrap.js"></script>-->
 </head>
 <body>
-<div class="panel-group" id="accordion">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion"
-                   href="#collapseOne">
-                    经济基础
-                </a>
-            </h4>
-        </div>
-        <div id="collapseOne" class="panel-collapse collapse in">
-            <!--<div class="panel-body">-->
-            <!--Nihil anim keffiyeh helvetica, craft beer labore wes anderson-->
-            <!--cred nesciunt sapiente ea proident. Ad vegan excepteur butcher-->
-            <!--vice lomo.-->-+
-            <!--</div>-->
-            <!--<div class="panel-body">-->
-            <!--Nihil anim keffiyeh helvetica, craft beer labore wes anderson-->
-            <!--cred nesciunt sapiente ea proident. Ad vegan excepteur butcher-->
-            <!--vice lomo.-->
-            <!--</div>-->
-            <div class="panel-body smart-hb-box">
-            </div>
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion"
-                   href="#collapseTwo">
-                    经济情况
-                </a>
-            </h4>
-        </div>
-        <div id="collapseTwo" class="panel-collapse collapse">
-            <div class="panel-body">
-                Nihil anim keffiyeh helvetica, craft beer labore wes anderson
-                cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
-                vice lomo.
-            </div>
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h1 class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                <!--<a data-toggle="collapse" data-parent="#accordion"-->
-                <!--href="#collapseThree">-->
-                伤亡人数
-                <!--</a>-->
-            </h1>
-        </div>
-        <div id="collapseThree" class="panel-collapse collapse">
-            <div class="panel-body">
-                Nihil anim keffiyeh helvetica, craft beer labore wes anderson
-                cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
-                vice lomo.
-            </div>
-        </div>
-    </div>
+<input type="text" id="knowledgeText" name="knowledgeText" class="form-control" value=""
+       onclick="$('#hideDiv').show()" placeholder="分类名称"/>
+<div id="hideDiv" style="display: none;">
+    <div id="knowledgeTree"></div>
+    <button class="btn btn-danger" type="button" onclick="hideDIV()">
+        <span class="glyphicon glyphicon-eye-open"></span> 确定
+    </button>
 </div>
-<table>
-    <!--<colgroup span="4"></colgroup>-->
-    <tr>
-        <th>编号</th>
-        <th>中文名</th>
-        <th>英文名</th>
-    </tr>
-    <tr>
-        <td>201829</td>
-        <td>天兔</td>
-        <td>Usagi</td>
-    </tr>
-    <tr>
-        <td>201828</td>
-        <td>万宜</td>
-        <td>Man-yi</td>
-    </tr>
-    <tr>
-        <td>201827</td>
-        <td>桃芝</td>
-        <td>Toraji</td>
-    </tr>
-    <tr>
-        <td>201826</td>
-        <td>玉兔</td>
-        <td>Yutu</td>
-    </tr>
-    <tr>
-        <td>201825</td>
-        <td>康妮</td>
-        <td>Kong-rey</td>
-    </tr>
-    <tr>
-        <td>201824</td>
-        <td>潭美</td>
-        <td>Trami</td>
-    </tr>
-    <tr>
-        <td>201823</td>
-        <td>百里嘉</td>
-        <td>Barijat</td>
-    </tr>
-    <tr>
-        <td>201822</td>
-        <td>山竹</td>
-        <td>Mangkhut</td>
-    </tr>
 
-
-
-    <!--201821	飞燕	Jebi-->
-    <!--201820	西马仑	Cimaron-->
-    <!--201819	苏力	Soulik-->
-    <!--201818	温比亚	Rumbia-->
-    <!--201817	赫克托	Hector-->
-    <!--201816	贝碧嘉	Bebinca-->
-    <!--201815	丽琵	Leepi-->
-    <!--201814	摩羯	Yagi-->
-    <!--201813	珊珊	Shanshan-->
-    <!--201812	云雀	Jongdari-->
-    <!--201811	悟空	Wukong-->
-    <!--201810	安比	Ampil-->
-    <!--201809	山神	Son-Tinh-->
-    <!--201808	玛莉亚	Maria-->
-    <!--201807	派比安	Prapiroon-->
-    <!--201806	格美	Gaemi-->
-    <!--201805	马力斯	Maliksi-->
-    <!--201804	艾云尼	Ewiniar-->
-    <!--201803	杰拉华	Jelawat-->
-    <!--201802	三巴	Sanba-->
-    <!--201801	布拉万	Bolaven-->
-</table>
 </body>
-<style>
-    /*智慧环保*/
-    .panel-body {
-        /*position: absolute;*/
-        background: url("./img/test/smart-ggaq-box1.png") no-repeat;
-        width: 656px;
-        height: 276px;
-        padding-left: 30px;
-        margin-left: 5px;
-        z-index: 8999;
+<script type="text/javascript">
+    $(function () {
+        getTree('1');
+    })
+
+    function buildTree(parentNode, datas
+    ) {
+        for (var key in datas) {
+            var data = datas[key];
+            if (data.parentid == parentNode.id) {
+                var node = {text: data.knowledgeText, id: data.id, nodes: [], selectable: true};
+                parentNode.nodes.push(node);
+                buildTree(node, datas);
+            }
+        }
+
+        if (parentNode.nodes.length == 0) {
+            delete parentNode.nodes;
+        }
     }
 
-    .panel-heading {
-        background: url("./img/test/smart-ggaq-box1.jpg") no-repeat;
-        padding-left: 40px;
-        padding-top: 5px;
-        padding-bottom: 5px;
-        margin-left: 5px;
+    function getTree(strid) {
+        var params = {};
+        params.id = 'a696ee80-5b26-4a99-b013-ba22bec4d3bb';
+        $.ajax({
+            url: "/knowledge/getTree", // 请求的URL
+            dataType: 'json',
+            type: "get",
+            data: params,
+            success: function (data) {
+                var tree = {text: '复读语文', id: 'a696ee80-5b26-4a99-b013-ba22bec4d3bb', nodes: []};
+                buildTree(tree, data.data);
+                $('#knowledgeTree').treeview({
+                    color: "#428bca",
+                    data: [tree],
+                    showCheckbox: true,
+                    multiSelect: true,
+                    onNodeChecked: function (event, data) {
+                        console.log('dddd', data);
+                        var str = $("#knowledgeText").val();
+                        console.log('1', data.knowledgeText);
+                        if (str.length > 0) {
+                            $("#knowledgeText").val(str + data.text + ',');
+                        } else {
+                            $("#knowledgeText").val(data.text + ',');
+                        }
+                        console.log('2', str);
+                    },
+                    onNodeUnchecked: function (event, data) {
+                        var str = $("#knowledgeText").val();
+                        $("#knowledgeText").val(str.replace(data.text + ",", ""));
+//                        console.log('content', str.substring(0, str.indexOf(data.text)));
+                        console.log('content', str.replace(data.text + ",", ""));
+                    }
+                });
+
+
+            }
+        });
     }
 
-    table tr td ,table tr th{
-        border: 1px solid;
-        border-color: #FF0000;
-        /*border: 5px solid;*/
-        border-collapse: collapse;
+    function hideDIV() {
+
+//        $("#knowledgeText").val(mdata.text);
+        $("#hideDiv").hide();
     }
-    table{
-        overflow-y: scroll;
-        height: 200px;
-        display: block;
-    }
-    tr{
-        height: 50px    ;
-    }
-</style>
+</script>
 </html>
