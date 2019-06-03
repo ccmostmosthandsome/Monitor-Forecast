@@ -5,15 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
     <title></title>
-    <!--<link rel="stylesheet" href="plugins/bootstrap-4.3.1-dist/css/bootstrap.min.css">-->
-    <!--<link rel="stylesheet" href="plugins/bulma-0.7.4/css/bulma.min.css">-->
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/animate.css">
     <link rel="stylesheet" href="css/pstyle.css">
     <link rel="stylesheet" href="plugins/Cesium/Widgets/widgets.css">
+    <link rel="stylesheet" href="plugins/ztree/css/zTreeStyle/zTreeStyle.css">
 
-
-    <!--<script src="plugins/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>-->
     <script type="text/javascript" src="plugins/Cesium/Cesium.js"></script>
     <script type="text/javascript" src="plugins/Cesium/Cesium_ext_min.js"></script>
     <script type="text/javascript" src="js/lang.js"></script>
@@ -78,7 +75,6 @@
 </head>
 <body>
 
-
 <!--Cesium-->
 <!--zhangxq-->
 <!--<div id="cesiumContainer" class="globeWindow"></div>-->
@@ -86,21 +82,9 @@
 <div id="cesiumContainer" class="fullSize"></div>
 <!--windows float on cesium viewer-->
 <div id="floatWindow">
-
-    <!--react component-->
-    <!--<div id="like_button_container"></div>-->
-    <!--<div id="rc_menu"></div>-->
-
-
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown button
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-        </div>
+    <!--TreeMenu-->
+    <div class="zTreeBackground">
+<!--        <ul id="treeDemo" class="ztree zTreeContent"></ul>-->
     </div>
 
     <!--logo-->
@@ -143,14 +127,6 @@
             </div>
         </div>
     </div>
-    <!--KPI指标项-->
-    <ul class="mkpi-box" style="display: none">
-        <li><span>2010·4·14</span><label>${zhxq_szrk}</label></li>
-        <li><span id="jjtime"></span><label>${zhxq_szmj}</label></li>
-        <li><span>14833</span><label>${zhxq_yjss}</label></li>
-    </ul>
-
-
 
     <!--一级下拉菜单-->
     <ul class="menue-box">
@@ -164,13 +140,13 @@
     </ul>
     <!--二级下拉菜单-->
     <ul id="data0" class="mtab-box" style="left: 670px;display: none;">
-        <li onclick="loadBefTyp()">${menu_pre_typh_data}</li>
-        <li onclick="loadAftTyp()">${menu_pos_typh_data}</li>
+<!--        <li onclick="loadBefTyp()">${menu_pre_typh_data}</li>-->
+        <li onclick="mainMap.loadTyphoonLayer()">${menu_pos_typh_data}</li>
         <li onclick="mainMap.loadImageLayer('rainRange')">${menu_rain}</li>
     </ul>
     <ul id="data1" class="mtab-box" style="left: 850px;display: none;">
         <li onclick="mainMap.loadPreRoad()">${menu_pre_road}</li>
-        <li onclick="mainMap.loadPreRailway()">${menu_pre_railway}</li>
+<!--        <li onclick="mainMap.loadPreRailway()">${menu_pre_railway}</li>-->
         <li onclick="mainMap.loadPosRoad()">${menu_pos_road}</li>
         <!--<li><span><a href="./.pdf" target="_blank"-->
         <!--style="text-decoration: none;color:#ffffff;">${menu_flood_ass}</a></span></li>-->
@@ -191,18 +167,6 @@
         <!--<li><span><a href="assets/assess.pdf" target="_blank" style="text-decoration: none;color:#ffffff;">${menu_flood_ass}</a></span>-->
         <!--</li>-->
     </ul>
-
-
-    <!--TreeMenu-->
-    <div style="padding:10px;">
-        <div class="treeMenu">
-            <div style="margin-bottom:5px;"><a class="button" href="javascript:void(0);" id="showchecked">获取选定的节点</a> <a
-                    class="button" href="javascript:void(0);" id="showcurrent">获取当前节点</a></div>
-            <div style="border-bottom: #c3daf9 1px solid; border-left: #c3daf9 1px solid; width: 250px; height: 500px; overflow: auto; border-top: #c3daf9 1px solid; border-right: #c3daf9 1px solid;">
-                <div id="imageTree"></div>
-            </div>
-        </div>
-    </div>
 
     <!--卫星概况-->
     <div class="smart-cg-box">
@@ -426,170 +390,14 @@
         <div class="kpi-title">
             <div class="kpi-title-cn">${history_data}</div>
             <div class="kpi-title-en">
-                <div class="kpi-title-en1">Historical</div>
+                <div class="kpi-title-en1">Layer</div>
                 <div class="kpi-title-en2">Data</div>
             </div>
         </div>
         <div class="kpi-box">
             <!--typhoon detail-->
             <div class="ggaq-title">
-                <!--typhoons-->
-                <table style="table-layout:fixed">
-                    <!--<colgroup span="4"></colgroup>-->
-                    <tr>
-                        <th width="100px">编号</th>
-                        <th width="100px">中文名</th>
-                        <th width="100px">英文名</th>
-                    </tr>
-                    <tr>
-                        <td>201829</td>
-                        <td>天兔</td>
-                        <td>Usagi</td>
-                    </tr>
-                    <tr>
-                        <td>201828</td>
-                        <td>万宜</td>
-                        <td>Man-yi</td>
-                    </tr>
-                    <tr>
-                        <td>201827</td>
-                        <td>桃芝</td>
-                        <td>Toraji</td>
-                    </tr>
-                    <tr>
-                        <td>201826</td>
-                        <td>玉兔</td>
-                        <td>Yutu</td>
-                    </tr>
-                    <tr>
-                        <td>201825</td>
-                        <td>康妮</td>
-                        <td>Kong-rey</td>
-                    </tr>
-                    <tr>
-                        <td>201824</td>
-                        <td>潭美</td>
-                        <td>Trami</td>
-                    </tr>
-                    <tr>
-                        <td>201823</td>
-                        <td>百里嘉</td>
-                        <td>Barijat</td>
-                    </tr>
-                    <tr>
-                        <td>201822</td>
-                        <td>山竹</td>
-                        <td>Mangkhut</td>
-                    </tr>
-                    <tr>
-                        <td>201821</td>
-                        <td>飞燕</td>
-                        <td>Jebi</td>
-                    </tr>
-                    <tr>
-                        <td>201820</td>
-                        <td>西马仑</td>
-                        <td>Cimaron</td>
-                    </tr>
-                    <tr>
-                        <td>201819</td>
-                        <td>苏力</td>
-                        <td>Soulik</td>
-                    </tr>
-                    <tr>
-                        <td>201818</td>
-                        <td>温比亚</td>
-                        <td>Rumbia</td>
-                    </tr>
-                    <tr>
-                        <td>201817</td>
-                        <td>赫克托</td>
-                        <td>Hector</td>
-                    </tr>
-
-
-                    <!---->
-                    <!---->
-                    <!---->
-                    <!---->
-                    <!---->
-                    <!--201816	贝碧嘉	Bebinca-->
-                    <!--201815	丽琵	Leepi-->
-                    <!--201814	摩羯	Yagi-->
-                    <!--201813	珊珊	Shanshan-->
-                    <!--201812	云雀	Jongdari-->
-                    <!--201811	悟空	Wukong-->
-                    <!--201810	安比	Ampil-->
-                    <!--201809	山神	Son-Tinh-->
-                    <!--201808	玛莉亚	Maria-->
-                    <!--201807	派比安	Prapiroon-->
-                    <!--201806	格美	Gaemi-->
-                    <!--201805	马力斯	Maliksi-->
-                    <!--201804	艾云尼	Ewiniar-->
-                    <!--201803	杰拉华	Jelawat-->
-                    <!--201802	三巴	Sanba-->
-                    <!--201801	布拉万	Bolaven-->
-                </table>
-
-                <!--detail of typhoon-->
-                <table style="margin-top: 40px;height: 240px;">
-                    <tr>
-                        <th>时间</th>
-                        <th>中心位置</th>
-                        <th>最大风速</th>
-                        <th>最低气压</th>
-                    </tr>
-                    <tr>
-                        <td>11-26 02:00</td>
-                        <td>105.8°E|11°N</td>
-                        <td>16</td>
-                        <td>1002</td>
-                    </tr>
-                    <tr>
-                        <td>11-25</td>
-                        <td>23:00 106°E|10.9°N</td>
-                        <td>16</td>
-                        <td>1002</td>
-                    </tr>
-                    <tr>
-                        <td>11-25 20:00</td>
-                        <td>106.2°E|10.8°N</td>
-                        <td>18</td>
-                        <td>1000</td>
-                    </tr>
-                    <tr>
-                        <td>11-25 17:00</td>
-                        <td>106.5°E|10.4°N</td>
-                        <td>20</td>
-                        <td>995</td>
-                    </tr>
-                    <tr>
-                        <td>11-25 14:00</td>
-                        <td>106.7°E|10.3°N</td>
-                        <td>25</td>
-                        <td>988</td>
-                    </tr>
-                    <tr>
-                        <td>11-25 11:00</td>
-                        <td>107°E|10.3°N</td>
-                        <td>25</td>
-                        <td>988</td>
-                    </tr>
-                    <tr>
-                        <td>11-25 08:00</td>
-                        <td>107.3°E|10°N</td>
-                        <td>30</td>
-                        <td>985</td>
-                    </tr>
-                    <tr>
-                        <td>11-25 05:00</td>
-                        <td>107.5°E|9.9°N</td>
-                        <td>30</td>
-                        <td>985</td>
-                    </tr>
-
-
-                </table>
+                <ul id="layerTree" class="ztree"></ul>
             </div>
         </div>
     </div>
@@ -1131,8 +939,6 @@
     </div>
 </div>
 
-<script src="plugins/react/react.development.js"></script>
-<script src="plugins/react/react-dom.development.js"></script>
 
 </body>
 <!--加载Js脚本文件-->
@@ -1153,22 +959,15 @@
 <script src="plugins/echart/echarts.min.js"></script>
 <script src="js/jquery.dataStatistics.js"></script>
 <script src="js/countUp.min.js"></script>
-<script src="plugins/react/react.development.js"></script>
-<script src="plugins/react/react-dom.development.js"></script>
+<script src="plugins/ztree/js/jquery.ztree.core.js"></script>
+<script src="plugins/ztree/js/jquery.ztree.excheck.js"></script>
+
 <!--业务-->
-<!--<script src="plugins/library/globe/GlobeEx/api/initGlobe.js"></script>-->
-<!--<script src="js/component/like_button.js"></script>-->
 <script src="js/data.js"></script>
 <script src="js/wuhan.min.js"></script>
 <script src="js/fire.js"></script>
 <script src="js/emergency.js"></script>
-<!--<script src="js/Cesium_Viewer.js"></script>-->
 <script src="js/cesiumTool/CesiumViewer.js"></script>
-<!--<script src="js/satellite.js"></script>-->
-<!--<script src="js/component/orbitals_box.js"></script>-->
-<script src="js/component/TreeMenu/js/jquery.tree.js"></script>
-<script src="js/component/TreeMenu/js/tree1.js"></script>
-<script src="js/cesiumTool/TreeMenu.js"></script>
 <script src="js/index.js"></script>
 
 </html>

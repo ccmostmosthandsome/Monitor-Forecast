@@ -78,12 +78,13 @@ html, body, #cesiumContainer {
 .logo {
     position: absolute;
     background: url("../img/logo-geostar.png") no-repeat;
-    width: 1643px;
+    width: 80%;
     height: 128px;
     left: 25px;
     top: 4px;
     z-index: 8999;
     cursor: pointer;
+    zoom: 0.8;
 }
 
 /*页面标题*/
@@ -92,6 +93,7 @@ html, body, #cesiumContainer {
     z-index: 8999;
     top: 40px;
     left: 260px;
+    zoom: 0.8;
 }
 
 .disaster-title-en {
@@ -115,6 +117,7 @@ html, body, #cesiumContainer {
     right: 40px;
     top: 10px;
     z-index: 8999;
+    zoom: 0.8;
 }
 
 .weatherbox > .weather-prlt-box {
@@ -247,7 +250,8 @@ ul.mtab-box {
     left: 680px;
     top: 170px;
     width: 180px;
-    height: auto
+    height: auto;
+    zoom: 0.8;
 }
 
 ul.mtab-box > li {
@@ -296,51 +300,6 @@ ul.mtab-box > li[xtype='tf'].selected {
     background-image: url("../img/tab-m-select-tf.png")
 }
 
-/*总览指标*/
-ul.mkpi-box {
-    position: absolute;
-    float: left;
-    display: block;
-    height: 87px;
-    right: 254px;
-    top: 102px;
-    z-index: 8999;
-}
-
-ul.mkpi-box > li {
-    float: left;
-    background: url("../img/kpi-box-1.png") no-repeat;
-    width: 129px;
-    height: 87px;
-    list-style: none;
-    margin-right: 20px;
-}
-
-ul.mkpi-box > li > span {
-    float: left;
-    display: block;
-    width: 100%;
-    height: 62px;
-    font-family: AgencyFBBold;
-    font-size: 30px;
-    text-align: center;
-    color: #ff4040;
-    letter-spacing: 1px;
-    line-height: 62px;
-}
-
-ul.mkpi-box > li > label {
-    float: left;
-    display: block;
-    width: 100%;
-    height: 21px;
-    margin-top: 4px;
-    font-size: 16px;
-    font-family: "microsoft yahei";
-    text-align: center;
-    line-height: 21px;
-    color: #feffff;
-}
 
 /*下拉菜单样式*/
 ul.menue-box {
@@ -351,6 +310,7 @@ ul.menue-box {
     left: 354px;
     top: 102px;
     z-index: 8999;
+    zoom: 0.8;
 }
 
 ul.menue-box > li:first-child {
@@ -471,6 +431,7 @@ ul.menue-box > li > span {
     top: 132px;
     left: 15px;
     z-index: 8999;
+    zoom: 0.8;
 }
 
 /*内框*/
@@ -730,12 +691,13 @@ ul.cg-analyse > li > .cg-anal-right > .cg-anal-hb {
 /*公共安全*/
 .smart-ggaq-box {
     position: absolute;
-    background: url("../img/smart-ggaq-box.png") no-repeat;
+    background: url("../img/smart-ggaq-box-none.png") no-repeat;
     width: 369px;
     height: 630px;
-    bottom: 9px;
+    top: 440px;
     left: 8px;
     z-index: 8999;
+    zoom: 0.8;
 }
 
 .smart-ggaq-box > .kpi-title {
@@ -751,6 +713,7 @@ ul.cg-analyse > li > .cg-anal-right > .cg-anal-hb {
     position: relative;
     width: 100%;
     height: 560px;
+    overflow: auto;
     /*font-family: "microsoft yahei";*/
 }
 
@@ -2906,9 +2869,10 @@ body[lng='en-au'] ul.jt-stat > li:nth-child(4) > .jt-fkh-num {
     background: url("../img/smart-cg-box.png") no-repeat;
     width: 362px;
     height: 298px;
-    top: 200px;
+    top: 220px;
     right: 40px;
-    z-index: 8999;
+    /*z-index: 8999;*/
+    zoom: 0.8;
 }
 
 /*内框*/
@@ -2955,9 +2919,10 @@ body[lng='en-au'] ul.jt-stat > li:nth-child(4) > .jt-fkh-num {
     background: url("../img/smart-sw-box.png") no-repeat;
     width: 401px;
     height: 291px;
-    bottom: 288px;
+    top:525px;
     right: 10px;
     z-index: 8999;
+    zoom: 0.8;
 }
 
 .dis-loss-box > .kpi-title {
@@ -2976,5 +2941,4 @@ body[lng='en-au'] ul.jt-stat > li:nth-child(4) > .jt-fkh-num {
     padding-top: 10px;
     font-family: "microsoft yahei";
 }
-
 

@@ -1,89 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <!--<link rel="stylesheet" href="plugins/bootstrap-4.0.0-dist/css/bootstrap.css">-->
-    <!--<link rel="stylesheet" href="css/test/globe.css">-->
-    <script src="./plugins/jquery/jquery-3.1.1.min.js"></script>
-    <!--<script src="./plugins/bootstrap-4.0.0-dist/js/bootstrap.js"></script>-->
+    <!-- Use correct character set. -->
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="plugins/Cesium/Widgets/widgets.css">
+    <script src="plugins/Cesium/Cesium.js"></script>
+<!--    <script type="text/javascript" src="plugins/Cesium/Cesium_ext_min.js"></script>-->
+    <style>
+        /*@import url(./plugins/Cesium/Widgets/widgets.css);*/
+        html, body, #cesiumContainer {
+            width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
+        }
+    </style>
 </head>
 <body>
-<input type="text" id="knowledgeText" name="knowledgeText" class="form-control" value=""
-       onclick="$('#hideDiv').show()" placeholder="分类名称"/>
-<div id="hideDiv" style="display: none;">
-    <div id="knowledgeTree"></div>
-    <button class="btn btn-danger" type="button" onclick="hideDIV()">
-        <span class="glyphicon glyphicon-eye-open"></span> 确定
-    </button>
-</div>
+<div id="cesiumContainer" class="fullSize"></div>
+<script>
+    var viewer = new Cesium.Viewer('cesiumContainer', { infoBox : false });
+    var entities = viewer.entities;
+
+    var i;
+    var height;
+    var positions;
+    var stripeMaterial = new Cesium.StripeMaterialProperty({
+        evenColor : Cesium.Color.WHITE.withAlpha(0.5),
+        oddColor : Cesium.Color.BLUE.withAlpha(0.5),
+        repeat : 5.0
+    });
+
+    entities.add({
+        rectangle : {
+            coordinates : Cesium.Rectangle.fromDegrees(-92.0, 20.0, -86.0, 27.0),
+            outline : true,
+            outlineColor : Cesium.Color.WHITE,
+            outlineWidth : 4,
+            stRotation : Cesium.Math.toRadians(45),
+            material : stripeMaterial
+        }
+    });
+</script>
 
 </body>
-<script type="text/javascript">
-    $(function () {
-        getTree('1');
-    })
-
-    function buildTree(parentNode, datas
-    ) {
-        for (var key in datas) {
-            var data = datas[key];
-            if (data.parentid == parentNode.id) {
-                var node = {text: data.knowledgeText, id: data.id, nodes: [], selectable: true};
-                parentNode.nodes.push(node);
-                buildTree(node, datas);
-            }
-        }
-
-        if (parentNode.nodes.length == 0) {
-            delete parentNode.nodes;
-        }
-    }
-
-    function getTree(strid) {
-        var params = {};
-        params.id = 'a696ee80-5b26-4a99-b013-ba22bec4d3bb';
-        $.ajax({
-            url: "/knowledge/getTree", // 请求的URL
-            dataType: 'json',
-            type: "get",
-            data: params,
-            success: function (data) {
-                var tree = {text: '复读语文', id: 'a696ee80-5b26-4a99-b013-ba22bec4d3bb', nodes: []};
-                buildTree(tree, data.data);
-                $('#knowledgeTree').treeview({
-                    color: "#428bca",
-                    data: [tree],
-                    showCheckbox: true,
-                    multiSelect: true,
-                    onNodeChecked: function (event, data) {
-                        console.log('dddd', data);
-                        var str = $("#knowledgeText").val();
-                        console.log('1', data.knowledgeText);
-                        if (str.length > 0) {
-                            $("#knowledgeText").val(str + data.text + ',');
-                        } else {
-                            $("#knowledgeText").val(data.text + ',');
-                        }
-                        console.log('2', str);
-                    },
-                    onNodeUnchecked: function (event, data) {
-                        var str = $("#knowledgeText").val();
-                        $("#knowledgeText").val(str.replace(data.text + ",", ""));
-//                        console.log('content', str.substring(0, str.indexOf(data.text)));
-                        console.log('content', str.replace(data.text + ",", ""));
-                    }
-                });
-
-
-            }
-        });
-    }
-
-    function hideDIV() {
-
-//        $("#knowledgeText").val(mdata.text);
-        $("#hideDiv").hide();
-    }
-</script>
 </html>

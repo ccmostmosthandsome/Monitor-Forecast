@@ -1,26 +1,148 @@
 (function (global) {
     $(function () {
-        global.pfun.autoSize();
-        global.pfun.switchLng();
+        // global.pfun.autoSize();
+        // global.pfun.switchLng();
         global.pweather.loadClock();
         global.pweather.loadCurDay();
-        global.mkpi.getjjtime();
         global.pcanvas.init();
         global.zzcg.init();
         global.ggaq.init();
-        // global.zzhb.init();//smart-hb-box
-        // global.zzjt.init();//smart-jt-box
         global.zhsw.init();
         global.zhzw.init();
         global.zlwin.init();
-        // global.disastertype.init();
-        emergency.initMapSwitch();
+        global.emergency.initMapSwitch();
         global.mainMap.init();
-        global.treeMenu.init();
-        // pmap.init();
+        global.zTree.init();//图层目录树
     });
+    global.zTree = {
+        init: function () {
+            var setting = {
+                check: {
+                    enable: true
+                },
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                },
+                callback: {
+                    onClick: onClick,
+                    onCheck: onCheck,
+                }
+            };
+            var zNodes = [
+                {id: 1, pId: 0, name: "基础图层", type: 'title', open: true},
+                {id: 11, pId: 1, name: "本地影像", type: 'title', open: true},
+                {
+                    id: 111,
+                    pId: 11,
+                    name: "本地影像底图",
+                    type: 'tms',
+                    url: 'http://127.0.0.1:8080/nasa_blue_marble',
+                    // url: 'http://59.212.147.95/nasa_blue_marble',
+                    // checked: true
+                },
+                {id: 12, pId: 1, name: "海南测绘局", type: 'title', open: true},
+                {
+                    id: 126,
+                    pId: 12,
+                    name: "2018电子地图服务",
+                    type: 'tianditu',
+                    url: 'http://59.212.37.22/mapserver/vmap/WMTS/1.0/hn_bigdata_2018dt/hn_bigdata_2018dtys1'
+                },
+                {
+                    id: 127,
+                    pId: 12,
+                    name: "2018电子地图注记服务",
+                    type: 'tianditu',
+                    url: 'http://59.212.37.22/mapserver/label/WMTS/1.0/hn_bigdata_2018dt/hn_bigdata_2018dtys1'
+                },
+                {
+                    id: 121,
+                    pId: 12,
+                    name: "2015年影像服务",
+                    type: 'wmts',
+                    url: 'http://59.212.146.170:80/ime-cloud/rest/hainan_img_2015/wmts'
+                },
+                {
+                    id: 122,
+                    pId: 12,
+                    name: "2016年影像服务",
+                    type: 'wmts',
+                    url: 'http://59.212.146.170:80/ime-cloud/rest/hainan_img_2016/wmts'
+                },
+                {
+                    id: 123,
+                    pId: 12,
+                    name: "2017年影像服务",
+                    type: 'wmts',
+                    url: 'http://59.212.146.170:80/ime-cloud/rest/hainan_img_2017/wmts'
+                },
+                {
+                    id: 124,
+                    pId: 12,
+                    name: "2018年影像服务",
+                    type: 'wmts',
+                    url: 'http://59.212.146.170:80/ime-cloud/rest/hainan_img_2018/wmts'
+                },
+                {
+                    id: 125,
+                    pId: 12,
+                    name: "影像注记服务",
+                    type: 'wmts',
+                    url: 'http://59.212.146.170:80/ime-cloud/rest/hainan_img_zj/wmts'
+                },
+                {id: 3, pId: 0, name: "道路数据", type: 'title', open: true},
+                {id: 'LX_G', pId: 3, name: "国道分布", type: 'geojson',},
+                {id: 'LX_S', pId: 3, name: "省道分布", type: 'geojson',},
+                {id: 'railway', pId: 3, name: "铁路分布", type: 'geojson',},
+                {id: 'fx_ql', pId: 3, name: "桥梁分布", type: 'geojson',},
+                {id: 6, pId: 0, name: "房屋数据", type: 'title', open: true},
+                {id: 'fx_fzst', pId: 6, name: "房子水田分布", type: 'geojson',},
+                {id: 'fx_xx', pId: 6, name: "学校分布", type: 'geojson',},
+                {id: 'mz_Village', pId: 6, name: "村庄分布", type: 'geojson',},
+                {id: 5, pId: 0, name: "减灾数据", type: 'title', open: true},
+                {id: 'fx_azd', pId: 5, name: "安置点分布", type: 'geojson',},
+                {id: 'gt_bt', pId: 5, name: "地灾崩塌分布", type: 'geojson',},
+                {id: 'mz_avoidancepoint', pId: 5, name: "避难场所分布", type: 'geojson',},
+                {id: 'mz_Station', pId: 5, name: "救助站分布", type: 'geojson',},
+                {id: 4, pId: 0, name: "人口数据", type: 'title', open: true},
+                {id: 41, pId: 4, name: "人口密度分布", type: 'image',},
+            ];
+
+            function onClick() {
+
+            }
+
+            function onCheck(e, treeId, treeNode) {
+                var zTree = $.fn.zTree.getZTreeObj(treeId),
+                    nodes = zTree.getChangeCheckedNodes(true);
+                clearCheckedOldNodes(treeId);// 为了下次获取变化的节点，需要对节点的checkOld属性进行更新
+                window.mainMap.loadLayer(nodes);// 更新变化的图层
+            }
+
+            // 更改节点的checkedOld信息
+            function clearCheckedOldNodes(treeId) {
+                var zTree = $.fn.zTree.getZTreeObj(treeId),
+                    nodes = zTree.getChangeCheckedNodes();
+                for (var i = 0, l = nodes.length; i < l; i++) {
+                    nodes[i].checkedOld = nodes[i].checked;
+                }
+            }
+
+            $(document).ready(function () {
+                $.fn.zTree.init($("#layerTree"), setting, zNodes);
+                let zTree = $.fn.zTree.getZTreeObj("layerTree"),
+                    checkedNodes = zTree.getCheckedNodes(true);
+                window.mainMap.loadLayer(checkedNodes);
+            });
+        }
+    }
     global.pfun = {
-        scale: 1, originX: 0, originY: 0, autoSize: function () {
+        scale: 1,
+        originX: 0,
+        originY: 0,
+        autoSize: function () {
             var pwidth = document.documentElement.clientWidth, pheight = document.documentElement.clientHeight;
             pwidth = 1920;
             pheight = 1080;
@@ -47,34 +169,35 @@
                 global.pfun.originX = originX;
                 global.pfun.originY = originY;
             }
-        }, switchLng: function () {
+        },
+        switchLng: function () {
             $(".logo").attr("lng", language);
-            $(".logo").bind("click", function () {
-                var url = window.location.href;
-                var idx = url.indexOf('l=');
-                if (idx == -1) {
-                    if (language === 'en-au') {
-                        if (url.indexOf('?') >= 0) {
-                            url += '&l=zh-cn';
-                        } else {
-                            url += '?l=zh-cn';
-                        }
-                    } else {
-                        if (url.indexOf('?') >= 0) {
-                            url += '&l=en-au';
-                        } else {
-                            url += '?l=en-au';
-                        }
-                    }
-                } else {
-                    if (language === 'en-au') {
-                        url = url.replace('en-au', 'zh-cn');
-                    } else {
-                        url = url.replace('zh-cn', 'en-au');
-                    }
-                }
-                window.location.href = url;
-            });
+            // $(".logo").bind("click", function () {
+            //     var url = window.location.href;
+            //     var idx = url.indexOf('l=');
+            //     if (idx == -1) {
+            //         if (language === 'en-au') {
+            //             if (url.indexOf('?') >= 0) {
+            //                 url += '&l=zh-cn';
+            //             } else {
+            //                 url += '?l=zh-cn';
+            //             }
+            //         } else {
+            //             if (url.indexOf('?') >= 0) {
+            //                 url += '&l=en-au';
+            //             } else {
+            //                 url += '?l=en-au';
+            //             }
+            //         }
+            //     } else {
+            //         if (language === 'en-au') {
+            //             url = url.replace('en-au', 'zh-cn');
+            //         } else {
+            //             url = url.replace('zh-cn', 'en-au');
+            //         }
+            //     }
+            //     window.location.href = url;
+            // });
         }, setNumEffect: function (id, start, end, decimals, duration) {
             var options = {useEasing: true, useGrouping: false, separator: '', decimal: '.', prefix: '', suffix: ''};
             var countUp = new CountUp(id, start, end, decimals, duration, options);
@@ -147,33 +270,6 @@
                 pweather.num = 0;
             }
             window.setTimeout("pweather.loadClock()", 1000);
-        }
-    };
-    global.mkpi = {
-        getjjtime: function () {
-            var date1 = new Date(2010, 4, 14, 7, 49, 0); //开始时间
-            var date2 = new Date(); //结束时间
-            var date3 = date2.getTime() - date1.getTime(); //时间差的毫秒数
-
-
-            var days = Math.floor(date3 / (24 * 3600 * 1000));//计算出相差天数
-            var leave1 = date3 % (24 * 3600 * 1000);
-            var hours = Math.floor(leave1 / (3600 * 1000)); //计算天数后剩余的毫秒数
-            var leave2 = leave1 % (3600 * 1000);
-            var minutes = Math.floor(leave2 / (60 * 1000));//计算小时数后剩余的毫秒数
-            var leave3 = leave2 % (60 * 1000);
-            var seconds = Math.round(leave3 / 1000); //计算分钟数后剩余的毫秒数
-            var outtime;
-
-            if (days > 0)
-                outtime = days + "d " + hours + "h";
-            else if (hours > 0)
-                outtime = hours + "h " + minutes + "m";
-            else
-                outtime = minutes + "m " + seconds + "s";
-            $("#jjtime").text(outtime);
-            // console.log(outtime);
-            window.setTimeout("mkpi.getjjtime()", 1000);
         }
     };
     global.zzcg = {

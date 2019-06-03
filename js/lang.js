@@ -1,4 +1,4 @@
-﻿﻿const txt_lang = {
+﻿let txt_lang = {
     'zh-cn': {
         title: '海南省遥感灾情辅助决策系统',
         title_min: 'Hainan Remote sensing disaster decision support system',
@@ -21,7 +21,7 @@
         menu_assess: '洪涝灾情评估',
         menu_report: '评估决策成果',
         menu_pre_typh_data:'预测台风路径图',
-        menu_pos_typh_data:'实际台风路径图',
+        menu_pos_typh_data:'台风路径范围图',
         menu_rain: '降雨分布图',
         menu_pre_house_data: '灾前房屋数据',
         menu_pos_house_data: '灾后房屋数据',
@@ -71,7 +71,7 @@
 
         typhoon: '台风历史数据',
 
-        history_data:'历史数据',
+        history_data:'图层概况',
 
 
 
