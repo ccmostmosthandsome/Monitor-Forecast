@@ -95,75 +95,86 @@
     </div>
 
     <!--天气-->
-    <div class="weatherbox">
-        <div class="weather-prlt-box">
-            <!--日期-->
-            <div class="daybox">
-                <span id="day"></span>
-            </div>
-            <div class="wenduBox">
-                <div id="wdval">10</div>
-                <label>℃</label>
-            </div>
-            <div class="fengliBox" style="display: none;">
-                <div class="fengxian">
-                    <span>${weather_fx}</span>
-                    <label>${weather_xnf}</label>
-                </div>
-                <div class="shidu">
-                    <span>${weather_xdsd}</span>
-                    <label>45%</label>
-                </div>
-            </div>
-            <div class="weatherIcon">
-                <img id="weatherIcon" src="img/weather-0.png" alt="">
-                <img id="windIcon" src="img/flt.png" style="display: none;" alt="">
-            </div>
-            <!--时钟-->
-            <div class="timebox">
-                <span id="lblCHours"></span>
-                <label id="clockcolon" class="animated flash infinite animated-2s">:</label>
-                <span id="lblCMinute"></span>
-            </div>
-        </div>
-    </div>
+    <!--    <div class="weatherbox">-->
+    <!--        <div class="weather-prlt-box">-->
+    <!--            &lt;!&ndash;日期&ndash;&gt;-->
+    <!--            <div class="daybox">-->
+    <!--                <span id="day"></span>-->
+    <!--            </div>-->
+    <!--            <div class="wenduBox">-->
+    <!--                <div id="wdval">10</div>-->
+    <!--                <label>℃</label>-->
+    <!--            </div>-->
+    <!--            <div class="fengliBox" style="display: none;">-->
+    <!--                <div class="fengxian">-->
+    <!--                    <span>${weather_fx}</span>-->
+    <!--                    <label>${weather_xnf}</label>-->
+    <!--                </div>-->
+    <!--                <div class="shidu">-->
+    <!--                    <span>${weather_xdsd}</span>-->
+    <!--                    <label>45%</label>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--            <div class="weatherIcon">-->
+    <!--                <img id="weatherIcon" src="img/weather-0.png" alt="">-->
+    <!--                <img id="windIcon" src="img/flt.png" style="display: none;" alt="">-->
+    <!--            </div>-->
+    <!--            &lt;!&ndash;时钟&ndash;&gt;-->
+    <!--            <div class="timebox">-->
+    <!--                <span id="lblCHours"></span>-->
+    <!--                <label id="clockcolon" class="animated flash infinite animated-2s">:</label>-->
+    <!--                <span id="lblCMinute"></span>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
 
     <!--一级下拉菜单-->
     <ul class="menue-box">
         <li style="display:block;"><span>${menu}</span></li>
         <li><span onclick="mainMap.location()">${menu_loc}</span></li>
         <li><span onclick="importdata_typh()">${menu_typhoon_path}</span></li>
-        <li><span onclick="importdata()">${menu_house_road}</span></li>
         <li><span onclick="importdata_road()">${menu_extra}</span></li>
-        <li><span onclick="import_report()">${menu_report}</a></span>
+        <li><span onclick="importdata()">${menu_affected}</span></li>
+        <!--        <li><span onclick="import_report()">${menu_report}</a></span></li>-->
+        <li><span><a href="assets/pdf/决策报告.pdf" target="_blank" style="text-decoration: none;color:#ffffff;">${menu_report}</a></span>
         </li>
     </ul>
     <!--二级下拉菜单-->
     <ul id="data0" class="mtab-box" style="left: 670px;display: none;">
-<!--        <li onclick="loadBefTyp()">${menu_pre_typh_data}</li>-->
+        <!--        <li onclick="loadBefTyp()">${menu_pre_typh_data}</li>-->
         <li onclick="mainMap.loadTyphoonLayer()">${menu_pos_typh_data}</li>
         <li onclick="mainMap.loadImageLayer('rainRange')">${menu_rain}</li>
     </ul>
-    <ul id="data1" class="mtab-box" style="left: 850px;display: none;">
-        <li onclick="mainMap.loadPreRoad()">${menu_pre_road}</li>
-<!--        <li onclick="mainMap.loadPreRailway()">${menu_pre_railway}</li>-->
-        <li onclick="mainMap.loadPosRoad()">${menu_pos_road}</li>
-        <!--<li><span><a href="./.pdf" target="_blank"-->
-        <!--style="text-decoration: none;color:#ffffff;">${menu_flood_ass}</a></span></li>-->
-    </ul>
-    <ul id="data2" class="mtab-box" style="left: 1075px;display: none;">
-        <li onclick="mainMap.loadImageLayer('beforeWater')">${menu_pre_wat_tif}</li>
-        <li onclick="mainMap.loadImageLayer('afterWater')">${menu_pos_wat_tif}</li>
-        <li onclick="mainMap.loadDataSource('beforeWater')">${menu_pre_water}</li>
-        <li onclick="mainMap.loadDataSource('afterWater')">${menu_pos_water}</li>
-        <li onclick="mainMap.loadDataSource('floodDif')">${menu_flood}</li>
+    <ul id="data2" class="mtab-box" style="left: 850px;display: none;">
+        <li onclick="mainMap.menuLoadImage('beforeWater')">${menu_pre_wat_tif}</li>
+        <li onclick="mainMap.menuLoadImage('afterWater')">${menu_pos_wat_tif}</li>
+        <li onclick="mainMap.menuLoadDataSource('beforeWater')">${menu_pre_water}</li>
+        <li onclick="mainMap.menuLoadDataSource('afterWater')">${menu_pos_water}</li>
+        <li onclick="mainMap.menuLoadDataSource('floodDif')">${menu_flood}</li>
         <!--<li><span><a href="assets/assess.pdf" target="_blank" style="text-decoration: none;color:#ffffff;">${menu_flood_ass}</a></span>-->
         <!--</li>-->
     </ul>
-    <ul id="data3" class="mtab-box" style="left: 1260px;display: none;">
-        <li onclick="loadPopDis()">${menu_report_pop}</li>
+    <ul id="data1" class="mtab-box" style="left: 1035px;display: none;">
+        <li onclick="mainMap.loadDataSource('affected_bridge');resultDetail.addEffect('affected_bridge')">
+            ${menu_affected_bridge}
+        </li>
+        <li onclick="mainMap.loadDataSource('affected_school');resultDetail.addEffect('affected_school')">
+            ${menu_affected_school}
+        </li>
+        <li onclick="mainMap.loadDataSource('affected_st');resultDetail.addEffect('affected_st')">${menu_affected_st}
+        </li>
+        <li onclick="mainMap.loadDataSource('affected_village');resultDetail.addEffect('affected_village')">
+            ${menu_affected_village}
+        </li>
+        <li onclick="mainMap.loadDataSource('roadAffected');resultDetail.addEffect('Road_affected')">
+            ${menu_affected_road}
+        </li>
+    </ul>
+    <ul id="data3" class="mtab-box" style="left: 1220px;display: none;">
+        <!--        <li onclick="loadPopDis()">${menu_report_pop}</li>-->
         <li onclick="loadRoadRes()">${menu_report_road}</li>
-        <li><span><a href="assets/pdf/决策报告.pdf" target="_blank" style="text-decoration: none;color:#ffffff;">${menu_report_ass}</a></span></li>
+        <li><span><a href="assets/pdf/决策报告.pdf" target="_blank" style="text-decoration: none;color:#ffffff;">${menu_report_ass}</a></span>
+        </li>
         <!--<li><span><a href="assets/assess.pdf" target="_blank" style="text-decoration: none;color:#ffffff;">${menu_flood_ass}</a></span>-->
         <!--</li>-->
     </ul>
@@ -203,7 +214,7 @@
                                                   dur="10s" repeatCount="indefinite"></animateTransform>
                             </g>
                             <circle r="26" cx="36" cy="36" fill="none" stroke="#3da1ee" stroke-width="2"></circle>
-                            <text x="32" y="45" class="area-num-text">2</text>
+                            <text x="32" y="45" class="area-num-text">1</text>
                         </svg>
                     </div>
                     <div class="ggaq-area-name" style="width: 100px">${satellite_ziyuan}</div>
@@ -258,130 +269,130 @@
 
     <!--satellite orbital predictor-->
     <!--<div id="orbitals_box_container" class="orbitals_box">-->
-        <!--<h4>Satellites:</h4>-->
+    <!--<h4>Satellites:</h4>-->
 
-        <!--<input type='hidden' name='csrfmiddlewaretoken' value='HGLUjfbwp5BRmE8bRkjXD5PXAK4R97Bd'/>-->
+    <!--<input type='hidden' name='csrfmiddlewaretoken' value='HGLUjfbwp5BRmE8bRkjXD5PXAK4R97Bd'/>-->
 
-        <!--<div class="sat-list">-->
-            <!--<ul class="list-unstyled">-->
-                <!--<li><input type="checkbox" name="sats[]" value="37256" id="sat-37256"> <a href="/home/37256/"-->
-                                                                                          <!--class="satLink">BEIDOU</a>-->
-                <!--</li>-->
-
-
-                <!--<li><input type="checkbox" name="sats[]" value="39150" id="sat-39150"> <a href="/home/39150/"-->
-                                                                                          <!--class="satLink">GAOFEN-->
-                    <!--1</a></li>-->
+    <!--<div class="sat-list">-->
+    <!--<ul class="list-unstyled">-->
+    <!--<li><input type="checkbox" name="sats[]" value="37256" id="sat-37256"> <a href="/home/37256/"-->
+    <!--class="satLink">BEIDOU</a>-->
+    <!--</li>-->
 
 
-                <!--<li><input type="checkbox" name="sats[]" value="70052" id="sat-70052"> <a href="/home/70052/"-->
-                                                                                          <!--class="satLink">GAOFEN-->
-                    <!--1,39150</a><span class="tool_tip"-->
-                                     <!--title="User created satellite, due to launch in the future"> (FS)</span>-->
-                <!--</li>-->
+    <!--<li><input type="checkbox" name="sats[]" value="39150" id="sat-39150"> <a href="/home/39150/"-->
+    <!--class="satLink">GAOFEN-->
+    <!--1</a></li>-->
 
 
-                <!--<li><input type="checkbox" name="sats[]" value="43585" id="sat-43585"> <a href="/home/43585/"-->
-                                                                                          <!--class="satLink">GAOFEN-->
-                    <!--11</a></li>-->
+    <!--<li><input type="checkbox" name="sats[]" value="70052" id="sat-70052"> <a href="/home/70052/"-->
+    <!--class="satLink">GAOFEN-->
+    <!--1,39150</a><span class="tool_tip"-->
+    <!--title="User created satellite, due to launch in the future"> (FS)</span>-->
+    <!--</li>-->
 
 
-                <!--<li><input type="checkbox" name="sats[]" value="40118" id="sat-40118"> <a href="/home/40118/"-->
-                                                                                          <!--class="satLink">GAOFEN-->
-                    <!--2</a></li>-->
+    <!--<li><input type="checkbox" name="sats[]" value="43585" id="sat-43585"> <a href="/home/43585/"-->
+    <!--class="satLink">GAOFEN-->
+    <!--11</a></li>-->
 
 
-                <!--<li><input type="checkbox" name="sats[]" value="25682" id="sat-25682"> <a href="/home/25682/"-->
-                                                                                          <!--class="satLink">LANDSAT-->
-                    <!--7</a></li>-->
+    <!--<li><input type="checkbox" name="sats[]" value="40118" id="sat-40118"> <a href="/home/40118/"-->
+    <!--class="satLink">GAOFEN-->
+    <!--2</a></li>-->
 
 
-                <!--<li><input type="checkbox" name="sats[]" value="38038" id="sat-38038"> <a href="/home/38038/"-->
-                                                                                          <!--class="satLink">ZIYUAN-->
-                    <!--1-02C (ZY 1-02C)</a></li>-->
+    <!--<li><input type="checkbox" name="sats[]" value="25682" id="sat-25682"> <a href="/home/25682/"-->
+    <!--class="satLink">LANDSAT-->
+    <!--7</a></li>-->
 
 
-                <!--<li><input type="checkbox" name="sats[]" value="38046" id="sat-38046"> <a href="/home/38046/"-->
-                                                                                          <!--class="satLink">ZIYUAN 3-->
-                    <!--(ZY 3)</a></li>-->
+    <!--<li><input type="checkbox" name="sats[]" value="38038" id="sat-38038"> <a href="/home/38038/"-->
+    <!--class="satLink">ZIYUAN-->
+    <!--1-02C (ZY 1-02C)</a></li>-->
 
 
-                <!--<li><input type="checkbox" name="sats[]" value="41556" id="sat-41556"> <a href="/home/41556/"-->
-                                                                                          <!--class="satLink">ZIYUAN 3-2-->
-                    <!--(ZY 3-2)</a></li>-->
+    <!--<li><input type="checkbox" name="sats[]" value="38046" id="sat-38046"> <a href="/home/38046/"-->
+    <!--class="satLink">ZIYUAN 3-->
+    <!--(ZY 3)</a></li>-->
 
 
-            <!--</ul>-->
-        <!--</div>-->
-        <!--<input type="checkbox" onClick="toggle(this)"/> Select All-->
-        <!--</form>-->
+    <!--<li><input type="checkbox" name="sats[]" value="41556" id="sat-41556"> <a href="/home/41556/"-->
+    <!--class="satLink">ZIYUAN 3-2-->
+    <!--(ZY 3-2)</a></li>-->
 
 
-        <!--<div class="query-buttons">-->
-            <!--<input type="submit" name="submit" value="Show Orbits" class="btn btn-default"-->
-                   <!--onclick="checkButton(this)">-->
-        <!--</div>-->
-        <!--<hr>-->
+    <!--</ul>-->
+    <!--</div>-->
+    <!--<input type="checkbox" onClick="toggle(this)"/> Select All-->
+    <!--</form>-->
 
 
-        <!--<div style="text-align:center;">-->
-            <!--<a class="btn btn-default" href="/future_satellite/">Add Future Satellite</a>-->
-        <!--</div>-->
+    <!--<div class="query-buttons">-->
+    <!--<input type="submit" name="submit" value="Show Orbits" class="btn btn-default"-->
+    <!--onclick="checkButton(this)">-->
+    <!--</div>-->
+    <!--<hr>-->
+
+
+    <!--<div style="text-align:center;">-->
+    <!--<a class="btn btn-default" href="/future_satellite/">Add Future Satellite</a>-->
+    <!--</div>-->
     <!--</div>-->
 
 
     <!--<div class="orbital_predictor_box">-->
-        <!--<div id="toolbar"></div>-->
-        <!--<h4>Ground Station(s):</h4>-->
-        <!--<input type="text" name="latitude" id="lat" size="10" placeholder="Latitude"/>-->
-        <!--<input type="text" name="longitude" id="long" size="10" placeholder="Longitude"/>-->
-        <!--<input type="button" value="Get Location" onclick="getUserLocation()" class="btn btn-default"/>-->
-        <!--<br/>-->
+    <!--<div id="toolbar"></div>-->
+    <!--<h4>Ground Station(s):</h4>-->
+    <!--<input type="text" name="latitude" id="lat" size="10" placeholder="Latitude"/>-->
+    <!--<input type="text" name="longitude" id="long" size="10" placeholder="Longitude"/>-->
+    <!--<input type="button" value="Get Location" onclick="getUserLocation()" class="btn btn-default"/>-->
+    <!--<br/>-->
 
-        <!--<h4>Date Range:</h4>-->
-        <!--<input type="date" name="query_start_date"/>-->
-        <!--<input type="time" name="query_start_time"/>-->
-        <!--<label for="start_now_id">Current time</label>-->
-        <!--<input type="checkbox" name="start_now" value="True" id="start_now_id" onClick="setDateRateForNext24Hours()"-->
-        <!--/>-->
-        <!--<br/>-->
+    <!--<h4>Date Range:</h4>-->
+    <!--<input type="date" name="query_start_date"/>-->
+    <!--<input type="time" name="query_start_time"/>-->
+    <!--<label for="start_now_id">Current time</label>-->
+    <!--<input type="checkbox" name="start_now" value="True" id="start_now_id" onClick="setDateRateForNext24Hours()"-->
+    <!--/>-->
+    <!--<br/>-->
 
-        <!--<input type="date" name="query_end_date"/>-->
-        <!--<input type="time" name="query_end_time"/>-->
-        <!--<br/>-->
+    <!--<input type="date" name="query_end_date"/>-->
+    <!--<input type="time" name="query_end_time"/>-->
+    <!--<br/>-->
 
-        <!--<div id="overpass-type">-->
-            <!--<input type="radio" name="pass_type" value="Swath_Passes" id="Swath_Passes"-->
-                   <!--checked="checked"/>-->
-            <!--<label for="Swath_Passes">Within Instrument Swath</label><br/>-->
+    <!--<div id="overpass-type">-->
+    <!--<input type="radio" name="pass_type" value="Swath_Passes" id="Swath_Passes"-->
+    <!--checked="checked"/>-->
+    <!--<label for="Swath_Passes">Within Instrument Swath</label><br/>-->
 
-            <!--<input type="radio" name="pass_type" value="All_Passes" id="All_Passes"/>-->
-            <!--<label for="All_Passes">All Passes</label><br/>-->
+    <!--<input type="radio" name="pass_type" value="All_Passes" id="All_Passes"/>-->
+    <!--<label for="All_Passes">All Passes</label><br/>-->
 
-            <!--<input type="radio" name="pass_type" value="Visible_Passes" id="Visible_Passes"/>-->
-            <!--<label for="Visible_Passes">Visible Passes Only</label><br/>-->
-        <!--</div>-->
+    <!--<input type="radio" name="pass_type" value="Visible_Passes" id="Visible_Passes"/>-->
+    <!--<label for="Visible_Passes">Visible Passes Only</label><br/>-->
+    <!--</div>-->
 
-        <!--<div class="query-buttons">-->
-            <!--<input type="submit" name="submit" value="Get Over Passes" class="btn btn-default"-->
-                   <!--onclick="checkButton(this)"/>-->
-        <!--</div>-->
-        <!--<hr>-->
+    <!--<div class="query-buttons">-->
+    <!--<input type="submit" name="submit" value="Get Over Passes" class="btn btn-default"-->
+    <!--onclick="checkButton(this)"/>-->
+    <!--</div>-->
+    <!--<hr>-->
 
 
-        <!--<h4>Add Satellite:</h4>-->
-        <!--<textarea id="satellites_result" name="user_tle" rows="3" cols="74" form="add_tle" class="pre-style tle-view"-->
-                  <!--placeholder="Satellite Name-->
+    <!--<h4>Add Satellite:</h4>-->
+    <!--<textarea id="satellites_result" name="user_tle" rows="3" cols="74" form="add_tle" class="pre-style tle-view"-->
+    <!--placeholder="Satellite Name-->
     <!--First Line of TLE-->
     <!--Second Line of TLE" style="width:100%"></textarea>-->
 
-        <!--<form onsubmit="return validateForm()" action="/add_tle/" method="post" id="add_tle">-->
-            <!--<input type='hidden' name='csrfmiddlewaretoken' value='HGLUjfbwp5BRmE8bRkjXD5PXAK4R97Bd'/>-->
-            <!--<input type="text" name="instrument_name" placeholder="Instrument Name" class="tle-view"/>-->
-            <!--<input type="text" name="instrument_swath_width" placeholder="Swath Width in km's" class="tle-view"/>-->
-            <!--<input type="submit" name="submit" value="Add Satellite" class="btn btn-default"-->
-                   <!--onclick="checkButton(this)"/>-->
-        <!--</form>-->
+    <!--<form onsubmit="return validateForm()" action="/add_tle/" method="post" id="add_tle">-->
+    <!--<input type='hidden' name='csrfmiddlewaretoken' value='HGLUjfbwp5BRmE8bRkjXD5PXAK4R97Bd'/>-->
+    <!--<input type="text" name="instrument_name" placeholder="Instrument Name" class="tle-view"/>-->
+    <!--<input type="text" name="instrument_swath_width" placeholder="Swath Width in km's" class="tle-view"/>-->
+    <!--<input type="submit" name="submit" value="Add Satellite" class="btn btn-default"-->
+    <!--onclick="checkButton(this)"/>-->
+    <!--</form>-->
 
     <!--</div>-->
 
@@ -403,291 +414,228 @@
     </div>
     <!--通讯设备状态-->
     <!--<div class="smart-hb-box">-->
-        <!--<div class="kpi-title">-->
-            <!--<div class="kpi-title-cn">${communication}</div>-->
-            <!--<div class="kpi-title-en">-->
-                <!--<div class="kpi-title-en1">State of</div>-->
-                <!--<div class="kpi-title-en2">Communication equipment</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="kpi-box">-->
-            <!--&lt;!&ndash;通讯设备数量&ndash;&gt;-->
-            <!--<div class="smart-hb-radar-title">${communication_deviceNum}</div>-->
-            <!--<div class="smart-hb-radar" id="hb_radar"></div>-->
-            <!--&lt;!&ndash;通讯设备情况&ndash;&gt;-->
-            <!--<div class="smart-hb-air">-->
-                <!--<div class="smart-air-title">${communication_smoothrate}</div>-->
-                <!--<div class="fkh-left"></div>-->
-                <!--<div class="smart-fkh-num">1820/71.28%</div>-->
-                <!--<div class="fkh-right"></div>-->
-                <!--<div class="smart-air-title" style="margin-left: 10px;">${communication_major}</div>-->
-                <!--<div class="fkh-left"></div>-->
-                <!--<div class="smart-fkh-num">199/200</div>-->
-                <!--<div class="fkh-right"></div>-->
-            <!--</div>-->
-            <!--&lt;!&ndash;水质监测&ndash;&gt;-->
-            <!--<ul class="smart-hb-water">-->
-                <!--&lt;!&ndash;<li>-->
-                    <!--<span>湖泊名</span>-->
-                    <!--<span>水质</span>-->
-                    <!--<span>营养状态</span>-->
-                    <!--<span>达标情况</span>-->
-                    <!--<span>水质变化</span>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<span>湖泊名</span>-->
-                    <!--<span>IV</span>-->
-                    <!--<span>轻度富营养</span>-->
-                    <!--<span>达标</span>-->
-                    <!--<span>稳定</span>-->
-                <!--</li>&ndash;&gt;-->
-            <!--</ul>-->
-        <!--</div>-->
+    <!--<div class="kpi-title">-->
+    <!--<div class="kpi-title-cn">${communication}</div>-->
+    <!--<div class="kpi-title-en">-->
+    <!--<div class="kpi-title-en1">State of</div>-->
+    <!--<div class="kpi-title-en2">Communication equipment</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="kpi-box">-->
+    <!--&lt;!&ndash;通讯设备数量&ndash;&gt;-->
+    <!--<div class="smart-hb-radar-title">${communication_deviceNum}</div>-->
+    <!--<div class="smart-hb-radar" id="hb_radar"></div>-->
+    <!--&lt;!&ndash;通讯设备情况&ndash;&gt;-->
+    <!--<div class="smart-hb-air">-->
+    <!--<div class="smart-air-title">${communication_smoothrate}</div>-->
+    <!--<div class="fkh-left"></div>-->
+    <!--<div class="smart-fkh-num">1820/71.28%</div>-->
+    <!--<div class="fkh-right"></div>-->
+    <!--<div class="smart-air-title" style="margin-left: 10px;">${communication_major}</div>-->
+    <!--<div class="fkh-left"></div>-->
+    <!--<div class="smart-fkh-num">199/200</div>-->
+    <!--<div class="fkh-right"></div>-->
+    <!--</div>-->
+    <!--&lt;!&ndash;水质监测&ndash;&gt;-->
+    <!--<ul class="smart-hb-water">-->
+    <!--&lt;!&ndash;<li>-->
+    <!--<span>湖泊名</span>-->
+    <!--<span>水质</span>-->
+    <!--<span>营养状态</span>-->
+    <!--<span>达标情况</span>-->
+    <!--<span>水质变化</span>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<span>湖泊名</span>-->
+    <!--<span>IV</span>-->
+    <!--<span>轻度富营养</span>-->
+    <!--<span>达标</span>-->
+    <!--<span>稳定</span>-->
+    <!--</li>&ndash;&gt;-->
+    <!--</ul>-->
+    <!--</div>-->
     <!--</div>-->
     <!--数据处理进度-->
     <!--<div class="smart-jt-box">-->
-        <!--<div class="kpi-title">-->
-            <!--<div class="kpi-title-cn">${process}</div>-->
-            <!--<div class="kpi-title-en">-->
-                <!--<div class="kpi-title-en1">Data</div>-->
-                <!--<div class="kpi-title-en2">Processing progress</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="kpi-box">-->
-            <!--&lt;!&ndash;交通数值统计&ndash;&gt;-->
-            <!--<ul class="jt-stat">-->
-                <!--<li>-->
-                    <!--<div class="jt-stat-title">${process_num}</div>-->
-                    <!--<div class="fkh-left"></div>-->
-                    <!--<div class="jt-fkh-num" id="jt_sgs">28</div>-->
-                    <!--<div class="fkh-right"></div>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<div class="jt-stat-title">${process_tobe}</div>-->
-                    <!--<div class="fkh-left"></div>-->
-                    <!--<div class="jt-fkh-num" id="jt_zpwg">5</div>-->
-                    <!--<div class="fkh-right"></div>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<div class="jt-stat-title">${process_totaldata}</div>-->
-                    <!--<div class="fkh-left"></div>-->
-                    <!--<div class="jt-fkh-num">33</div>-->
-                    <!--<div class="fkh-right"></div>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<div class="jt-stat-title">${process_status}</div>-->
-                    <!--<div class="fkh-left"></div>-->
-                    <!--<div class="jt-fkh-num" style="font-size:18px;">${process_processing}</div>-->
-                    <!--<div class="fkh-right"></div>-->
-                <!--</li>-->
-            <!--</ul>-->
-            <!--&lt;!&ndash;图表区域&ndash;&gt;-->
-            <!--<div class="jt-chart-area">-->
-                <!--&lt;!&ndash;数据处理运行图&ndash;&gt;-->
-                <!--<div class="jt-chart-gfsd">-->
-                    <!--<div class="jt-gfsd-title">${process_runchat}</div>-->
-                    <!--<div class="jt-gfsd-poly" id="jt_poly"></div>-->
-                <!--</div>-->
-                <!--&lt;!&ndash;拥堵指数圆环表&ndash;&gt;-->
-                <!--<div class="jt-chart-pie">-->
-                    <!--<svg width="100%" height="100%">-->
-                        <!--<g stroke="#1b4476" fill="none" stroke-width="4">-->
-                            <!--<circle r="58" cx="60" cy="60" stroke-dasharray="20,5"></circle>-->
-                        <!--</g>-->
-                        <!--<g fill="none" stroke="#3399ff" stroke-width="4">-->
-                            <!--<path stroke-dasharray="20,5" transform="translate(60,60)"-->
-                                  <!--d="M 0 -58 A 58 58 0 0 1 57.974 7.27"></path>-->
-                            <!--<animateTransform attributeName="transform" type="rotate" from="0,60,60" to="360,60,60"-->
-                                              <!--dur="5s"-->
-                                              <!--repeatCount="indefinite"></animateTransform>-->
-                        <!--</g>-->
-                        <!--<circle r="50" cx="60" cy="60" fill="none" stroke="#635638" stroke-width="3"></circle>-->
-                        <!--<path id="jt_cir" fill="none" stroke="#eabc4f" stroke-width="3" transform="translate(60,60)"-->
-                              <!--d="M 0 -50 A 50 50 0 1 1 -42.22 -26.79"></path>-->
-                        <!--<text x="45" y="55" class="area-num-text">90%</text>-->
-                        <!--<text x="30" y="80" class="area-num-title">${process_progress}</text>-->
-                    <!--</svg>-->
-                <!--</div>-->
-                <!--&lt;!&ndash;拥堵延迟指数&ndash;&gt;-->
-                <!--&lt;!&ndash;MAX:5 MIN:0 1.4以下绿色  1.5&#45;&#45;1.9：拥堵 橙色 >1.9 红色&ndash;&gt;-->
-                <!--<div class="jt-chart-ydzs">-->
-                    <!--<div class="jt-ydzs-title">-->
-                        <!--<span>${process_name}</span>-->
-                        <!--<span>${process_instructions}</span>-->
-                        <!--<span>${process_time}</span>-->
-                    <!--</div>-->
-                    <!--<ul class="jt-ydzs-list" id="jt_ydzs_list">-->
-                    <!--</ul>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
+    <!--<div class="kpi-title">-->
+    <!--<div class="kpi-title-cn">${process}</div>-->
+    <!--<div class="kpi-title-en">-->
+    <!--<div class="kpi-title-en1">Data</div>-->
+    <!--<div class="kpi-title-en2">Processing progress</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="kpi-box">-->
+    <!--&lt;!&ndash;交通数值统计&ndash;&gt;-->
+    <!--<ul class="jt-stat">-->
+    <!--<li>-->
+    <!--<div class="jt-stat-title">${process_num}</div>-->
+    <!--<div class="fkh-left"></div>-->
+    <!--<div class="jt-fkh-num" id="jt_sgs">28</div>-->
+    <!--<div class="fkh-right"></div>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<div class="jt-stat-title">${process_tobe}</div>-->
+    <!--<div class="fkh-left"></div>-->
+    <!--<div class="jt-fkh-num" id="jt_zpwg">5</div>-->
+    <!--<div class="fkh-right"></div>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<div class="jt-stat-title">${process_totaldata}</div>-->
+    <!--<div class="fkh-left"></div>-->
+    <!--<div class="jt-fkh-num">33</div>-->
+    <!--<div class="fkh-right"></div>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<div class="jt-stat-title">${process_status}</div>-->
+    <!--<div class="fkh-left"></div>-->
+    <!--<div class="jt-fkh-num" style="font-size:18px;">${process_processing}</div>-->
+    <!--<div class="fkh-right"></div>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--&lt;!&ndash;图表区域&ndash;&gt;-->
+    <!--<div class="jt-chart-area">-->
+    <!--&lt;!&ndash;数据处理运行图&ndash;&gt;-->
+    <!--<div class="jt-chart-gfsd">-->
+    <!--<div class="jt-gfsd-title">${process_runchat}</div>-->
+    <!--<div class="jt-gfsd-poly" id="jt_poly"></div>-->
+    <!--</div>-->
+    <!--&lt;!&ndash;拥堵指数圆环表&ndash;&gt;-->
+    <!--<div class="jt-chart-pie">-->
+    <!--<svg width="100%" height="100%">-->
+    <!--<g stroke="#1b4476" fill="none" stroke-width="4">-->
+    <!--<circle r="58" cx="60" cy="60" stroke-dasharray="20,5"></circle>-->
+    <!--</g>-->
+    <!--<g fill="none" stroke="#3399ff" stroke-width="4">-->
+    <!--<path stroke-dasharray="20,5" transform="translate(60,60)"-->
+    <!--d="M 0 -58 A 58 58 0 0 1 57.974 7.27"></path>-->
+    <!--<animateTransform attributeName="transform" type="rotate" from="0,60,60" to="360,60,60"-->
+    <!--dur="5s"-->
+    <!--repeatCount="indefinite"></animateTransform>-->
+    <!--</g>-->
+    <!--<circle r="50" cx="60" cy="60" fill="none" stroke="#635638" stroke-width="3"></circle>-->
+    <!--<path id="jt_cir" fill="none" stroke="#eabc4f" stroke-width="3" transform="translate(60,60)"-->
+    <!--d="M 0 -50 A 50 50 0 1 1 -42.22 -26.79"></path>-->
+    <!--<text x="45" y="55" class="area-num-text">90%</text>-->
+    <!--<text x="30" y="80" class="area-num-title">${process_progress}</text>-->
+    <!--</svg>-->
+    <!--</div>-->
+    <!--&lt;!&ndash;拥堵延迟指数&ndash;&gt;-->
+    <!--&lt;!&ndash;MAX:5 MIN:0 1.4以下绿色  1.5&#45;&#45;1.9：拥堵 橙色 >1.9 红色&ndash;&gt;-->
+    <!--<div class="jt-chart-ydzs">-->
+    <!--<div class="jt-ydzs-title">-->
+    <!--<span>${process_name}</span>-->
+    <!--<span>${process_instructions}</span>-->
+    <!--<span>${process_time}</span>-->
+    <!--</div>-->
+    <!--<ul class="jt-ydzs-list" id="jt_ydzs_list">-->
+    <!--</ul>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
     <!--</div>-->
 
     <!--灾区概况-->
-    <div class="smart-dis-box">
+    <!--    <div class="smart-dis-box">-->
+    <!--        <div class="kpi-title">-->
+    <!--            <div class="kpi-title-cn">${situation_dis}</div>-->
+    <!--            <div class="kpi-title-en">-->
+    <!--                <div class="kpi-title-en1">Overview</div>-->
+    <!--                <div class="kpi-title-en2">of Disaster</div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <div class="kpi-box">-->
+    <!--            &lt;!&ndash;灾害分析&ndash;&gt;-->
+    <!--            <ul class="ggaq-source-area">-->
+    <!--                <li>-->
+    <!--                    <div class="ggaq-area-num">-->
+    <!--                        <svg width="100%" height="100%">-->
+    <!--                            <g stroke="#ffffff" fill="none" stroke-width="4">-->
+    <!--                                <circle r="34" cx="36" cy="36" stroke-dasharray="5,5"></circle>-->
+    <!--                                <animateTransform attributeName="transform" type="rotate" from="0,36,36" to="360,36,36"-->
+    <!--                                                  dur="10s" repeatCount="indefinite"></animateTransform>-->
+    <!--                            </g>-->
+    <!--                            <circle r="26" cx="36" cy="36" fill="none" stroke="#3da1ee" stroke-width="2"></circle>-->
+    <!--                            <text x="25" y="45" class="area-num-text">171</text>-->
+    <!--                        </svg>-->
+    <!--                    </div>-->
+    <!--                    <div class="ggaq-area-name">${situation_num}</div>-->
+    <!--                </li>-->
+    <!--                <li>-->
+    <!--                    <div class="ggaq-area-num">-->
+    <!--                        <svg width="100%" height="100%">-->
+    <!--                            <g stroke="#ffffff" fill="none" stroke-width="4">-->
+    <!--                                <circle r="34" cx="36" cy="36" stroke-dasharray="5,5"></circle>-->
+    <!--                                <animateTransform attributeName="transform" type="rotate" from="0,36,36" to="360,36,36"-->
+    <!--                                                  dur="10s" repeatCount="indefinite"></animateTransform>-->
+    <!--                            </g>-->
+    <!--                            <circle r="26" cx="36" cy="36" fill="none" stroke="#3da1ee" stroke-width="2"></circle>-->
+    <!--                            <text x="28" y="45" class="area-num-text">14</text>-->
+    <!--                        </svg>-->
+    <!--                    </div>-->
+    <!--                    <div class="ggaq-area-name" style="width: 100px">${situation_fre}</div>-->
+    <!--                </li>-->
+    <!--                <li>-->
+    <!--                    <div class="ggaq-area-num">-->
+    <!--                        <svg width="100%" height="100%">-->
+    <!--                            <g stroke="#ffffff" fill="none" stroke-width="4">-->
+    <!--                                <circle r="34" cx="36" cy="36" stroke-dasharray="5,5"></circle>-->
+    <!--                                <animateTransform attributeName="transform" type="rotate" from="0,36,36" to="360,36,36"-->
+    <!--                                                  dur="10s" repeatCount="indefinite"></animateTransform>-->
+    <!--                            </g>-->
+    <!--                            <circle r="26" cx="36" cy="36" fill="none" stroke="#3da1ee" stroke-width="2"></circle>-->
+    <!--                            <text x="20" y="45" class="area-num-text">1278</text>-->
+    <!--                        </svg>-->
+    <!--                    </div>-->
+    <!--                    <div class="ggaq-area-name">${situation_loss}</div>-->
+    <!--                </li>-->
+    <!--            </ul>-->
+    <!--            &lt;!&ndash;灾区概况&ndash;&gt;-->
+    <!--            <div class="ggaq-source">-->
+
+    <!--                &lt;!&ndash;伤亡数类型分析&ndash;&gt;-->
+    <!--                <div class="ggaq-source-type">-->
+    <!--                    <div class="ggaq-source-pie" id="ggaq_pie_dis"></div>-->
+    <!--                    <ul class="ggaq-type-ul">-->
+    <!--                        <li>-->
+    <!--                            <div class="type-icon" style="background-color: #1b70a8;"></div>-->
+    <!--                            <div class="type-name">${situation_vicNum}</div>-->
+    <!--                            <div class="type-num">2689</div>-->
+    <!--                        </li>-->
+    <!--                        <li>-->
+    <!--                            <div class="type-icon" style="background-color: #26baff;"></div>-->
+    <!--                            <div class="type-name">${situation_injNum}</div>-->
+    <!--                            <div class="type-num">2687</div>-->
+    <!--                        </li>-->
+    <!--                        <li>-->
+    <!--                            <div class="type-icon" style="background-color: #8ce2ff;"></div>-->
+    <!--                            <div class="type-name">${situation_missNum}</div>-->
+    <!--                            <div class="type-num"><span>270</span></div>-->
+    <!--                        </li>-->
+    <!--                        <li>-->
+    <!--                            <div class="type-icon" style="background-color: #2f8fb4;"></div>-->
+    <!--                            <div class="type-name">${situation_totalNum}</div>-->
+    <!--                            <div class="type-num">12135</div>-->
+    <!--                        </li>-->
+    <!--                    </ul>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+
+    <!--    各年灾害频次-->
+    <div id="dis_loss_box" class="dis-loss-box">
         <div class="kpi-title">
-            <div class="kpi-title-cn">${situation_dis}</div>
-            <div class="kpi-title-en">
-                <div class="kpi-title-en1">Overview</div>
-                <div class="kpi-title-en2">of Disaster</div>
-            </div>
-        </div>
-        <div class="kpi-box">
-            <!--灾害分析-->
-            <ul class="ggaq-source-area">
-                <li>
-                    <div class="ggaq-area-num">
-                        <svg width="100%" height="100%">
-                            <g stroke="#ffffff" fill="none" stroke-width="4">
-                                <circle r="34" cx="36" cy="36" stroke-dasharray="5,5"></circle>
-                                <animateTransform attributeName="transform" type="rotate" from="0,36,36" to="360,36,36"
-                                                  dur="10s" repeatCount="indefinite"></animateTransform>
-                            </g>
-                            <circle r="26" cx="36" cy="36" fill="none" stroke="#3da1ee" stroke-width="2"></circle>
-                            <text x="25" y="45" class="area-num-text">171</text>
-                        </svg>
-                    </div>
-                    <div class="ggaq-area-name">${situation_num}</div>
-                </li>
-                <li>
-                    <div class="ggaq-area-num">
-                        <svg width="100%" height="100%">
-                            <g stroke="#ffffff" fill="none" stroke-width="4">
-                                <circle r="34" cx="36" cy="36" stroke-dasharray="5,5"></circle>
-                                <animateTransform attributeName="transform" type="rotate" from="0,36,36" to="360,36,36"
-                                                  dur="10s" repeatCount="indefinite"></animateTransform>
-                            </g>
-                            <circle r="26" cx="36" cy="36" fill="none" stroke="#3da1ee" stroke-width="2"></circle>
-                            <text x="28" y="45" class="area-num-text">14</text>
-                        </svg>
-                    </div>
-                    <div class="ggaq-area-name" style="width: 100px">${situation_fre}</div>
-                </li>
-                <li>
-                    <div class="ggaq-area-num">
-                        <svg width="100%" height="100%">
-                            <g stroke="#ffffff" fill="none" stroke-width="4">
-                                <circle r="34" cx="36" cy="36" stroke-dasharray="5,5"></circle>
-                                <animateTransform attributeName="transform" type="rotate" from="0,36,36" to="360,36,36"
-                                                  dur="10s" repeatCount="indefinite"></animateTransform>
-                            </g>
-                            <circle r="26" cx="36" cy="36" fill="none" stroke="#3da1ee" stroke-width="2"></circle>
-                            <text x="20" y="45" class="area-num-text">1278</text>
-                        </svg>
-                    </div>
-                    <div class="ggaq-area-name">${situation_loss}</div>
-                </li>
-            </ul>
-            <!--灾区概况-->
-            <div class="ggaq-source">
-
-                <!--伤亡数类型分析-->
-                <div class="ggaq-source-type">
-                    <div class="ggaq-source-pie" id="ggaq_pie_dis"></div>
-                    <ul class="ggaq-type-ul">
-                        <li>
-                            <div class="type-icon" style="background-color: #1b70a8;"></div>
-                            <div class="type-name">${situation_vicNum}</div>
-                            <div class="type-num">2689</div>
-                        </li>
-                        <li>
-                            <div class="type-icon" style="background-color: #26baff;"></div>
-                            <div class="type-name">${situation_injNum}</div>
-                            <div class="type-num">2687</div>
-                        </li>
-                        <li>
-                            <div class="type-icon" style="background-color: #8ce2ff;"></div>
-                            <div class="type-name">${situation_missNum}</div>
-                            <div class="type-num"><span>270</span></div>
-                        </li>
-                        <li>
-                            <div class="type-icon" style="background-color: #2f8fb4;"></div>
-                            <div class="type-name">${situation_totalNum}</div>
-                            <div class="type-num">12135</div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!--各年灾害频次-->
-    <div class="dis-loss-box">
-        <div class="kpi-title">
-            <div class="kpi-title-cn">${Casualties_loss}</div>
-            <div class="kpi-title-en">
-                <div class="kpi-title-en1">Casualties</div>
-                <div class="kpi-title-en2">And losses</div>
-            </div>
+            <div id="dis_loss_title" class="kpi-title-cn">${Casualties_loss}</div>
+<!--            <div class="kpi-title-en">-->
+<!--                <div class="kpi-title-en1">Casualties</div>-->
+<!--                <div class="kpi-title-en2">And losses</div>-->
+<!--            </div>-->
         </div>
 
         <div class="kpi-box">
-            <!--数字统计-->
-            <ul class="cg-num-stat">
-                <li class="cg-num-box">
-                    <div class="cg-num">
-                        <div class="fkh-left"></div>
-                        <div class="cg-fkh-num" id="cg_blzs">3681</div>
-                        <div class="fkh-right"></div>
-                    </div>
-                    <div class="cg-title" style="font-size: 14px">道路受损(km)</div>
-                </li>
-                <li class="cg-num-box">
-                    <div class="cg-num">
-                        <div class="fkh-left"></div>
-                        <div class="cg-fkh-num" id="cg_bls">248</div>
-                        <div class="fkh-right"></div>
-                    </div>
-                    <div class="cg-title" style="font-size: 14px">房屋受损(栋)</div>
-                </li>
-                <li class="cg-num-box">
-                    <div class="cg-num">
-                        <div class="fkh-left"></div>
-                        <div class="cg-fkh-num"><span id="cg_bzl">9635.5</span><span></span></div>
-                        <div class="fkh-right"></div>
-                    </div>
-                    <div class="cg-title" style="font-size: 14px">经济损失(万元)</div>
-                </li>
-            </ul>
-            <!--自然系统受损面积-->
-            <ul class="cg-analyse">
-                <li>
-                    <div class="cg-anal-left">
-                        <div class="cg-anal-bar">
-                            <div class="cg-anal-val" style="width: 1.38%;"></div>
-                        </div>
-                        <div class="cg-anal-text">
-                            <div class="cg-anal-name">农田受损面积</div>
-                            <div class="cg-anal-num"><span>（1.38%）</span><span>34</span></div>
-                        </div>
-                    </div>
-
-                </li>
-                <li>
-                    <div class="cg-anal-left">
-                        <div class="cg-anal-bar">
-                            <div class="cg-anal-val" style="width: 5.98%;"></div>
-                        </div>
-                        <div class="cg-anal-text">
-                            <div class="cg-anal-name">林地受损面积</div>
-                            <div class="cg-anal-num"><span>（5.98%）</span><span>147</span></div>
-                        </div>
-                    </div>
-
-                </li>
-                <li>
-                    <div class="cg-anal-left">
-                        <div class="cg-anal-bar">
-                            <div class="cg-anal-val" style="width: 0.57%;"></div>
-                        </div>
-                        <div class="cg-anal-text">
-                            <div class="cg-anal-name">水体受损面积</div>
-                            <div class="cg-anal-num"><span>（0.57%）</span><span>14</span></div>
-                        </div>
-                    </div>
-
-                </li>
-            </ul>
+            <div class="effect-source">
+                <ul id="detail-ul" class="effect-type-ul"></ul>
+            </div>
         </div>
     </div>
 

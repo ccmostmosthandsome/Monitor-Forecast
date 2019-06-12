@@ -27,14 +27,23 @@
             //init viewer, and add layer of google map to viewer
             mainMap.viewer = new Cesium.Viewer("cesiumContainer", {
                 fullscreenElement: cesiumContainer,//全屏按钮显示的全屏元素
-                animation: false,  //是否显示动画控件
+                animation: true,  //是否显示动画控件
                 baseLayerPicker: false, //是否显示图层选择控件
                 geocoder: true, //是否显示地名查找控件
                 timeline: false, //是否显示时间线控件
                 sceneModePicker: true, //是否显示投影方式控件
                 navigationHelpButton: false, //是否显示帮助信息控件
                 infoBox: true,  //是否显示点击要素之后显示的信息
-                imageryProvider: new Cesium.UrlTemplateImageryProvider({url: "http://mt1.google.cn/vt/lyrs=s&hl=zh-CN&x={x}&y={y}&z={z}&s=Gali"}),
+                // imageryProvider: new Cesium.UrlTemplateImageryProvider({url: "http://mt1.google.cn/vt/lyrs=s&hl=zh-CN&x={x}&y={y}&z={z}&s=Gali"}),
+                imageryProvider: new Cesium.createTileMapServiceImageryProvider({
+                    url: 'http://127.0.0.1:8080/nasa_blue_marble',
+                    // credit: imageCredit,
+                    // layer: "hn_bigdata_2018dt_ogc_90.7",
+                    // style: "hn_bigdata_2018dtys1",
+                    // format: "image/png",
+                    // tileMatrixSetID: "hn_bigdata_2018dt_ogc_90.7",
+                    // maximumLevel: 18
+                })
             });
             mainMap.scene = mainMap.viewer.scene;
             // mainMap.viewer.fullscreenElement = mainMap.viewer.canvas;
@@ -90,7 +99,6 @@
             mainMap.viewer.canvas.requestFullscreen();
         },
         loadLayer: function (nodes) {
-            console.log(nodes)
             nodes.forEach(function (node) {
                 if (node.checked === false) {
                     if (node.type === 'tms') {
@@ -114,7 +122,7 @@
                             mainMap.scene.imageryLayers.raiseToTop(mainMap.layers[node.id]);
                         } else {
                             let imageryProvider = new Cesium.createTileMapServiceImageryProvider({
-                                url: node.url,
+                                url: node.source,
                                 // credit: imageCredit
                             });
                             mainMap.layers[node.id] = mainMap.scene.imageryLayers.addImageryProvider(imageryProvider);
@@ -140,7 +148,7 @@
                             mainMap.scene.imageryLayers.raiseToTop(mainMap.layers[node.id]);
                         } else {
                             let labelImagery = new Cesium.WebMapTileServiceImageryProvider({
-                                url: node.url,
+                                url: node.source,
                                 // credit: imageCredit,
                                 layer: "hn_bigdata_2018dt_ogc_90.7",
                                 style: "hn_bigdata_2018dtys1",
@@ -292,6 +300,7 @@
             mainMap.viewer.dataSources.add(multiSate);
         },
         initDataSource: function () {
+            //basic layer
             let beforeWater = new Cesium.GeoJsonDataSource();
             let afterWater = new Cesium.GeoJsonDataSource();
             let floodDif = new Cesium.GeoJsonDataSource();
@@ -308,6 +317,11 @@
             let mz_avoidancepoint = new Cesium.GeoJsonDataSource();
             let mz_Station = new Cesium.GeoJsonDataSource();
             let mz_Village = new Cesium.GeoJsonDataSource();
+            //affected layer
+            let affected_bridge = new Cesium.GeoJsonDataSource();
+            let affected_school = new Cesium.GeoJsonDataSource();
+            let affected_st = new Cesium.GeoJsonDataSource();
+            let affected_village = new Cesium.GeoJsonDataSource();
 
             beforeWater.load('./assets/geojson/flood/Water_preDisaster.json', {
                 stroke: Cesium.Color.BLACK,
@@ -344,7 +358,7 @@
                 fill: Cesium.Color.RED.withAlpha(0.4),
                 strokeWidth: 2
             });
-            roadAffected.load('./assets/geojson/road/Road_affected.json', {
+            roadAffected.load('./assets/geojson/result/Road_affected.json', {
                 stroke: Cesium.Color.WHITE,
                 fill: Cesium.Color.RED.withAlpha(0.4),
                 strokeWidth: 4
@@ -389,6 +403,26 @@
                 fill: Cesium.Color.RED.withAlpha(0.4),
                 strokeWidth: 4
             });
+            affected_bridge.load('./assets/geojson/result/affected_bridge.json', {
+                stroke: Cesium.Color(255, 204, 102, 1),
+                fill: Cesium.Color.YELLOW.withAlpha(0.6),
+                strokeWidth: 1
+            });
+            affected_school.load('./assets/geojson/result/affected_school.json', {
+                stroke: Cesium.Color.GREEN,
+                fill: Cesium.Color.RED.withAlpha(0.4),
+                strokeWidth: 1
+            });
+            affected_st.load('./assets/geojson/result/affected_st.json', {
+                stroke: Cesium.Color.RED,
+                fill: Cesium.Color.RED.withAlpha(0.4),
+                strokeWidth: 2
+            });
+            affected_village.load('./assets/geojson/result/affected_village.json', {
+                stroke: Cesium.Color.WHITE,
+                fill: Cesium.Color.RED.withAlpha(0.4),
+                strokeWidth: 4
+            });
 
             mainMap.dataSource['beforeWater'] = beforeWater;
             mainMap.dataSource['afterWater'] = afterWater;
@@ -398,7 +432,6 @@
             mainMap.dataSource['Road_Z'] = Road_Z;
             mainMap.dataSource['railway'] = railway;
             mainMap.dataSource['roadAffected'] = roadAffected;
-
             mainMap.dataSource['fx_azd'] = fx_azd;
             mainMap.dataSource['fx_fzst'] = fx_fzst;
             mainMap.dataSource['fx_ql'] = fx_ql;
@@ -407,19 +440,77 @@
             mainMap.dataSource['mz_avoidancepoint'] = mz_avoidancepoint;
             mainMap.dataSource['mz_Station'] = mz_Station;
             mainMap.dataSource['mz_Village'] = mz_Village;
+            mainMap.dataSource['affected_bridge'] = affected_bridge;
+            mainMap.dataSource['affected_school'] = affected_school;
+            mainMap.dataSource['affected_st'] = affected_st;
+            mainMap.dataSource['affected_village'] = affected_village;
         },
         loadDataSource: function (index) {
             let dataSource = mainMap.dataSource[index];
+
+            let entities = dataSource.entities.values;
+            let color = new Cesium.Color;
+
+            switch (index) {
+                case 'affected_bridge':
+                    Cesium.Color.fromBytes(255, 236, 51, 255, color);
+                    break;
+                case 'affected_school':
+                    Cesium.Color.fromBytes(51, 255, 134, 255, color);
+                    break;
+                case 'affected_st':
+                    Cesium.Color.fromBytes(51, 70, 255, 255, color);
+                    break;
+                case 'affected_village':
+                    Cesium.Color.fromBytes(255, 51, 172, 255, color);
+                    break;
+                default:
+                    Cesium.Color.fromBytes(255, 51, 126, 255, color);
+            }
+            for (var i = 0; i < entities.length; i++) {
+                var entity = entities[i];
+                entity.billboard = undefined;//设置billboard和point来显示一个点而不是图标
+                entity.point = new Cesium.PointGraphics({
+                    color: color,
+                    pixelSize: 5
+                });
+            }
+
+            // for (var i = 0; i < entities.length; i++) {
+            //     var entity = entities[i];
+            //     entity.billboard = new Cesium.BillboardGraphics({
+            //         image : './img/map/typhoon (1).png',
+            //         imageSubRegion : new Cesium.BoundingRectangle(100, 100, 100, 100),
+            //         // color : new Cesium.Color(0, 0.5, 1.0, 1.0)
+            //     });//设置billboard和point来显示一个点而不是图标
+            //     entity.point = new Cesium.PointGraphics({
+            //         color: color,
+            //         pixelSize: 5
+            //     });
+            // }
+
             if (mainMap.viewer.dataSources.contains(dataSource)) {
                 mainMap.viewer.dataSources.remove(dataSource)
             } else {
                 mainMap.viewer.dataSources.add(dataSource)
             }
         },
-        clearDataSource: function () {
-            for (let key in mainMap.dataSource) {
-                viewer.imageryLayers.remove(mainMap.dataSource[key]);
+        menuLoadDataSource: function (index) {
+            let dataSource = mainMap.dataSource[index];
+            if (!mainMap.viewer.dataSources.contains(dataSource)) {
+                mainMap.clearDataSource();
+                mainMap.clearImageryLayer();
+                mainMap.viewer.dataSources.add(dataSource)
+            } else {
+                mainMap.clearDataSource();
+                mainMap.clearImageryLayer();
             }
+
+        },
+        clearDataSource: function () {
+            Object.keys(mainMap.dataSource).forEach(function (key) {
+                mainMap.viewer.dataSources.remove(mainMap.dataSource[key]);
+            })
         },
         deleteDataSource: function (index) {
             viewer.imageryLayers.remove(mainMap.dataSource[index]);
@@ -458,7 +549,7 @@
         location: function () {
             // locate to hainan
             mainMap.viewer.camera.flyTo({
-                destination: Cesium.Cartesian3.fromDegrees(109.761547, 19.19274, 2000000),
+                destination: Cesium.Cartesian3.fromDegrees(109.761547, 19.19274, 900000),
                 orientation: {
                     heading: Cesium.Math.toRadians(0),
                     pitch: Cesium.Math.toRadians(-90),
@@ -482,6 +573,17 @@
                 rectangle: Cesium.Rectangle.fromDegrees(108.58251, 18.14273, 111.06905, 20.17357)
             }));
         },
+        menuLoadImage: function (index) {
+            let imageLayer = mainMap.imageLayers[index];
+            if (mainMap.viewer.imageryLayers.contains(imageLayer)) {
+                mainMap.clearImageryLayer();
+                mainMap.clearDataSource();
+            } else {
+                mainMap.clearImageryLayer();
+                mainMap.clearDataSource();
+                mainMap.viewer.imageryLayers.add(imageLayer);
+            }
+        },
         loadImageLayer: function (index) {
             let imageLayer = mainMap.imageLayers[index];
             if (mainMap.viewer.imageryLayers.contains(imageLayer)) {
@@ -489,6 +591,11 @@
             } else {
                 mainMap.viewer.imageryLayers.add(imageLayer);
             }
+        },
+        clearImageryLayer: function () {
+            Object.keys(mainMap.imageLayers).forEach(function (key) {
+                mainMap.viewer.imageryLayers.remove(mainMap.imageLayers[key], false);
+            })
         },
         loadPosRoad: function () {
             let roadAffected = mainMap.dataSource['roadAffected'];

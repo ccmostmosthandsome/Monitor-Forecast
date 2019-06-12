@@ -6,7 +6,8 @@
         global.pweather.loadCurDay();
         global.pcanvas.init();
         global.zzcg.init();
-        global.ggaq.init();
+        // global.ggaq.init();
+        global.ggaq.loadSourceType();
         global.zhsw.init();
         global.zhzw.init();
         global.zlwin.init();
@@ -14,6 +15,90 @@
         global.mainMap.init();
         global.zTree.init();//图层目录树
     });
+    global.resultDetail = {
+        current: {},
+        init: function () {
+            resultDetail.addEffect('affected_bridge');
+        },
+        show: function () {
+            // document.getElementById('dis_loss_box').removeAttribute('visibility');
+            // let v = document.getElementById('dis_loss_box').hidden = false;
+            document.getElementById('dis_loss_box').style.visibility = "visible";
+            ;
+        },
+        hidden: function () {
+            // document.getElementById('dis_loss_box').removeAttribute('visibility');
+            // let v = document.getElementById('dis_loss_box').hidden = true;
+            document.getElementById('dis_loss_box').style.visibility = "hidden";
+            ;
+        },
+        add: function (name, position) {
+            let dom = document.getElementById('detail-ul');
+            let li = document.createElement('li');
+            li.innerHTML = '<div class="type-name">' + name + '</div>\n' +
+                '<div class="type-num">' + position + '</div>\n';
+            dom.appendChild(li)
+        },
+        addEffect: function (index) {
+            if (resultDetail.current[index]) {
+                resultDetail.hidden();
+                delete resultDetail.current[index];
+            } else {
+                resultDetail.show();
+                resultDetail.current[index] = index;
+                let url = "./assets/geojson/result/" + index + ".json"
+                $.getJSON(url, function (json) {
+                    let entity = {};
+                    let titleDom = document.getElementById('dis_loss_title');
+                    switch (index) {
+                        case 'affected_bridge':
+                            titleDom.innerText = '受影响桥梁';
+                            json.features.forEach(function (value) {
+                                let pro = value.properties;
+                                entity[pro.NAME] = pro.b11_name + pro.b12_name;
+                            });
+                            break;
+                        case 'affected_school':
+                            titleDom.innerText = '受影响学校';
+                            json.features.forEach(function (value) {
+                                let pro = value.properties;
+                                entity[pro.geo_name] = pro.b11_name + pro.b12_name;
+                            });
+                            break;
+                        case 'affected_st':
+                            titleDom.innerText = '受影响水田';
+                            json.features.forEach(function (value) {
+                                let pro = value.properties;
+                                entity[pro.geo_name] = pro.b11_name + pro.b12_name;
+                            });
+                            break;
+                        case 'affected_village':
+                            titleDom.innerText = '受影响村庄';
+                            json.features.forEach(function (value) {
+                                let pro = value.properties;
+                                entity[pro.geo_name] = pro.b11_name + pro.b12_name;
+                            });
+                            break;
+                        case 'Road_affected':
+                            titleDom.innerText = '受影响道路';
+                            json.features.forEach(function (value) {
+                                let pro = value.properties;
+                                entity[pro.LXMC] = '';
+                            });
+                            break;
+                    }
+
+                    let dom = document.getElementById('detail-ul');
+                    dom.innerHTML = null;
+                    Object.keys(entity).forEach(function (value) {
+                        resultDetail.add(value, entity[value])
+                    });
+                    resultDetail.add('总计', Object.keys(entity).length)
+                });
+            }
+        },
+
+    };
     global.zTree = {
         init: function () {
             var setting = {
@@ -32,17 +117,17 @@
             };
             var zNodes = [
                 {id: 1, pId: 0, name: "基础图层", type: 'title', open: true},
-                {id: 11, pId: 1, name: "本地影像", type: 'title', open: true},
-                {
-                    id: 111,
-                    pId: 11,
-                    name: "本地影像底图",
-                    type: 'tms',
-                    url: 'http://127.0.0.1:8080/nasa_blue_marble',
-                    // url: 'http://59.212.147.95/nasa_blue_marble',
-                    // checked: true
-                },
-                {id: 12, pId: 1, name: "海南测绘局", type: 'title', open: true},
+                // {id: 11, pId: 1, name: "本地影像", type: 'title', open: true},
+                // {
+                //     id: 111,
+                //     pId: 11,
+                //     name: "本地影像底图",
+                //     type: 'tms',
+                //     source: 'http://127.0.0.1:8080/nasa_blue_marble',
+                //     // url: 'http://59.212.147.95/nasa_blue_marble',
+                //     // checked: true
+                // },
+                {id: 12, pId: 1, name: "海南测绘局", type: 'title', open: false},
                 {
                     id: 126,
                     pId: 12,
@@ -298,7 +383,9 @@
         }
     };
     global.ggaq = {
-        startnum: 1, telChart: null, init: function () {
+        startnum: 1,
+        telChart: null,
+        init: function () {
             ggaq.telChart = global.ggaq.loadSourceType();  ////load pie chart from satellite overview
             global.ggaq.loadDisPie(); //load pie chart from disaster overview
             //global.ggaq.loadZdcsPie("ggaq_sw", 0.35);

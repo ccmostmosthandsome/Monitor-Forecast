@@ -38,6 +38,12 @@
         menu_report_pop:'受影响人口分布',
         menu_report_road:'道路救援综合分析',
         menu_report_ass:'遥感监测评估报告',
+        menu_affected:'应急专题成果',
+        menu_affected_bridge:'受影响桥梁分布',
+        menu_affected_school:'受影响学校分布',
+        menu_affected_st:'受影响水田分布',
+        menu_affected_village:'受影响村庄分布',
+        menu_affected_road:'受影响道路分布',
 
         situation_sat: '卫星概况',
         satellite_gaofen: '高分卫星',
