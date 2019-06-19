@@ -1,15 +1,15 @@
 (function (global) {
     $(function () {
         // global.pfun.autoSize();
-        // global.pfun.switchLng();
-        global.pweather.loadClock();
-        global.pweather.loadCurDay();
+        global.pfun.switchLng();//选择语言
+        // global.pweather.loadClock();
+        // global.pweather.loadCurDay();
         global.pcanvas.init();
         global.zzcg.init();
         // global.ggaq.init();
         global.ggaq.loadSourceType();
         global.zhsw.init();
-        global.zhzw.init();
+        // global.zhzw.init();
         global.zlwin.init();
         global.emergency.initMapSwitch();
         global.mainMap.init();
@@ -21,14 +21,10 @@
             resultDetail.addEffect('affected_bridge');
         },
         show: function () {
-            // document.getElementById('dis_loss_box').removeAttribute('visibility');
-            // let v = document.getElementById('dis_loss_box').hidden = false;
             document.getElementById('dis_loss_box').style.visibility = "visible";
             ;
         },
         hidden: function () {
-            // document.getElementById('dis_loss_box').removeAttribute('visibility');
-            // let v = document.getElementById('dis_loss_box').hidden = true;
             document.getElementById('dis_loss_box').style.visibility = "hidden";
             ;
         },
@@ -52,35 +48,35 @@
                     let titleDom = document.getElementById('dis_loss_title');
                     switch (index) {
                         case 'affected_bridge':
-                            titleDom.innerText = '受影响桥梁';
+                            titleDom.innerText = dlang.affected_bridge;
                             json.features.forEach(function (value) {
                                 let pro = value.properties;
                                 entity[pro.NAME] = pro.b11_name + pro.b12_name;
                             });
                             break;
                         case 'affected_school':
-                            titleDom.innerText = '受影响学校';
+                            titleDom.innerText = dlang.affected_school;
                             json.features.forEach(function (value) {
                                 let pro = value.properties;
                                 entity[pro.geo_name] = pro.b11_name + pro.b12_name;
                             });
                             break;
                         case 'affected_st':
-                            titleDom.innerText = '受影响水田';
+                            titleDom.innerText = dlang.affected_farm;
                             json.features.forEach(function (value) {
                                 let pro = value.properties;
                                 entity[pro.geo_name] = pro.b11_name + pro.b12_name;
                             });
                             break;
                         case 'affected_village':
-                            titleDom.innerText = '受影响村庄';
+                            titleDom.innerText = dlang.affected_village;
                             json.features.forEach(function (value) {
                                 let pro = value.properties;
                                 entity[pro.geo_name] = pro.b11_name + pro.b12_name;
                             });
                             break;
                         case 'Road_affected':
-                            titleDom.innerText = '受影响道路';
+                            titleDom.innerText = dlang.affected_road;
                             json.features.forEach(function (value) {
                                 let pro = value.properties;
                                 entity[pro.LXMC] = '';
@@ -93,7 +89,7 @@
                     Object.keys(entity).forEach(function (value) {
                         resultDetail.add(value, entity[value])
                     });
-                    resultDetail.add('总计', Object.keys(entity).length)
+                    resultDetail.add(dlang.affected_total, Object.keys(entity).length)
                 });
             }
         },
@@ -116,7 +112,7 @@
                 }
             };
             var zNodes = [
-                {id: 1, pId: 0, name: "基础图层", type: 'title', open: true},
+                {id: 1, pId: 0, name: dlang.layer_base, type: 'title', open: true},
                 // {id: 11, pId: 1, name: "本地影像", type: 'title', open: true},
                 // {
                 //     id: 111,
@@ -127,72 +123,72 @@
                 //     // url: 'http://59.212.147.95/nasa_blue_marble',
                 //     // checked: true
                 // },
-                {id: 12, pId: 1, name: "海南测绘局", type: 'title', open: false},
+                {id: 12, pId: 1, name: dlang.layer_hainan, type: 'title', open: false},
                 {
                     id: 126,
                     pId: 12,
-                    name: "2018电子地图服务",
+                    name: dlang.layer_2018_map,
                     type: 'tianditu',
                     url: 'http://59.212.37.22/mapserver/vmap/WMTS/1.0/hn_bigdata_2018dt/hn_bigdata_2018dtys1'
                 },
                 {
                     id: 127,
                     pId: 12,
-                    name: "2018电子地图注记服务",
+                    name: dlang.layer_2018_note,
                     type: 'tianditu',
                     url: 'http://59.212.37.22/mapserver/label/WMTS/1.0/hn_bigdata_2018dt/hn_bigdata_2018dtys1'
                 },
                 {
                     id: 121,
                     pId: 12,
-                    name: "2015年影像服务",
+                    name: dlang.layer_2015_wmts,
                     type: 'wmts',
                     url: 'http://59.212.146.170:80/ime-cloud/rest/hainan_img_2015/wmts'
                 },
                 {
                     id: 122,
                     pId: 12,
-                    name: "2016年影像服务",
+                    name: dlang.layer_2016_wmts,
                     type: 'wmts',
                     url: 'http://59.212.146.170:80/ime-cloud/rest/hainan_img_2016/wmts'
                 },
                 {
                     id: 123,
                     pId: 12,
-                    name: "2017年影像服务",
+                    name: dlang.layer_2017_wmts,
                     type: 'wmts',
                     url: 'http://59.212.146.170:80/ime-cloud/rest/hainan_img_2017/wmts'
                 },
                 {
                     id: 124,
                     pId: 12,
-                    name: "2018年影像服务",
+                    name: dlang.layer_2018_wmts,
                     type: 'wmts',
                     url: 'http://59.212.146.170:80/ime-cloud/rest/hainan_img_2018/wmts'
                 },
                 {
                     id: 125,
                     pId: 12,
-                    name: "影像注记服务",
+                    name: dlang.layer_note,
                     type: 'wmts',
                     url: 'http://59.212.146.170:80/ime-cloud/rest/hainan_img_zj/wmts'
                 },
-                {id: 3, pId: 0, name: "道路数据", type: 'title', open: true},
-                {id: 'LX_G', pId: 3, name: "国道分布", type: 'geojson',},
-                {id: 'LX_S', pId: 3, name: "省道分布", type: 'geojson',},
-                {id: 'railway', pId: 3, name: "铁路分布", type: 'geojson',},
-                {id: 'fx_ql', pId: 3, name: "桥梁分布", type: 'geojson',},
-                {id: 6, pId: 0, name: "房屋数据", type: 'title', open: true},
-                {id: 'fx_fzst', pId: 6, name: "房子水田分布", type: 'geojson',},
-                {id: 'fx_xx', pId: 6, name: "学校分布", type: 'geojson',},
-                {id: 'mz_Village', pId: 6, name: "村庄分布", type: 'geojson',},
-                {id: 5, pId: 0, name: "减灾数据", type: 'title', open: true},
-                {id: 'fx_azd', pId: 5, name: "安置点分布", type: 'geojson',},
-                {id: 'gt_bt', pId: 5, name: "地灾崩塌分布", type: 'geojson',},
-                {id: 'mz_avoidancepoint', pId: 5, name: "避难场所分布", type: 'geojson',},
-                {id: 'mz_Station', pId: 5, name: "救助站分布", type: 'geojson',},
-                {id: 4, pId: 0, name: "人口数据", type: 'title', open: true},
-                {id: 41, pId: 4, name: "人口密度分布", type: 'image',},
+                {id: 3, pId: 0, name: dlang.layer_road, type: 'title', open: true},
+                {id: 'LX_G', pId: 3, name: dlang.layer_state_road, type: 'geojson',},
+                {id: 'LX_S', pId: 3, name: dlang.layer_province_road, type: 'geojson',},
+                {id: 'railway', pId: 3, name: dlang.layer_railway, type: 'geojson',},
+                {id: 'fx_ql', pId: 3, name: dlang.layer_bridge, type: 'geojson',},
+                {id: 6, pId: 0, name: dlang.layer_house, type: 'title', open: true},
+                {id: 'fx_fzst', pId: 6, name: dlang.layer_farm, type: 'geojson',},
+                {id: 'fx_xx', pId: 6, name: dlang.layer_school, type: 'geojson',},
+                {id: 'mz_Village', pId: 6, name: dlang.layer_village, type: 'geojson',},
+                {id: 5, pId: 0, name: dlang.layer_reduce, type: 'title', open: true},
+                {id: 'fx_azd', pId: 5, name: dlang.layer_relocation_site, type: 'geojson',},
+                {id: 'gt_bt', pId: 5, name: dlang.layer_collapse, type: 'geojson',},
+                {id: 'mz_avoidancepoint', pId: 5, name: dlang.layer_shelter, type: 'geojson',},
+                {id: 'mz_Station', pId: 5, name: dlang.layer_rescue_station, type: 'geojson',},
+                {id: 4, pId: 0, name: dlang.layer_population, type: 'title', open: true},
+                {id: 41, pId: 4, name: dlang.layer_population_density, type: 'image',},
             ];
 
             function onClick() {
@@ -257,32 +253,32 @@
         },
         switchLng: function () {
             $(".logo").attr("lng", language);
-            // $(".logo").bind("click", function () {
-            //     var url = window.location.href;
-            //     var idx = url.indexOf('l=');
-            //     if (idx == -1) {
-            //         if (language === 'en-au') {
-            //             if (url.indexOf('?') >= 0) {
-            //                 url += '&l=zh-cn';
-            //             } else {
-            //                 url += '?l=zh-cn';
-            //             }
-            //         } else {
-            //             if (url.indexOf('?') >= 0) {
-            //                 url += '&l=en-au';
-            //             } else {
-            //                 url += '?l=en-au';
-            //             }
-            //         }
-            //     } else {
-            //         if (language === 'en-au') {
-            //             url = url.replace('en-au', 'zh-cn');
-            //         } else {
-            //             url = url.replace('zh-cn', 'en-au');
-            //         }
-            //     }
-            //     window.location.href = url;
-            // });
+            $(".logo").bind("click", function () {
+                var url = window.location.href;
+                var idx = url.indexOf('l=');
+                if (idx == -1) {
+                    if (language === 'en-au') {
+                        if (url.indexOf('?') >= 0) {
+                            url += '&l=zh-cn';
+                        } else {
+                            url += '?l=zh-cn';
+                        }
+                    } else {
+                        if (url.indexOf('?') >= 0) {
+                            url += '&l=en-au';
+                        } else {
+                            url += '?l=en-au';
+                        }
+                    }
+                } else {
+                    if (language === 'en-au') {
+                        url = url.replace('en-au', 'zh-cn');
+                    } else {
+                        url = url.replace('zh-cn', 'en-au');
+                    }
+                }
+                window.location.href = url;
+            });
         }, setNumEffect: function (id, start, end, decimals, duration) {
             var options = {useEasing: true, useGrouping: false, separator: '', decimal: '.', prefix: '', suffix: ''};
             var countUp = new CountUp(id, start, end, decimals, duration, options);

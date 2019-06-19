@@ -268,21 +268,21 @@
 
                 let des = '\
                                 <p>\
-                                  ' + point[12][1] + '\
+                                  ' + point[12][0] + '\
                                 </p>\
-                                <p>中心位置:\
+                                <p>' + dlang.typhoon_center + ':\
                                   ' + point[4] + '°E|' + point[5] + '°N' + '\
                                 </p>\
-                                \<p>中心气压:\
+                                \<p>' + dlang.typhoon_air_pressure + ':\
                                   ' + point[6] + 'hPa' + '\
                                 </p>\
-                                \<p>最大风速:\
+                                \<p>' + dlang.typhoon_wind_speed + ':\
                                   ' + point[7] + 'm/s' + '\
                                 </p>\
-                                \<p>风向:\
+                                \<p>' + dlang.typhoon_wind_direction + ':\
                                   ' + point[8] + '\
                                 </p>\
-                                \<p>移动速度:\
+                                \<p>' + dlang.typhoon_speed + ':\
                                   ' + point[9] + 'km/h' + '\
                                 </p>\
                                 ';
@@ -665,7 +665,7 @@
                                 let typhoon = mainMap.viewer.entities.add({
                                     // id: moment[0],
                                     position: Cesium.Cartesian3.fromDegrees(moment[2], moment[3]),
-                                    name: "预测路径点",
+                                    name: dlang.typhoon_forecast,
                                     ellipse: {
                                         semiMinorAxis: 4000.0,
                                         semiMajorAxis: 4000.0,
@@ -680,7 +680,7 @@
                             //draw the path of typhoon
                             let polyline = mainMap.viewer.entities.add({
                                 // id: point[0],
-                                name: '预测台风路径',
+                                name: dlang.typhoon_path,
                                 polyline: {
                                     positions: Cesium.Cartesian3.fromDegreesArray(points),
                                     width: 1.5,
