@@ -113,16 +113,89 @@
             };
             var zNodes = [
                 {id: 1, pId: 0, name: dlang.layer_base, type: 'title', open: true},
-                // {id: 11, pId: 1, name: "本地影像", type: 'title', open: true},
-                // {
-                //     id: 111,
-                //     pId: 11,
-                //     name: "本地影像底图",
-                //     type: 'tms',
-                //     source: 'http://127.0.0.1:8080/nasa_blue_marble',
-                //     // url: 'http://59.212.147.95/nasa_blue_marble',
-                //     // checked: true
-                // },
+                {id: 11, pId: 1, name: "本地影像", type: 'title', open: true},
+                {
+                    id: 111,
+                    pId: 11,
+                    name: "本地影像底图",
+                    type: 'tms',
+                    source: 'http://127.0.0.1:8080/nasa_blue_marble',
+                    // url: 'http://59.212.147.95/nasa_blue_marble',
+                    // checked: true
+                },
+                {id: 13, pId: 1, name: "天地图", type: 'title', open: true},
+                {
+                    id: 131,
+                    pId: 13,
+                    name: "矢量底图",
+                    type: 'wmts',
+                    source: "http://t0.tianditu.gov.cn/vec_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=vec&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=96249d38b31b728b6d706eed7539bd9f",
+                    checked: false
+                },
+                {
+                    id: 132,
+                    pId: 13,
+                    name: "矢量注记",
+                    type: 'wmts',
+                    source: "http://t0.tianditu.gov.cn/cva_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cva&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=96249d38b31b728b6d706eed7539bd9f",
+                    checked: false
+                },
+                {
+                    id: 133,
+                    pId: 13,
+                    name: "影像底图",
+                    type: 'wmts',
+                    source: "http://t0.tianditu.gov.cn/img_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=96249d38b31b728b6d706eed7539bd9f",
+                    checked: false
+                },
+                {
+                    id: 134,
+                    pId: 13,
+                    name: "影像注记",
+                    type: 'wmts',
+                    source: "http://t0.tianditu.gov.cn/cia_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cia&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=96249d38b31b728b6d706eed7539bd9f",
+                    checked: false
+                },
+                {
+                    id: 135,
+                    pId: 13,
+                    name: "地形渲染",
+                    type: 'wmts',
+                    source: "http://t0.tianditu.gov.cn/ter_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=ter&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=96249d38b31b728b6d706eed7539bd9f",
+                    checked: false
+                },
+                {
+                    id: 136,
+                    pId: 13,
+                    name: "地形注记",
+                    type: 'wmts',
+                    source: "http://t0.tianditu.gov.cn/cta_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cta&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=96249d38b31b728b6d706eed7539bd9f",
+                    checked: false
+                },
+                {
+                    id: 137,
+                    pId: 13,
+                    name: "全球境界",
+                    type: 'wmts',
+                    source: "http://t0.tianditu.gov.cn/ibo_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=ibo&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=96249d38b31b728b6d706eed7539bd9f",
+                    checked: false
+                },
+                {
+                    id: 138,
+                    pId: 13,
+                    name: "矢量英文注记",
+                    type: 'wmts',
+                    source: "http://t0.tianditu.gov.cn/eva_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=eva&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=96249d38b31b728b6d706eed7539bd9f",
+                    checked: false
+                },
+                {
+                    id: 139,
+                    pId: 13,
+                    name: "影像英文注记",
+                    type: 'wmts',
+                    source: "http://t0.tianditu.gov.cn/eia_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=eia&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=96249d38b31b728b6d706eed7539bd9f",
+                    checked: false
+                },
                 {id: 12, pId: 1, name: dlang.layer_hainan, type: 'title', open: false},
                 {
                     id: 126,
@@ -174,21 +247,92 @@
                     url: 'http://59.212.146.170:80/ime-cloud/rest/hainan_img_zj/wmts'
                 },
                 {id: 3, pId: 0, name: dlang.layer_road, type: 'title', open: true},
-                {id: 'LX_G', pId: 3, name: dlang.layer_state_road, type: 'geojson',},
-                {id: 'LX_S', pId: 3, name: dlang.layer_province_road, type: 'geojson',},
-                {id: 'railway', pId: 3, name: dlang.layer_railway, type: 'geojson',},
-                {id: 'fx_ql', pId: 3, name: dlang.layer_bridge, type: 'geojson',},
+                {
+                    id: 'LX_G',
+                    pId: 3,
+                    name: dlang.layer_state_road,
+                    icon: './assets/img/road/road_g.png',
+                    type: 'geojson',
+                },
+                {
+                    id: 'LX_S',
+                    pId: 3,
+                    name: dlang.layer_province_road,
+                    icon: './assets/img/road/road_s.png',
+                    type: 'geojson',
+                },
+                {
+                    id: 'railway',
+                    pId: 3,
+                    name: dlang.layer_railway,
+                    icon: './assets/img/road/road_railway.png',
+                    type: 'geojson',
+                },
+                {
+                    id: 'fx_ql',
+                    pId: 3,
+                    name: dlang.layer_bridge,
+                    icon: './assets/img/road/road_ql.png',
+                    type: 'geojson',
+                },
                 {id: 6, pId: 0, name: dlang.layer_house, type: 'title', open: true},
-                {id: 'fx_fzst', pId: 6, name: dlang.layer_farm, type: 'geojson',},
-                {id: 'fx_xx', pId: 6, name: dlang.layer_school, type: 'geojson',},
-                {id: 'mz_Village', pId: 6, name: dlang.layer_village, type: 'geojson',},
+                {
+                    id: 'fx_fzst',
+                    pId: 6,
+                    name: dlang.layer_farm,
+                    icon: './assets/img/location/location_farm.png',
+                    type: 'geojson',
+                },
+                {
+                    id: 'fx_xx',
+                    pId: 6,
+                    name: dlang.layer_school,
+                    icon: './assets/img/location/location_school.png',
+                    type: 'geojson',
+                },
+                {
+                    id: 'mz_Village',
+                    pId: 6,
+                    name: dlang.layer_village,
+                    icon: './assets/img/location/location_village.png',
+                    type: 'geojson',
+                },
                 {id: 5, pId: 0, name: dlang.layer_reduce, type: 'title', open: true},
-                {id: 'fx_azd', pId: 5, name: dlang.layer_relocation_site, type: 'geojson',},
-                {id: 'gt_bt', pId: 5, name: dlang.layer_collapse, type: 'geojson',},
-                {id: 'mz_avoidancepoint', pId: 5, name: dlang.layer_shelter, type: 'geojson',},
-                {id: 'mz_Station', pId: 5, name: dlang.layer_rescue_station, type: 'geojson',},
+                {
+                    id: 'fx_azd',
+                    pId: 5,
+                    name: dlang.layer_relocation_site,
+                    icon: './assets/img/location/location_relocation_site.png',
+                    type: 'geojson',
+                },
+                {
+                    id: 'gt_bt',
+                    pId: 5,
+                    name: dlang.layer_collapse,
+                    icon: './assets/img/location/location_collapse.png',
+                    type: 'geojson',
+                },
+                {
+                    id: 'mz_avoidancepoint',
+                    pId: 5,
+                    name: dlang.layer_shelter,
+                    icon: './assets/img/location/location_shelter.png',
+                    type: 'geojson',
+                },
+                {
+                    id: 'mz_Station',
+                    pId: 5,
+                    name: dlang.layer_rescue_station,
+                    icon: './assets/img/location/location_rescue_station.png',
+                    type: 'geojson',
+                },
                 {id: 4, pId: 0, name: dlang.layer_population, type: 'title', open: true},
-                {id: 41, pId: 4, name: dlang.layer_population_density, type: 'image',},
+                {
+                    id: 41,
+                    pId: 4,
+                    name: dlang.layer_population_density,
+                    type: 'image',
+                },
             ];
 
             function onClick() {

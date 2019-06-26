@@ -17,13 +17,17 @@
             'afterWater': null,
             'rain': null
         },
-        typhoon: {},
+        typhoon: {//包含真实路径和预测路径的实体对象，同时会在运行中添加真实路径对象的键值对
+            truePath: [],
+            prediction: [],
+            show: false
+        },
         points_pre: [],
         init: function () {
             if (mainMap.isShow) {
                 return;
             }
-            let cesiumContainer = document.getElementById("cesiumContainer")
+            let cesiumContainer = document.getElementById("cesiumContainer");
             //init viewer, and add layer of google map to viewer
             mainMap.viewer = new Cesium.Viewer("cesiumContainer", {
                 fullscreenElement: cesiumContainer,//全屏按钮显示的全屏元素
@@ -34,57 +38,20 @@
                 sceneModePicker: true, //是否显示投影方式控件
                 navigationHelpButton: false, //是否显示帮助信息控件
                 infoBox: true,  //是否显示点击要素之后显示的信息
-                // imageryProvider: new Cesium.UrlTemplateImageryProvider({url: "http://mt1.google.cn/vt/lyrs=s&hl=zh-CN&x={x}&y={y}&z={z}&s=Gali"}),
-                imageryProvider: new Cesium.createTileMapServiceImageryProvider({
-                    url: 'http://127.0.0.1:8080/nasa_blue_marble',
-                    // credit: imageCredit,
-                    // layer: "hn_bigdata_2018dt_ogc_90.7",
-                    // style: "hn_bigdata_2018dtys1",
-                    // format: "image/png",
-                    // tileMatrixSetID: "hn_bigdata_2018dt_ogc_90.7",
-                    // maximumLevel: 18
-                })
+                imageryProvider: new Cesium.UrlTemplateImageryProvider({url: "http://mt1.google.cn/vt/lyrs=s&hl=zh-CN&x={x}&y={y}&z={z}&s=Gali"}),
             });
             mainMap.scene = mainMap.viewer.scene;
-            // mainMap.viewer.fullscreenElement = mainMap.viewer.canvas;
 
-            // let imageryProvider = new Cesium.WebMapTileServiceImageryProvider({
-            //     url: "http://59.212.37.22/mapserver/label/WMTS/1.0/hn_bigdata_2018dt/hn_bigdata_2018dtys1?Service=WMTS&REQUEST=GetTile&Version=1.0.0&layer=hn_bigdata_2018dt_tdt_96&tileMatrixSet=hn_bigdata_2018dt_tdt_96&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=hn_bigdata_2018dtys1&Format=image/png",
-            //     layer: "hn_bigdata_2018dt_tdt_96",
-            //     style: "hn_bigdata_2018dtys1",
-            //     format: "image/png",
-            //     tileMatrixSetID: "hn_bigdata_2018dt_tdt_96",
-            //     // maximumLevel: 18
-            // });
-            //  mainMap.scene.imageryLayers.addImageryProvider(imageryProvider);
+            // located to china
+            mainMap.viewer.camera.flyTo({
+                destination: Cesium.Cartesian3.fromDegrees(116.911, 29.21, 20000000),
+                orientation: {
+                    heading: Cesium.Math.toRadians(0),
+                    pitch: Cesium.Math.toRadians(-90),
+                    roll: Cesium.Math.toRadians(0)
+                }
+            });
 
-            // let imageryProvider = new Cesium.UrlTemplateImageryProvider({url: "http://mt1.google.cn/vt/lyrs=s&hl=zh-CN&x={x}&y={y}&z={z}&s=Gali"});
-            // mainMap.scene.imageryLayers.addImageryProvider(imageryProvider);
-            // mainMap.layers['base'] = imageryProvider;
-
-            // mainMap.layer = mainMap.viewer.imageryLayers.get(0);
-            // mainMap.layer.show = false;
-
-            // mainMap.viewer = new Cesium.Map('cesiumContainer');
-            // mainMap.layer = new Cesium.WebMapTileServiceImageryProvider({
-            //     url: "http://59.212.37.22/mapserver/label/WMTS/1.0/hn_bigdata_2018dt/hn_bigdata_2018dtys1?Service=WMTS&REQUEST=GetTile&Version=1.0.0&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}",
-            //     layer: "hn_bigdata_2018dt_ogc_90.7",
-            //     style: "hn_bigdata_2018dtys1",
-            //     format: "image/png",
-            //     tileMatrixSetID: "hn_bigdata_2018dt_ogc_90.7",
-            //     // maximumLevel: 18
-            // });
-            // mainMap.scene.imageryLayers.addImageryProvider(mainMap.layer);
-
-            //located to china
-            // mainMap.viewer.camera.flyTo({
-            //     destination: Cesium.Cartesian3.fromDegrees(116.911, 29.21, 20000000),
-            //     orientation: {
-            //         heading: Cesium.Math.toRadians(0),
-            //         pitch: Cesium.Math.toRadians(-90),
-            //         roll: Cesium.Math.toRadians(0)
-            //     }
-            // });
 
             //layers
             // mainMap.loadTyphoonLayer();
@@ -93,6 +60,7 @@
             mainMap.loadSatellite();
             mainMap.leftClickHandler();
             mainMap.loadEntity();
+
 
         },
         fullscreen: function () {
@@ -114,6 +82,11 @@
                         if (mainMap.viewer.dataSources.contains(dataSource)) {
                             mainMap.viewer.dataSources.remove(dataSource)
                         }
+                    } else if (node.type === 'wmts') {
+                        let dataSource = mainMap.layers[node.id];
+                        if (mainMap.viewer.scene.imageryLayers.contains(dataSource)) {
+                            mainMap.viewer.scene.imageryLayers.remove(dataSource)
+                        }
                     }
                 } else if (node.checked === true) {
                     if (node.type === 'tms') {
@@ -128,20 +101,10 @@
                             mainMap.layers[node.id] = mainMap.scene.imageryLayers.addImageryProvider(imageryProvider);
                         }
                     } else if (node.type === 'wmts') {
-                        // if already loaded, raise the layer to top
-                        if (mainMap.layers[node.id]) {
-                            mainMap.scene.imageryLayers.raiseToTop(mainMap.layers[node.id]);
-                        } else {
-                            let imageryProvider = new Cesium.WebMapTileServiceImageryProvider({
-                                url: "http://59.212.37.22/mapserver/label/WMTS/1.0/hn_bigdata_2018dt/hn_bigdata_2018dtys1?Service=WMTS&REQUEST=GetTile&Version=1.0.0&layer=hn_bigdata_2018dt_tdt_96&tileMatrixSet=hn_bigdata_2018dt_tdt_96&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=hn_bigdata_2018dtys1&Format=image/png",
-                                layer: "hn_bigdata_2018dt_tdt_96",
-                                style: "hn_bigdata_2018dtys1",
-                                format: "image/png",
-                                tileMatrixSetID: "hn_bigdata_2018dt_tdt_96",
-                                // maximumLevel: 18
-                            });
-                            mainMap.layers[node.id] = mainMap.viewer.scene.imageryLayers.addImageryProvider(imageryProvider);
-                        }
+                        let imageryProvider = new Cesium.WebMapTileServiceImageryProvider({
+                            url: node.source
+                        });
+                        mainMap.layers[node.id] = mainMap.viewer.scene.imageryLayers.addImageryProvider(imageryProvider);
                     } else if (node.type === "tianditu") {
                         // if already loaded, raise the layer to top
                         if (mainMap.layers[node.id]) {
@@ -160,7 +123,7 @@
                         }
                     } else if (node.type === "image") {
                         let labelImagery = new Cesium.ImageryLayer(new Cesium.SingleTileImageryProvider({
-                            url: './assets/img/1.png',
+                            url: './assets/img/population_density.png',
                             rectangle: Cesium.Rectangle.fromDegrees(108.58251, 18.14273, 111.06905, 20.17357)
                         }));
                         mainMap.imageLayers[node.id] = labelImagery;
@@ -169,104 +132,107 @@
                         let dataSource = mainMap.dataSource[node.id];
                         mainMap.viewer.dataSources.add(dataSource);
 
-                        var entities = dataSource.entities.values;
-                        let color = new Cesium.Color;
-
-                        switch (node.id) {
-                            case 'fx_ql':
-                                Cesium.Color.fromBytes(255, 236, 51, 255, color);
-                                break;
-                            case 'fx_fzst':
-                                Cesium.Color.fromBytes(51, 255, 134, 255, color);
-                                break;
-                            case 'fx_xx':
-                                Cesium.Color.fromBytes(51, 70, 255, 255, color);
-                                break;
-                            case 'mz_Village':
-                                Cesium.Color.fromBytes(255, 51, 172, 255, color);
-                                break;
-                            case 'fx_azd':
-                                Cesium.Color.fromBytes(51, 255, 238, 255, color);
-                                break;
-                            case 'gt_bt':
-                                Cesium.Color.fromBytes(136, 51, 255, 255, color);
-                                break;
-                            case 'mz_avoidancepoint':
-                                Cesium.Color.fromBytes(255, 51, 68, 255, color);
-                                break;
-                            case 'mz_Station':
-                                Cesium.Color.fromBytes(170, 255, 51, 255, color);
-                                break;
-                            default:
-                                Cesium.Color.fromBytes(255, 51, 126, 255, color);
-                        }
-                        for (var i = 0; i < entities.length; i++) {
-
-                            var entity = entities[i];
-                            entity.billboard = undefined;//设置billboard和point来显示一个点而不是图标
-                            entity.point = new Cesium.PointGraphics({
-                                color: color,
-                                pixelSize: 5
-                            });
-                        }
+                        //修改DataSource属性
+                        // var entities = dataSource.entities.values;
+                        // let color = new Cesium.Color;
+                        //
+                        // switch (node.id) {
+                        //     case 'fx_ql':
+                        //         Cesium.Color.fromBytes(255, 236, 51, 255, color);
+                        //         break;
+                        //     case 'fx_fzst':
+                        //         Cesium.Color.fromBytes(51, 255, 134, 255, color);
+                        //         break;
+                        //     case 'fx_xx':
+                        //         Cesium.Color.fromBytes(51, 70, 255, 255, color);
+                        //         break;
+                        //     case 'mz_Village':
+                        //         Cesium.Color.fromBytes(255, 51, 172, 255, color);
+                        //         break;
+                        //     case 'fx_azd':
+                        //         Cesium.Color.fromBytes(51, 255, 238, 255, color);
+                        //         break;
+                        //     case 'gt_bt':
+                        //         Cesium.Color.fromBytes(136, 51, 255, 255, color);
+                        //         break;
+                        //     case 'mz_avoidancepoint':
+                        //         Cesium.Color.fromBytes(255, 51, 68, 255, color);
+                        //         break;
+                        //     case 'mz_Station':
+                        //         Cesium.Color.fromBytes(170, 255, 51, 255, color);
+                        //         break;
+                        //     default:
+                        //         Cesium.Color.fromBytes(255, 51, 126, 255, color);
+                        // }
+                        // for (var i = 0; i < entities.length; i++) {
+                        //
+                        //     var entity = entities[i];
+                        //     entity.billboard = undefined;//设置billboard和point来显示一个点而不是图标
+                        //     entity.point = new Cesium.PointGraphics({
+                        //         color: color,
+                        //         pixelSize: 5
+                        //     });
+                        // }
                     }
                 }
             })
         },
         loadTyphoonLayer: function () {
-            let color = new Cesium.Color;
-            Cesium.Color.fromBytes(255, 51, 126, 255, color);
-            $.getJSON("assets/typhoon/2306291.json", function (data) {
-                // get basic info of typhoon
-                let allTime = data.typhoon[8];
-                let name = data.typhoon[2];
-                let description = '\
+            if (mainMap.typhoon.show) {
+                mainMap.deleteTyphoon();
+                mainMap.typhoon.show = false;
+            } else {
+                let color = new Cesium.Color;
+                Cesium.Color.fromBytes(255, 51, 126, 255, color);
+                $.getJSON("assets/typhoon/2306291.json", function (data) {
+                    // get basic info of typhoon
+                    let allTime = data.typhoon[8];
+                    let name = data.typhoon[2];
+                    let description = '\
                                 <p>\
                                   ' + data.typhoon[6] + '\
                                 </p>\
                                 ';
-                let points = [];
+                    let points = [];
 
-                // traverse the true position
-                allTime.forEach(moment => {
-                    drawIconTyp(name, description, moment);  //Draw typhoon icon by two points
-                    mainMap.typhoon[moment[0]] = moment;
-                    points.push(moment[4], moment[5]); //save true locations
+                    // traverse the true position
+                    allTime.forEach(moment => {
+                        drawIconTyp(name, description, moment);  //Draw typhoon icon by two points
+                        mainMap.typhoon[moment[0]] = moment;
+                        points.push(moment[4], moment[5]); //save true locations
+                    });
+
+                    //draw the true path of typhoon
+                    let polyline = mainMap.viewer.entities.add({
+                        // id: point[0],
+                        name: '台风路径',
+                        polyline: {
+                            positions: Cesium.Cartesian3.fromDegreesArray(points),
+                            width: 1.5,
+                            // clampToGround:true,
+                            material: color,
+                        }
+                    });
+                    mainMap.typhoon.truePath.push(polyline);
                 });
 
+                //Draw typhoon icon by two points
+                function drawIconTyp(name, description, point) {
+                    let typhoon = mainMap.viewer.entities.add({
+                        id: point[0],
+                        position: Cesium.Cartesian3.fromDegrees(point[4], point[5]),
+                        x: point[4],
+                        y: point[5],
+                        name: name + point[1],
+                        ellipse: {
+                            semiMinorAxis: 4000.0,
+                            semiMajorAxis: 4000.0,
+                            fill: true,
+                            material: color,
+                        }
+                    });
 
-                //draw the true path of typhoon
-                let polyline = mainMap.viewer.entities.add({
-                    // id: point[0],
-                    name: '台风路径',
-                    polyline: {
-                        positions: Cesium.Cartesian3.fromDegreesArray(points),
-                        width: 1.5,
-                        // clampToGround:true,
-                        material: color,
-                    }
-                });
-
-
-            });
-
-            //Draw typhoon icon by two points
-            function drawIconTyp(name, description, point) {
-                let typhoon = mainMap.viewer.entities.add({
-                    id: point[0],
-                    position: Cesium.Cartesian3.fromDegrees(point[4], point[5]),
-                    x: point[4],
-                    y: point[5],
-                    name: name + point[1],
-                    ellipse: {
-                        semiMinorAxis: 4000.0,
-                        semiMajorAxis: 4000.0,
-                        fill: true,
-                        material: color,
-                    }
-                });
-
-                let des = '\
+                    let des = '\
                                 <p>\
                                   ' + point[12][0] + '\
                                 </p>\
@@ -287,11 +253,22 @@
                                 </p>\
                                 ';
 
-                typhoon.description = des;
+                    typhoon.description = des;
+                    mainMap.typhoon.truePath.push(typhoon);
+                }
+
+                mainMap.typhoon.show = true;
             }
         },
         deleteTyphoon: function () {
-
+            //delete the original typhoon path
+            mainMap.typhoon.truePath.forEach(function (value) {
+                mainMap.viewer.entities.remove(value)
+            })
+            //delete the prediction typhoon path
+            mainMap.typhoon.prediction.forEach(function (value) {
+                mainMap.viewer.entities.remove(value)
+            })
         },
         loadSatellite: function () {
             //Multi Satellites
@@ -300,129 +277,675 @@
             mainMap.viewer.dataSources.add(multiSate);
         },
         initDataSource: function () {
-            //basic layer
-            let beforeWater = new Cesium.GeoJsonDataSource();
-            let afterWater = new Cesium.GeoJsonDataSource();
-            let floodDif = new Cesium.GeoJsonDataSource();
-            let LX_G = new Cesium.GeoJsonDataSource();
-            let LX_S = new Cesium.GeoJsonDataSource();
-            let Road_Z = new Cesium.GeoJsonDataSource();
-            let railway = new Cesium.GeoJsonDataSource();
-            let roadAffected = new Cesium.GeoJsonDataSource();
-            let fx_azd = new Cesium.GeoJsonDataSource();
-            let fx_fzst = new Cesium.GeoJsonDataSource();
-            let fx_ql = new Cesium.GeoJsonDataSource();
-            let fx_xx = new Cesium.GeoJsonDataSource();
-            let gt_bt = new Cesium.GeoJsonDataSource();
-            let mz_avoidancepoint = new Cesium.GeoJsonDataSource();
-            let mz_Station = new Cesium.GeoJsonDataSource();
-            let mz_Village = new Cesium.GeoJsonDataSource();
-            //affected layer
-            let affected_bridge = new Cesium.GeoJsonDataSource();
-            let affected_school = new Cesium.GeoJsonDataSource();
-            let affected_st = new Cesium.GeoJsonDataSource();
-            let affected_village = new Cesium.GeoJsonDataSource();
+            //para
+            const scale1 = 1,
+                scale2 = 0.1;
+            let color = new Cesium.Color();
 
+            //解析GeoJson中的多维坐标，对坐标进行降维，以适应cesium接口
+            let polylines = [];
+            let getPolyline = function (arr) {
+                this.arr = arr;
+                if ((typeof arr[0][0]) === 'number') {
+                    let polyline = [].concat.apply([], arr);
+                    polylines.push(polyline)
+                } else {
+                    arr.forEach(function (value) {
+                        getPolyline(value)
+                    })
+                }
+            };
+
+            //basic layer
+            let beforeWater = new Cesium.GeoJsonDataSource('beforeWater');
+            let afterWater = new Cesium.GeoJsonDataSource('afterWater');
+            let floodDif = new Cesium.GeoJsonDataSource('floodDif');
+            let LX_G = new Cesium.GeoJsonDataSource('LX_G');
+            let LX_S = new Cesium.GeoJsonDataSource('LX_S');
+            let Road_Z = new Cesium.GeoJsonDataSource('Road_Z');
+            let railway = new Cesium.GeoJsonDataSource('railway');
+            let roadAffected = new Cesium.GeoJsonDataSource('roadAffected');
+            let fx_azd = new Cesium.CustomDataSource('fx_azd');
+            let fx_fzst = new Cesium.CustomDataSource('fx_fzst');
+            let fx_ql = new Cesium.CustomDataSource('fx_ql');
+            let fx_xx = new Cesium.CustomDataSource('fx_xx');
+            let gt_bt = new Cesium.CustomDataSource('gt_bt');
+            let mz_avoidancepoint = new Cesium.CustomDataSource('mz_avoidancepoint');
+            let mz_Station = new Cesium.CustomDataSource('mz_Station');
+            let mz_Village = new Cesium.CustomDataSource('mz_Village');
+            //affected layer
+            let affected_bridge = new Cesium.CustomDataSource('affected_bridge');
+            let affected_school = new Cesium.CustomDataSource('affected_school');
+            let affected_st = new Cesium.CustomDataSource('affected_st');
+            let affected_village = new Cesium.CustomDataSource('affected_village');
+
+            //灾前水体矢量数据
             beforeWater.load('./assets/geojson/flood/Water_preDisaster.json', {
                 stroke: Cesium.Color.BLACK,
                 fill: Cesium.Color.BLUE.withAlpha(0.6),
                 strokeWidth: 3
             });
+
+            //灾后水体矢量数据
             afterWater.load('./assets/geojson/flood/Water_postDisaster.json', {
                 stroke: Cesium.Color.BLACK,
                 fill: Cesium.Color.DARKORANGE.withAlpha(0.6),
                 strokeWidth: 3
             });
+
+            //洪涝范围矢量数据
             floodDif.load('./assets/geojson/flood/SubmergeArea.json', {
                 stroke: Cesium.Color.BLACK,
                 fill: Cesium.Color.RED.withAlpha(0.4),
                 strokeWidth: 3
             });
-            LX_G.load('./assets/geojson/LX_G.json', {
-                stroke: Cesium.Color.BLUE,
-                fill: Cesium.Color.BLUE.withAlpha(0.6),
-                strokeWidth: 1
+
+            //国道
+            $.getJSON('./assets/geojson/public/LX_G.json', function (result) {
+                result.features.forEach(function (value) {
+                    // let coor = [].concat.apply([], value.geometry.coordinates[0]);
+                    getPolyline(value.geometry.coordinates);
+                    polylines.forEach(function (polyline) {
+                        let props = value.properties;
+                        let description = '\
+                                <p>\
+                                  ' + props.LXMC + '\
+                                </p>\
+                                ';
+
+                        LX_G.entities.add({
+                            name: '国道',
+                            polyline: {
+                                positions: Cesium.Cartesian3.fromDegreesArray(polyline),
+                                width: 3,
+                                material: Cesium.Color.fromBytes(51, 141, 255, 255, color),
+                            },
+                            description: description
+                        });
+                    });
+
+                    polylines = [];
+
+                });
             });
-            LX_S.load('./assets/geojson/LX_S.json', {
-                stroke: Cesium.Color(255, 204, 102, 1),
-                fill: Cesium.Color.YELLOW.withAlpha(0.6),
-                strokeWidth: 1
+
+            //省道
+            $.getJSON('./assets/geojson/public/LX_S.json', function (result) {
+                result.features.forEach(function (value) {
+                    // let coor = [].concat.apply([], value.geometry.coordinates[0]);
+                    getPolyline(value.geometry.coordinates);
+                    polylines.forEach(function (polyline) {
+                        let props = value.properties;
+                        let description = '\
+                                <p>\
+                                  ' + props.LXMC + '\
+                                </p>\
+                                ';
+
+                        LX_S.entities.add({
+                            name: '省道',
+                            polyline: {
+                                positions: Cesium.Cartesian3.fromDegreesArray(polyline),
+                                width: 2,
+                                material: Cesium.Color.fromBytes(51, 227, 255, 255, color),
+                            },
+                            description: description
+                        });
+                    });
+
+                    polylines = [];
+
+                });
             });
-            Road_Z.load('./assets/geojson/Road_Z.json', {
-                stroke: Cesium.Color.GREEN,
-                fill: Cesium.Color.RED.withAlpha(0.4),
-                strokeWidth: 1
+            //乡道
+            $.getJSON('./assets/geojson/public/Road_Z.json', function (result) {
+                result.features.forEach(function (value) {
+                    // let coor = [].concat.apply([], value.geometry.coordinates[0]);
+                    getPolyline(value.geometry.coordinates);
+                    polylines.forEach(function (polyline) {
+                        let props = value.properties;
+                        let description = '\
+                                <p>\
+                                  ' + props.LXMC + '\
+                                </p>\
+                                ';
+
+                        Road_Z.entities.add({
+                            name: '乡道',
+                            polyline: {
+                                positions: Cesium.Cartesian3.fromDegreesArray(polyline),
+                                width: 1,
+                                material: Cesium.Color.fromBytes(255, 181, 51, 255, color),
+                            },
+                            description: description
+                        });
+                    });
+
+                    polylines = [];
+
+                });
             });
-            railway.load('./assets/geojson/railway.json', {
-                stroke: Cesium.Color.RED,
-                fill: Cesium.Color.RED.withAlpha(0.4),
-                strokeWidth: 2
+            //铁路
+            $.getJSON('./assets/geojson/public/railway.json', function (result) {
+                result.features.forEach(function (value) {
+                    // let coor = [].concat.apply([], value.geometry.coordinates[0]);
+                    getPolyline(value.geometry.coordinates);
+                    polylines.forEach(function (polyline) {
+                        let props = value.properties;
+                        let description = '\
+                                <p>\
+                                  ' + props.name + '\
+                                </p>\
+                                ';
+
+                        railway.entities.add({
+                            name: '铁路',
+                            polyline: {
+                                positions: Cesium.Cartesian3.fromDegreesArray(polyline),
+                                width: 2,
+                                material: Cesium.Color.fromBytes(212, 35, 122, 255, color),
+                            },
+                            description: description
+                        });
+                    });
+
+                    polylines = [];
+
+                });
             });
-            roadAffected.load('./assets/geojson/result/Road_affected.json', {
-                stroke: Cesium.Color.WHITE,
-                fill: Cesium.Color.RED.withAlpha(0.4),
-                strokeWidth: 4
+            //受影响道路
+            $.getJSON('./assets/geojson/result/Road_affected.json', function (result) {
+                result.features.forEach(function (value) {
+                    // let coor = [].concat.apply([], value.geometry.coordinates[0]);
+                    getPolyline(value.geometry.coordinates);
+                    polylines.forEach(function (polyline) {
+                        let props = value.properties;
+                        let description = '\
+                                <p>\
+                                  ' + props.LXMC + '\
+                                </p>\
+                                ';
+
+                        roadAffected.entities.add({
+                            name: '受影响道路',
+                            polyline: {
+                                positions: Cesium.Cartesian3.fromDegreesArray(polyline),
+                                width: 4,
+                                material: Cesium.Color.RED.withAlpha(0.4),
+                            },
+                            description: description
+                        });
+                    })
+                    polylines = [];
+
+                });
             });
-            fx_azd.load('./assets/geojson/public/fx_azd.json', {
-                stroke: Cesium.Color.BLACK,
-                fill: Cesium.Color.BLUE.withAlpha(0.6),
-                strokeWidth: 3
+
+            //安置点
+            $.getJSON('./assets/geojson/public/fx_azd.json', function (result) {
+                result.features.forEach(function (value) {
+                    let coor = value.geometry.coordinates;
+                    let props = value.properties;
+                    let description = '\
+                                <p>\
+                                  ' + props.geo_name + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '地点：' + props.b11_name + '/' + props.b12_name + '/' + props.b13_name + '\
+                                </p>\
+                                ';
+
+                    fx_azd.entities.add({
+                        name: '安置点',
+                        position: Cesium.Cartesian3.fromDegrees(coor[0], coor[1]),
+                        billboard: {
+                            image: './assets/img/location/location_relocation_site.png',
+                            scaleByDistance: new Cesium.NearFarScalar(1.5e2, scale1, 1.5e7, scale2),
+                        },
+                        description: description
+                    });
+                });
             });
-            fx_fzst.load('./assets/geojson/public/fx_fzst.json', {
-                stroke: Cesium.Color.BLACK,
-                fill: Cesium.Color.DARKORANGE.withAlpha(0.6),
-                strokeWidth: 3
+
+            //房子水田
+            $.getJSON('./assets/geojson/public/fx_fzst.json', function (result) {
+                result.features.forEach(function (value) {
+                    let coor = value.geometry.coordinates;
+                    let props = value.properties;
+                    let description = '\
+                                <p>\
+                                  ' + '时间：' + props.FTIME + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '地点：' + props.b11_name + '/' + props.b12_name + '/' + props.b13_name + '/' + props.geo_name + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '事件：' + props.DDSCRIB + '\
+                                </p>\
+                                ';
+
+                    fx_fzst.entities.add({
+                        name: '房子水田',
+                        position: Cesium.Cartesian3.fromDegrees(coor[0], coor[1]),
+                        billboard: {
+                            image: './assets/img/location/location_farm.png',
+                            scaleByDistance: new Cesium.NearFarScalar(1.5e2, scale1, 1.5e7, scale2),
+                        },
+                        description: description
+                    });
+                });
             });
-            fx_ql.load('./assets/geojson/public/fx_ql.json', {
-                stroke: Cesium.Color.BLACK,
-                fill: Cesium.Color.RED.withAlpha(0.4),
-                strokeWidth: 3
+
+            //桥梁
+            $.getJSON('./assets/geojson/public/fx_ql.json', function (result) {
+                result.features.forEach(function (value) {
+                    let coor = value.geometry.coordinates;
+                    let props = value.properties;
+                    let description = '\
+                                <p>\
+                                  ' + '名称：' + props.NAME + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '地点：' + props.b11_name + '/' + props.b12_name + '/' + props.b13_name + '\
+                                </p>\
+                                ';
+
+                    fx_ql.entities.add({
+                        name: '桥梁',
+                        position: Cesium.Cartesian3.fromDegrees(coor[0], coor[1]),
+                        billboard: {
+                            image: './assets/img/road/road_ql.png',
+                            scaleByDistance: new Cesium.NearFarScalar(1.5e2, scale1, 1.5e7, scale2),
+                        },
+                        description: description
+                    });
+                });
             });
-            fx_xx.load('./assets/geojson/public/fx_xx.json', {
-                stroke: Cesium.Color.BLUE,
-                fill: Cesium.Color.BLUE.withAlpha(0.6),
-                strokeWidth: 1
+
+            //学校
+            $.getJSON('./assets/geojson/public/fx_xx.json', function (result) {
+                result.features.forEach(function (value) {
+                    let coor = value.geometry.coordinates;
+                    let props = value.properties;
+                    let description = '\
+                                <p>\
+                                  ' + '名称：' + props.geo_name + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '地点：' + props.b11_name + '/' + props.b12_name + '/' + props.b13_name + '\
+                                </p>\
+                                ';
+
+                    fx_xx.entities.add({
+                        name: '学校医院',
+                        position: Cesium.Cartesian3.fromDegrees(coor[0], coor[1]),
+                        billboard: {
+                            image: './assets/img/location/location_school.png',
+                            scaleByDistance: new Cesium.NearFarScalar(1.5e2, scale1, 1.5e7, scale2),
+                        },
+                        description: description
+                    });
+                });
             });
-            gt_bt.load('./assets/geojson/public/gt_bt.json', {
-                stroke: Cesium.Color(255, 204, 102, 1),
-                fill: Cesium.Color.YELLOW.withAlpha(0.6),
-                strokeWidth: 1
+
+            //地灾崩塌点
+            $.getJSON('./assets/geojson/public/gt_bt.json', function (result) {
+                result.features.forEach(function (value) {
+                    let coor = value.geometry.coordinates;
+                    let props = value.properties;
+                    let description = '\
+                                <p>\
+                                  ' + '时间：' + props.TBRQ + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '地点：' + props.b11_name + '/' + props.b12_name + '/' + props.b13_name + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '描述：' + props.WHDX + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '植被类型：' + props.ZBLX + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '调查区：' + props.DCQ + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '评级：' + props.ZHDLX + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '调查人：' + props.DCDW + '\
+                                </p>\
+                                ';
+
+                    gt_bt.entities.add({
+                        name: '地灾崩塌点',
+                        position: Cesium.Cartesian3.fromDegrees(coor[0], coor[1]),
+                        billboard: {
+                            image: './assets/img/location/location_collapse.png',
+                            scaleByDistance: new Cesium.NearFarScalar(1.5e2, scale1, 1.5e7, scale2),
+                        },
+                        description: description
+                    });
+                });
             });
-            mz_avoidancepoint.load('./assets/geojson/public/mz_avoidancepoint.json', {
-                stroke: Cesium.Color.GREEN,
-                fill: Cesium.Color.RED.withAlpha(0.4),
-                strokeWidth: 1
+
+            //避难场所
+            $.getJSON('./assets/geojson/public/mz_avoidancepoint.json', function (result) {
+                result.features.forEach(function (value) {
+                    let coor = value.geometry.coordinates;
+                    let props = value.properties;
+                    let description = '\
+                                <p>\
+                                  ' + '名称：' + props.geo_name + props.geo_addr + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                 ' + '避难类型：' + props.AvoidanceT + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                 ' + '房屋面积：' + props.FloorArea + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                 ' + '室内面积：' + props.IndoorArea + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                 ' + '可容纳：' + props.Population + '人' + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '地点：' + props.b11_name + '/' + props.b12_name + '/' + props.b13_name + '\
+                                </p>\
+                                ';
+
+                    mz_avoidancepoint.entities.add({
+                        name: '避难场所',
+                        position: Cesium.Cartesian3.fromDegrees(coor[0], coor[1]),
+                        billboard: {
+                            image: './assets/img/location/location_collapse.png',
+                            scaleByDistance: new Cesium.NearFarScalar(1.5e2, scale1, 1.5e7, scale2),
+                        },
+                        description: description
+                    });
+                });
             });
-            mz_Station.load('./assets/geojson/public/mz_Station.json', {
-                stroke: Cesium.Color.RED,
-                fill: Cesium.Color.RED.withAlpha(0.4),
-                strokeWidth: 2
+
+            //救助站
+            $.getJSON('./assets/geojson/public/mz_Station.json', function (result) {
+                result.features.forEach(function (value) {
+                    let coor = value.geometry.coordinates;
+                    let props = value.properties;
+                    let description = '\
+                                <p>\
+                                  ' + '名称：' + props.geo_addr + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '类型：' + props.ATCUNIT + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '地点：' + props.b11_name + '/' + props.b12_name + '/' + props.b13_name + '\
+                                </p>\
+                                ';
+
+                    mz_Station.entities.add({
+                        name: '救助站',
+                        position: Cesium.Cartesian3.fromDegrees(coor[0], coor[1]),
+                        billboard: {
+                            image: './assets/img/location/location_shelter.png',
+                            scaleByDistance: new Cesium.NearFarScalar(1.5e2, scale1, 1.5e7, scale2),
+                        },
+                        description: description
+                    });
+                });
             });
-            mz_Village.load('./assets/geojson/public/mz_Village.json', {
-                stroke: Cesium.Color.WHITE,
-                fill: Cesium.Color.RED.withAlpha(0.4),
-                strokeWidth: 4
+
+            //村庄
+            $.getJSON('./assets/geojson/public/mz_Village.json', function (result) {
+                result.features.forEach(function (value) {
+                    let coor = value.geometry.coordinates;
+                    let props = value.properties;
+                    let description = '\
+                                <p>\
+                                  ' + '名称：' + props.geo_name + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '人口：' + props.Population + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '男性：' + props.Male + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '女性：' + props.Female + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '房屋：' + props.Households + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '地点：' + props.b11_name + '/' + props.b12_name + '/' + props.b13_name + '\
+                                </p>\
+                                ';
+
+                    mz_Village.entities.add({
+                        name: '村庄',
+                        position: Cesium.Cartesian3.fromDegrees(coor[0], coor[1]),
+                        billboard: {
+                            image: './assets/img/location/location_village.png',
+                            scaleByDistance: new Cesium.NearFarScalar(1.5e2, scale1, 1.5e7, scale2),
+                        },
+                        description: description
+                    });
+                });
             });
-            affected_bridge.load('./assets/geojson/result/affected_bridge.json', {
-                stroke: Cesium.Color(255, 204, 102, 1),
-                fill: Cesium.Color.YELLOW.withAlpha(0.6),
-                strokeWidth: 1
+
+            //受影响桥梁
+            $.getJSON('./assets/geojson/result/affected_bridge.json', function (result) {
+                result.features.forEach(function (value) {
+                    let coor = value.geometry.coordinates;
+                    let props = value.properties;
+                    let description = '\
+                                <p>\
+                                  ' + '名称：' + props.NAME + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '地点：' + props.b11_name + '/' + props.b12_name + '/' + props.b13_name + '\
+                                </p>\
+                                ';
+
+                    affected_bridge.entities.add({
+                        name: '受影响桥梁',
+                        position: Cesium.Cartesian3.fromDegrees(coor[0], coor[1]),
+                        billboard: {
+                            image: './assets/img/accident/accident_bridge.png',
+                            scaleByDistance: new Cesium.NearFarScalar(1.5e2, scale1, 1.5e7, scale2),
+                        },
+                        description: description
+                    });
+                });
             });
-            affected_school.load('./assets/geojson/result/affected_school.json', {
-                stroke: Cesium.Color.GREEN,
-                fill: Cesium.Color.RED.withAlpha(0.4),
-                strokeWidth: 1
+
+            //受影响学校
+            $.getJSON('./assets/geojson/result/affected_school.json', function (result) {
+                result.features.forEach(function (value) {
+                    let coor = value.geometry.coordinates;
+                    let props = value.properties;
+                    let description = '\
+                                <p>\
+                                  ' + '名称：' + props.geo_name + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '地点：' + props.b11_name + '/' + props.b12_name + '/' + props.b13_name + '\
+                                </p>\
+                                ';
+
+                    affected_school.entities.add({
+                        name: '受影响学校',
+                        position: Cesium.Cartesian3.fromDegrees(coor[0], coor[1]),
+                        billboard: {
+                            image: './assets/img/accident/accident_school.png',
+                            scaleByDistance: new Cesium.NearFarScalar(1.5e2, scale1, 1.5e7, scale2),
+                        },
+                        description: description
+                    });
+                });
             });
-            affected_st.load('./assets/geojson/result/affected_st.json', {
-                stroke: Cesium.Color.RED,
-                fill: Cesium.Color.RED.withAlpha(0.4),
-                strokeWidth: 2
+
+            //受影响水田
+            $.getJSON('./assets/geojson/result/affected_st.json', function (result) {
+                result.features.forEach(function (value) {
+                    let coor = value.geometry.coordinates;
+                    let props = value.properties;
+                    let description = '\
+                                <p>\
+                                  ' + '时间：' + props.FTIME + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '地点：' + props.b11_name + '/' + props.b12_name + '/' + props.b13_name + '/' + props.geo_name + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '事件：' + props.DDSCRIB + '\
+                                </p>\
+                                ';
+
+                    affected_st.entities.add({
+                        name: '受影响水田',
+                        position: Cesium.Cartesian3.fromDegrees(coor[0], coor[1]),
+                        billboard: {
+                            image: './assets/img/accident/accident_farm.png',
+                            scaleByDistance: new Cesium.NearFarScalar(1.5e2, scale1, 1.5e7, scale2),
+                        },
+                        description: description
+                    });
+                });
             });
-            affected_village.load('./assets/geojson/result/affected_village.json', {
-                stroke: Cesium.Color.WHITE,
-                fill: Cesium.Color.RED.withAlpha(0.4),
-                strokeWidth: 4
+
+            //受影响村庄
+            $.getJSON('./assets/geojson/result/affected_village.json', function (result) {
+                result.features.forEach(function (value) {
+                    let coor = value.geometry.coordinates;
+                    let props = value.properties;
+                    let description = '\
+                                <p>\
+                                  ' + '名称：' + props.geo_name + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '人口：' + props.Population + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '男性：' + props.Male + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '女性：' + props.Female + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '房屋：' + props.Households + '\
+                                </p>\
+                                ' + '\
+                                <p>\
+                                  ' + '地点：' + props.b11_name + '/' + props.b12_name + '/' + props.b13_name + '\
+                                </p>\
+                                ';
+
+                    affected_village.entities.add({
+                        name: '受影响村庄',
+                        position: Cesium.Cartesian3.fromDegrees(coor[0], coor[1]),
+                        billboard: {
+                            image: './assets/img/accident/accident_village.png',
+                            scaleByDistance: new Cesium.NearFarScalar(1.5e2, scale1, 1.5e7, scale2),
+                        },
+                        description: description
+                    });
+                });
             });
+
+            //修改DataSource的属性
+            // let promise = affected_village.load('./assets/geojson/public/mz_Village.json', {
+            //     // stroke: Cesium.Color.WHITE,
+            //     // fill: Cesium.Color.RED.withAlpha(0.4),
+            //     // strokeWidth: 4
+            // });
+            //
+            // promise.then(function(dataSource) {
+            //     // mainMap.viewer.dataSources.add(dataSource);
+            //
+            //     //Get the array of entities
+            //     var entities = dataSource.entities.values;
+            //
+            //     var colorHash = {};
+            //     for (var i = 0; i < entities.length; i++) {
+            //         //For each entity, create a random color based on the state name.
+            //         //Some states have multiple entities, so we store the color in a
+            //         //hash so that we use the same color for the entire state.
+            //         var entity = entities[i];
+            //         var name = entity.name;
+            //         var color = colorHash[name];
+            //         if (!color) {
+            //             color = Cesium.Color.fromRandom({
+            //                 alpha : 1.0
+            //             });
+            //             colorHash[name] = color;
+            //         }
+            //
+            //         entity.billboard = undefined;//设置billboard和point来显示一个点而不是图标
+            //         // entity.point = new Cesium.PointGraphics({
+            //         //     color: color,
+            //         //     pixelSize: 5
+            //         // });
+            //
+            //         let img = new Cesium.ImageMaterialProperty({
+            //             // image:'./assets/img/Household Carbon Footprint.svg'
+            //             image: './assets/img/school.png'
+            //
+            //         })
+            //
+            //         entity.ellipse = new Cesium.EllipseGraphics({
+            //             semiMinorAxis: 10.0,
+            //             semiMajorAxis: 10.0,
+            //             fill: true,
+            //             material: img,
+            //         })
+            //
+            //         //Set the polygon material to our random color.
+            //         // entity.polygon.material = color;
+            //         //Remove the outlines.
+            //         // entity.polygon.outline = false;
+            //
+            //         //Extrude the polygon based on the state's population.  Each entity
+            //         //stores the properties for the GeoJSON feature it was created from
+            //         //Since the population is a huge number, we divide by 50.
+            //         // entity.polygon.extrudedHeight = entity.properties.Population / 50.0;
+            //     }
+            // }).otherwise(function(error){
+            //     //Display any errrors encountered while loading.
+            //     window.alert(error);
+            // });
 
             mainMap.dataSource['beforeWater'] = beforeWater;
             mainMap.dataSource['afterWater'] = afterWater;
@@ -448,45 +971,56 @@
         loadDataSource: function (index) {
             let dataSource = mainMap.dataSource[index];
 
-            let entities = dataSource.entities.values;
-            let color = new Cesium.Color;
-
-            switch (index) {
-                case 'affected_bridge':
-                    Cesium.Color.fromBytes(255, 236, 51, 255, color);
-                    break;
-                case 'affected_school':
-                    Cesium.Color.fromBytes(51, 255, 134, 255, color);
-                    break;
-                case 'affected_st':
-                    Cesium.Color.fromBytes(51, 70, 255, 255, color);
-                    break;
-                case 'affected_village':
-                    Cesium.Color.fromBytes(255, 51, 172, 255, color);
-                    break;
-                default:
-                    Cesium.Color.fromBytes(255, 51, 126, 255, color);
-            }
-            for (var i = 0; i < entities.length; i++) {
-                var entity = entities[i];
-                entity.billboard = undefined;//设置billboard和point来显示一个点而不是图标
-                entity.point = new Cesium.PointGraphics({
-                    color: color,
-                    pixelSize: 5
-                });
-            }
-
+            // let entities = dataSource.entities.values;
+            // let color = new Cesium.Color;
+            // let img = new Cesium.ImageMaterialProperty({
+            //     image: './assets/img/school.png'
+            //
+            // });
+            //
+            // switch (index) {
+            //     case 'affected_bridge':
+            //         img = new Cesium.ImageMaterialProperty({
+            //             image: './assets/img/school.png',
+            //             transparent: true
+            //         });
+            //         break;
+            //     case 'affected_school':
+            //         img = new Cesium.ImageMaterialProperty({
+            //             image: './assets/img/Household Carbon Footprint.svg',
+            //             transparent: true
+            //         });
+            //         break;
+            //     case 'affected_st':
+            //         img = new Cesium.ImageMaterialProperty({
+            //             image: './assets/img/school.png',
+            //             transparent: true
+            //         });
+            //         break;
+            //     case 'affected_village':
+            //         img = new Cesium.ImageMaterialProperty({
+            //             image: './assets/img/school.png',
+            //             transparent: true
+            //         });
+            //         break;
+            //     default:
+            //         img = new Cesium.ImageMaterialProperty({
+            //             image: './assets/img/school.png',
+            //             transparent: true
+            //         });
+            // }
+            // //设置图标来显示一个点而不是billboard
             // for (var i = 0; i < entities.length; i++) {
             //     var entity = entities[i];
-            //     entity.billboard = new Cesium.BillboardGraphics({
-            //         image : './img/map/typhoon (1).png',
-            //         imageSubRegion : new Cesium.BoundingRectangle(100, 100, 100, 100),
-            //         // color : new Cesium.Color(0, 0.5, 1.0, 1.0)
-            //     });//设置billboard和point来显示一个点而不是图标
-            //     entity.point = new Cesium.PointGraphics({
-            //         color: color,
-            //         pixelSize: 5
-            //     });
+            //     entity.billboard = undefined;
+            //     entity.point = undefined;
+            //     entity.ellipse = new Cesium.EllipseGraphics({
+            //         semiMinorAxis: 400.0,
+            //         semiMajorAxis: 400.0,
+            //         fill: true,
+            //         material: img,
+            //     })
+            //
             // }
 
             if (mainMap.viewer.dataSources.contains(dataSource)) {
@@ -616,7 +1150,7 @@
                     let id = pick.id._id;
                     if (mainMap.typhoon.hasOwnProperty(id)) {
                         // clear old points
-                        mainMap.points_pre.forEach(e => {
+                        mainMap.typhoon.prediction.forEach(e => {
                             mainMap.viewer.entities.remove(e);
                         });
 
@@ -646,7 +1180,7 @@
                                 outlineWidth: 2000
                             }
                         });
-                        mainMap.points_pre.push(range);
+                        mainMap.typhoon.prediction.push(range);
 
                         //load new points
                         if (mainMap.typhoon[id][11] !== null) {
@@ -674,8 +1208,8 @@
                                     }
                                 });
 
-                                mainMap.points_pre.push(typhoon);
-                            })
+                                mainMap.typhoon.prediction.push(typhoon);
+                            });
 
                             //draw the path of typhoon
                             let polyline = mainMap.viewer.entities.add({
@@ -689,7 +1223,7 @@
                                     }),
                                 }
                             });
-                            mainMap.points_pre.push(polyline);
+                            mainMap.typhoon.prediction.push(polyline);
                         }
 
                     }
