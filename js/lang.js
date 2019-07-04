@@ -200,6 +200,7 @@
         typhoon_wind_speed:'最大风速',
         typhoon_wind_direction:'风向',
         typhoon_speed:'移动速度',
+        typhoon_radius:'风圈半径',
 
         affected_bridge:'受影响桥梁',
         affected_school:'受影响学校',
@@ -405,6 +406,7 @@
         typhoon_wind_speed:'Wind speed',
         typhoon_wind_direction:'Wind Direction',
         typhoon_speed:'Typhoon Speed',
+        typhoon_radius:'Radius',
 
         affected_bridge:'Affected Bridge',
         affected_school:'Affected School',

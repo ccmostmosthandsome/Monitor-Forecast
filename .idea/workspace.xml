@@ -3,46 +3,15 @@
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/js/index.js" line="9" />
     <bookmark url="file://$PROJECT_DIR$/js/lang.js" line="54" />
-    <bookmark url="file://$PROJECT_DIR$/js/cesiumTool/CesiumViewer.js" line="490" />
+    <bookmark url="file://$PROJECT_DIR$/js/cesiumTool/CesiumViewer.js" line="625" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b6473e00-0b70-4a58-bd44-8090cce42da8" name="Default" comment="version 0.1.4&#10;build：&#10;  1.分析结果，详细信息展示">
-      <change afterPath="$PROJECT_DIR$/assets/img/accident/accident (1).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/img/accident/accident (2).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/img/accident/accident_bridge.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/img/accident/accident_farm.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/img/accident/accident_school.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/img/accident/accident_village.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/img/location/location_collapse.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/img/location/location_farm.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/img/location/location_relocation_site.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/img/location/location_rescue_station.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/img/location/location_school.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/img/location/location_shelter.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/img/location/location_village.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/img/road/road (1).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/img/road/road (5).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/img/road/road_g.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/img/road/road_ql.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/img/road/road_railway.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/img/road/road_s.png" afterDir="false" />
+    <list default="true" id="b6473e00-0b70-4a58-bd44-8090cce42da8" name="Default" comment="build:添加图例信息到图层列表中;&#10;      点实体用响应颜色图标表示&#10;fix:修改实体详细信息">
+      <change afterPath="$PROJECT_DIR$/plugins/wps-js/wps-js-all.min.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/geojson/LX_G.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/geojson/public/LX_G.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/geojson/LX_S.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/geojson/public/LX_S.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/geojson/Road_Z.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/geojson/public/Road_Z.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/geojson/afterWater.geojson" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/geojson/beforeWater.geojson" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/geojson/floodDif.geojson" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/geojson/public/fx_azd.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/geojson/public/fx_azd.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/geojson/public/mz_Station.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/geojson/public/mz_Station.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/geojson/railway.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/geojson/public/railway.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/geojson/result/affected_village.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/geojson/result/affected_village.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/geojson/road/Road_affected.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/geojson/road_affected.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/img/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/img/population_density.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/img/population.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/typhoon/view_2306291" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/cesiumTool/CesiumViewer.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/cesiumTool/CesiumViewer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/lang.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/lang.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -59,11 +28,39 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="16739">
+              <caret line="881" column="29" selection-start-line="881" selection-start-column="29" selection-end-line="881" selection-end-column="29" />
+              <folding>
+                <element signature="n#style#0;n#li#0;n#ul#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#0;n#span#0;n#li#5;n#ul#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#ul#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#ul#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#ul#4;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/cesiumTool/CesiumViewer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="318">
-              <caret line="436" column="48" selection-start-line="436" selection-start-column="48" selection-end-line="436" selection-end-column="48" />
+            <state relative-caret-position="557">
+              <caret line="137" column="67" selection-start-line="137" selection-start-column="67" selection-end-line="137" selection-end-column="67" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/typhoon/2306291.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="20957">
+              <caret line="1124" column="29" selection-start-line="1124" selection-start-column="29" selection-end-line="1124" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -81,7 +78,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>loadDisPie</find>
       <find>menu_pre_water</find>
       <find>Roadaff</find>
       <find>卫星</find>
@@ -111,6 +107,7 @@
       <find>population</find>
       <find>受影响道路</find>
       <find>railway</find>
+      <find>typhoon_speed</find>
     </findStrings>
     <dirStrings>
       <dir>D:\Workspace\HaiNan-workspace\Monitor-Forecast</dir>
@@ -120,8 +117,9 @@
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
-        <option value="Z" />
         <option value="Zhexi Zhang &lt;503464791@qq.com&gt;" />
+        <option value="Jesse" />
+        <option value="Z" />
         <option value="ZxZhang" />
       </list>
     </option>
@@ -169,12 +167,10 @@
         <option value="$PROJECT_DIR$/test.html" />
         <option value="$PROJECT_DIR$/js/cesiumTool/typhoonLayerC.js" />
         <option value="$PROJECT_DIR$/plugins/Cesium/Widgets/widgets.css" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/css/pstyle.css" />
         <option value="$PROJECT_DIR$/assets/typhoon/2306291.json" />
         <option value="$PROJECT_DIR$/assets/geojson/result/affected_village.json" />
         <option value="$PROJECT_DIR$/assets/geojson/public/fx_azd.json" />
-        <option value="$PROJECT_DIR$/js/lang.js" />
         <option value="$PROJECT_DIR$/js/index.js" />
         <option value="$PROJECT_DIR$/assets/geojson/public/fx_fzst.json" />
         <option value="$PROJECT_DIR$/assets/geojson/public/fx_ql.json" />
@@ -184,15 +180,17 @@
         <option value="$PROJECT_DIR$/assets/geojson/public/mz_Station.json" />
         <option value="$PROJECT_DIR$/assets/geojson/public/mz_Village.json" />
         <option value="$PROJECT_DIR$/assets/geojson/result/Road_affected.json" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/lang.js" />
         <option value="$PROJECT_DIR$/js/cesiumTool/CesiumViewer.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="2238" />
-    <option name="y" value="266" />
-    <option name="width" value="1152" />
-    <option name="height" value="620" />
+    <option name="x" value="1912" />
+    <option name="y" value="245" />
+    <option name="width" value="1552" />
+    <option name="height" value="840" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -202,6 +200,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -224,49 +223,7 @@
               <item name="Monitor-Forecast" type="b2602c69:ProjectViewProjectNode" />
               <item name="Monitor-Forecast" type="462c0819:PsiDirectoryNode" />
               <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="geojson" type="462c0819:PsiDirectoryNode" />
-              <item name="flood" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Monitor-Forecast" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Monitor-Forecast" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="geojson" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Monitor-Forecast" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Monitor-Forecast" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="geojson" type="462c0819:PsiDirectoryNode" />
-              <item name="result" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Monitor-Forecast" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Monitor-Forecast" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="img" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Monitor-Forecast" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Monitor-Forecast" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="img" type="462c0819:PsiDirectoryNode" />
-              <item name="accident" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Monitor-Forecast" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Monitor-Forecast" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="img" type="462c0819:PsiDirectoryNode" />
-              <item name="location" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Monitor-Forecast" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Monitor-Forecast" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="img" type="462c0819:PsiDirectoryNode" />
-              <item name="road" type="462c0819:PsiDirectoryNode" />
+              <item name="typhoon" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Monitor-Forecast" type="b2602c69:ProjectViewProjectNode" />
@@ -277,7 +234,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -285,27 +241,27 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="editor.config.ad.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/img/accident" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/plugins" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.tools" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.JSP" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Program Files\tomcat\apache-tomcat-8.5.33\webapps\Monitor-Forecast\plugins" />
+      <recent name="D:\Program Files\tomcat\apache-tomcat-8.5.33\webapps\Monitor-Forecast\assets\img\accident" />
+      <recent name="D:\Program Files\tomcat\apache-tomcat-8.5.33\webapps\Monitor-Forecast\assets\img\road" />
+      <recent name="D:\Program Files\tomcat\apache-tomcat-8.5.33\webapps\Monitor-Forecast\assets\img\location" />
+      <recent name="D:\Program Files\tomcat\apache-tomcat-8.5.33\webapps\Monitor-Forecast\assets\img" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Program Files\tomcat\apache-tomcat-8.5.33\webapps\Monitor-Forecast\assets\img\accident" />
       <recent name="D:\Program Files\tomcat\apache-tomcat-8.5.33\webapps\Monitor-Forecast\assets\geojson\public" />
       <recent name="D:\Program Files\tomcat\apache-tomcat-8.5.33\webapps\Monitor-Forecast\assets\geojson\result" />
       <recent name="D:\Program Files\tomcat\apache-tomcat-8.5.33\webapps\Monitor-Forecast\assets\img\location" />
       <recent name="D:\Program Files\tomcat\apache-tomcat-8.5.33\webapps\Monitor-Forecast\assets\img" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Program Files\tomcat\apache-tomcat-8.5.33\webapps\Monitor-Forecast\assets\img\accident" />
-      <recent name="D:\Program Files\tomcat\apache-tomcat-8.5.33\webapps\Monitor-Forecast\assets\img\road" />
-      <recent name="D:\Program Files\tomcat\apache-tomcat-8.5.33\webapps\Monitor-Forecast\assets\img\location" />
-      <recent name="D:\Program Files\tomcat\apache-tomcat-8.5.33\webapps\Monitor-Forecast\assets\img" />
-      <recent name="D:\Program Files\tomcat\apache-tomcat-8.5.33\webapps\Monitor-Forecast\assets\pdf" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -497,7 +453,17 @@
       <workItem from="1561475841636" duration="42000" />
       <workItem from="1561476078608" duration="1554000" />
       <workItem from="1561511142776" duration="9899000" />
-      <workItem from="1561531167435" duration="8685000" />
+      <workItem from="1561531167435" duration="9410000" />
+      <workItem from="1561611592080" duration="883000" />
+      <workItem from="1561618202929" duration="663000" />
+      <workItem from="1561619062773" duration="1208000" />
+      <workItem from="1561880478908" duration="1035000" />
+      <workItem from="1561943789690" duration="3203000" />
+      <workItem from="1562033141889" duration="7621000" />
+      <workItem from="1562065427455" duration="999000" />
+      <workItem from="1562120980577" duration="1743000" />
+      <workItem from="1562138259704" duration="6687000" />
+      <workItem from="1562202555280" duration="6543000" />
     </task>
     <task id="LOCAL-00001" summary="version 0">
       <created>1547535273153</created>
@@ -548,11 +514,18 @@
       <option name="project" value="LOCAL" />
       <updated>1560913519269</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="build:添加图例信息到图层列表中;&#10;      点实体用响应颜色图标表示&#10;fix:修改实体详细信息">
+      <created>1561541033784</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1561541033784</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="495092000" />
+    <option name="totallyTimeSpent" value="526402000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -567,21 +540,21 @@
     <frame x="1912" y="133" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49839228" visible="true" weight="0.13435195" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49839228" visible="true" weight="0.13804004" />
       <window_info id="Structure" order="1" sideWeight="0.5016077" side_tool="true" weight="0.15384616" />
       <window_info id="Favorites" order="2" sideWeight="0.5016077" side_tool="true" weight="0.15384616" />
       <window_info id="npm" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.329718" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49603698" weight="0.4088937" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49603698" weight="0.7364425" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.4993395" weight="0.3275488" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49867898" weight="0.55748373" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5052687" side_tool="true" weight="0.3253796" />
-      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.4947313" weight="0.3253796" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.506605" side_tool="true" weight="0.32531825" />
+      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.49339497" weight="0.3243626" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -646,33 +619,10 @@
     <MESSAGE value="version 0.1.2&#10;fix: 删除数据模块，&#10;     重新组织CesiumViewer，&#10;     添加公路、铁路、受损道路、灾前水库范围、灾后水库范围、洪涝范围矢量图，&#10;     添加灾前水体影像、灾后水体影像图片、海南岛雨情图" />
     <MESSAGE value="version 0.1.3&#10;build：&#10;  1.图层管理，已实现加载wms、geoJson、png&#10;  2.cesium控件全屏&#10;  3.添加台风图层&#10;fix：&#10;  1.cesium工具栏位置调优&#10;  2.删除全局重定位功能，修复cesium点击事件" />
     <MESSAGE value="version 0.1.4&#10;build：&#10;  1.分析结果，详细信息展示" />
-    <option name="LAST_COMMIT_MESSAGE" value="version 0.1.4&#10;build：&#10;  1.分析结果，详细信息展示" />
+    <MESSAGE value="build:添加图例信息到图层列表中;&#10;      点实体用响应颜色图标表示&#10;fix:修改实体详细信息" />
+    <option name="LAST_COMMIT_MESSAGE" value="build:添加图例信息到图层列表中;&#10;      点实体用响应颜色图标表示&#10;fix:修改实体详细信息" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/assets/geojson/result/affected_village.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="16" column="22" lean-forward="true" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/pstyle.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4579">
-          <caret line="241" column="1" selection-start-line="241" selection-start-column="1" selection-end-line="241" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/typhoon/2306291.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46341">
-          <caret line="2439" column="10" selection-start-line="2439" selection-start-column="10" selection-end-line="2439" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/plugins/ztree/css/zTreeStyle/img/line_conn.gif">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/plugins/ztree/css/zTreeStyle/img/loading.gif">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -709,29 +659,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="603">
-          <caret line="51" column="22" lean-forward="true" selection-start-line="51" selection-start-column="22" selection-end-line="51" selection-end-column="22" />
-          <folding>
-            <element signature="n#style#0;n#li#0;n#ul#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#span#0;n#li#5;n#ul#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ul#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ul#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ul#4;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/img/location/location_rescue_station.png">
       <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/lang.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1026">
-          <caret line="54" column="26" lean-forward="true" selection-start-line="54" selection-start-column="26" selection-end-line="54" selection-end-column="26" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/img/road/road_ql.png">
       <provider selected="true" editor-type-id="images" />
@@ -781,44 +710,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-16473">
-          <caret line="27" column="41" lean-forward="true" selection-start-line="27" selection-start-column="41" selection-end-line="27" selection-end-column="41" />
-          <folding>
-            <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/img/2.gif">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/img/azd.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/img/fx.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/img/Household Carbon Footprint.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/img/2.gif" />
+    <entry file="file://$PROJECT_DIR$/assets/img/azd.png" />
+    <entry file="file://$PROJECT_DIR$/assets/img/fx.png" />
+    <entry file="file://$PROJECT_DIR$/assets/img/Household Carbon Footprint.svg" />
     <entry file="file://$PROJECT_DIR$/assets/img/population_density.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/img/population.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/img/school.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/img/school.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/img/school2.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/img/population.png" />
+    <entry file="file://$PROJECT_DIR$/assets/img/school.png" />
+    <entry file="file://$PROJECT_DIR$/assets/img/school.svg" />
+    <entry file="file://$PROJECT_DIR$/assets/img/school2.png" />
     <entry file="file://$PROJECT_DIR$/assets/img/road/road (1).png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -870,10 +772,63 @@
     <entry file="file://$PROJECT_DIR$/assets/geojson/public/railway.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/plugins/wps-js/wps-js-all.min.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-21717">
+          <caret line="162" column="33" selection-start-line="162" selection-start-column="33" selection-end-line="162" selection-end-column="33" />
+          <folding>
+            <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20235">
+          <caret line="1078" column="12" selection-start-line="1078" selection-start-column="12" selection-end-line="1078" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/typhoon/view_2306291" />
+    <entry file="file://$PROJECT_DIR$/js/lang.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="408" column="25" selection-start-line="408" selection-start-column="25" selection-end-line="408" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16739">
+          <caret line="881" column="29" selection-start-line="881" selection-start-column="29" selection-end-line="881" selection-end-column="29" />
+          <folding>
+            <element signature="n#style#0;n#li#0;n#ul#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#span#0;n#li#5;n#ul#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ul#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ul#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ul#4;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/typhoon/2306291.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20957">
+          <caret line="1124" column="29" selection-start-line="1124" selection-start-column="29" selection-end-line="1124" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/cesiumTool/CesiumViewer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="436" column="48" selection-start-line="436" selection-start-column="48" selection-end-line="436" selection-end-column="48" />
+        <state relative-caret-position="557">
+          <caret line="137" column="67" selection-start-line="137" selection-start-column="67" selection-end-line="137" selection-end-column="67" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

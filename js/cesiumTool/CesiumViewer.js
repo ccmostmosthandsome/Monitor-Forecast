@@ -20,7 +20,12 @@
         typhoon: {//包含真实路径和预测路径的实体对象，同时会在运行中添加真实路径对象的键值对
             truePath: [],
             prediction: [],
-            show: false
+            show: false,
+            originPoint: new Cesium.CustomDataSource('originPoint'),
+            originLine: new Cesium.CustomDataSource('originLine'),
+            range: new Cesium.CustomDataSource('range'),
+            forecastPoint: new Cesium.CustomDataSource('forecastPoint'),
+            forecastLine: new Cesium.CustomDataSource('forecastLine'),
         },
         points_pre: [],
         init: function () {
@@ -131,57 +136,17 @@
                     } else if (node.type === "geojson") {
                         let dataSource = mainMap.dataSource[node.id];
                         mainMap.viewer.dataSources.add(dataSource);
-
-                        //修改DataSource属性
-                        // var entities = dataSource.entities.values;
-                        // let color = new Cesium.Color;
-                        //
-                        // switch (node.id) {
-                        //     case 'fx_ql':
-                        //         Cesium.Color.fromBytes(255, 236, 51, 255, color);
-                        //         break;
-                        //     case 'fx_fzst':
-                        //         Cesium.Color.fromBytes(51, 255, 134, 255, color);
-                        //         break;
-                        //     case 'fx_xx':
-                        //         Cesium.Color.fromBytes(51, 70, 255, 255, color);
-                        //         break;
-                        //     case 'mz_Village':
-                        //         Cesium.Color.fromBytes(255, 51, 172, 255, color);
-                        //         break;
-                        //     case 'fx_azd':
-                        //         Cesium.Color.fromBytes(51, 255, 238, 255, color);
-                        //         break;
-                        //     case 'gt_bt':
-                        //         Cesium.Color.fromBytes(136, 51, 255, 255, color);
-                        //         break;
-                        //     case 'mz_avoidancepoint':
-                        //         Cesium.Color.fromBytes(255, 51, 68, 255, color);
-                        //         break;
-                        //     case 'mz_Station':
-                        //         Cesium.Color.fromBytes(170, 255, 51, 255, color);
-                        //         break;
-                        //     default:
-                        //         Cesium.Color.fromBytes(255, 51, 126, 255, color);
-                        // }
-                        // for (var i = 0; i < entities.length; i++) {
-                        //
-                        //     var entity = entities[i];
-                        //     entity.billboard = undefined;//设置billboard和point来显示一个点而不是图标
-                        //     entity.point = new Cesium.PointGraphics({
-                        //         color: color,
-                        //         pixelSize: 5
-                        //     });
-                        // }
                     }
                 }
             })
         },
         loadTyphoonLayer: function () {
+            //Judge whether show the typhoon
             if (mainMap.typhoon.show) {
                 mainMap.deleteTyphoon();
                 mainMap.typhoon.show = false;
             } else {
+                //Add entities of point and polyline to dataSource
                 let color = new Cesium.Color;
                 Cesium.Color.fromBytes(255, 51, 126, 255, color);
                 $.getJSON("assets/typhoon/2306291.json", function (data) {
@@ -198,12 +163,12 @@
                     // traverse the true position
                     allTime.forEach(moment => {
                         drawIconTyp(name, description, moment);  //Draw typhoon icon by two points
-                        mainMap.typhoon[moment[0]] = moment;
+                        mainMap.typhoon[moment[0]] = moment;//save point details to global variable
                         points.push(moment[4], moment[5]); //save true locations
                     });
 
                     //draw the true path of typhoon
-                    let polyline = mainMap.viewer.entities.add({
+                    let polyline = mainMap.typhoon.originLine.entities.add({
                         // id: point[0],
                         name: '台风路径',
                         polyline: {
@@ -211,14 +176,19 @@
                             width: 1.5,
                             // clampToGround:true,
                             material: color,
+                            height: 2
                         }
                     });
-                    mainMap.typhoon.truePath.push(polyline);
                 });
 
-                //Draw typhoon icon by two points
+                /**
+                 * Draw typhoon icon by two points
+                 * @param name
+                 * @param description
+                 * @param point
+                 */
                 function drawIconTyp(name, description, point) {
-                    let typhoon = mainMap.viewer.entities.add({
+                    let typhoon = mainMap.typhoon.originPoint.entities.add({
                         id: point[0],
                         position: Cesium.Cartesian3.fromDegrees(point[4], point[5]),
                         x: point[4],
@@ -229,6 +199,7 @@
                             semiMajorAxis: 4000.0,
                             fill: true,
                             material: color,
+                            height: 5
                         }
                     });
 
@@ -246,29 +217,321 @@
                                   ' + point[7] + 'm/s' + '\
                                 </p>\
                                 \<p>' + dlang.typhoon_wind_direction + ':\
-                                  ' + point[8] + '\
+                                  ' + point[8].replace(/E/g, "东").replace(/S/g, "南").replace(/W/g, "西").replace(/N/g, "北") + '\
                                 </p>\
                                 \<p>' + dlang.typhoon_speed + ':\
                                   ' + point[9] + 'km/h' + '\
                                 </p>\
                                 ';
+                    if (point[10].length > 0) {
+                        des += '\<p>' + dlang.typhoon_radius + ':\
+                            ' + 'NE:' + point[10][0][1] + 'km' + '&nbsp;&nbsp;SE:' + point[10][0][2] + 'km' + '&nbsp;&nbsp;WS:' + point[10][0][3] + 'km' + '&nbsp;&nbsp;NW:' + point[10][0][4] + 'km' + '\
+                        </p>\
+                        ';
+                    }
 
                     typhoon.description = des;
-                    mainMap.typhoon.truePath.push(typhoon);
                 }
+
+                //Add dataSource to the dataSource collection of viewer, meanwhile adjust level of these dataSource of typhoon
+                let dataSources = mainMap.viewer.dataSources;
+                let typhoon = mainMap.typhoon;
+                dataSources.add(typhoon.originPoint);
+                dataSources.add(typhoon.forecastPoint);
+                dataSources.add(typhoon.range);
+                dataSources.add(typhoon.originLine);
+                dataSources.add(typhoon.forecastLine);
 
                 mainMap.typhoon.show = true;
             }
         },
+        loadTyphoonArea: function (id) {
+            //Judge whether has this original point
+            if (mainMap.typhoon.originPoint.entities.getById(id)) {
+                // clear old points, polyline and range
+                mainMap.typhoon.forecastPoint.entities.removeAll();
+                mainMap.typhoon.forecastLine.entities.removeAll();
+                mainMap.typhoon.range.entities.removeAll();
+
+                let points = [];
+                // get current point
+                let point = mainMap.typhoon.originPoint.entities.getById(id);
+                points.push(point.x);
+                points.push(point.y);
+
+                let color = new Cesium.Color;
+                Cesium.Color.fromBytes(126, 255, 51, 100, color);
+
+                // draw the range of the point
+                //new code
+                function computeCirclularFlight(lon, lat, radius, degree1, degree2) {
+                    let Ea = 6378137;      //   赤道半径
+                    let Eb = 6356725;      // 极半径
+                    let positionArr = [];
+                    positionArr.push(lon);
+                    positionArr.push(lat);
+                    //需求正北是0° cesium正东是0°
+                    for (let i = degree1; i <= degree2; i++) {
+                        let dx = radius * Math.sin(i * Math.PI / 180.0);
+                        let dy = radius * Math.cos(i * Math.PI / 180.0);
+
+                        let ec = Eb + (Ea - Eb) * (90.0 - lat) / 90.0;
+                        let ed = ec * Math.cos(lat * Math.PI / 180);
+
+                        let BJD = lon + (dx / ed) * 180.0 / Math.PI;
+                        let BWD = lat + (dy / ec) * 180.0 / Math.PI;
+
+                        positionArr.push(BJD);
+                        positionArr.push(BWD);
+                    }
+
+                    return positionArr;
+                }
+
+                if (mainMap.typhoon[id][10].length > 0) {
+                    let widths = mainMap.typhoon[id][10][0];
+                    var speedNE = widths[1];
+                    var speedSE = widths[2];
+                    var speedSW = widths[3];
+                    var speedNW = widths[4];
+
+                    let positionArrNE = computeCirclularFlight(point.x, point.y, speedNE * 1000, 0, 90);
+                    let positionArrSE = computeCirclularFlight(point.x, point.y, speedSE * 1000, 90, 180);
+                    let positionArrSW = computeCirclularFlight(point.x, point.y, speedSW * 1000, 180, 270);
+                    let positionArrNW = computeCirclularFlight(point.x, point.y, speedNW * 1000, 270, 360);
+                    let rangeNE = mainMap.typhoon.range.entities.add({
+                        polygon: {
+                            hierarchy: new Cesium.PolygonHierarchy(Cesium.Cartesian3.fromDegreesArray(
+                                positionArrNE
+                            )),
+                            height: 3,
+                            // extrudedHeight : 1000.0,
+                            outline: true,
+                            outlineColor: Cesium.Color.WHITE.withAlpha(0.0),
+                            outlineWidth: 100,
+                            material: color
+                        }
+                    });
+                    let rangeSE = mainMap.typhoon.range.entities.add({
+                        polygon: {
+                            hierarchy: new Cesium.PolygonHierarchy(Cesium.Cartesian3.fromDegreesArray(
+                                positionArrSE
+                            )),
+                            height: 3,
+                            // extrudedHeight : 1000.0,
+                            outline: true,
+                            outlineColor: Cesium.Color.WHITE.withAlpha(0.0),
+                            outlineWidth: 1,
+                            material: color
+                        }
+                    });
+                    let rangeSW = mainMap.typhoon.range.entities.add({
+                        polygon: {
+                            hierarchy: new Cesium.PolygonHierarchy(Cesium.Cartesian3.fromDegreesArray(
+                                positionArrSW
+                            )),
+                            height: 3,
+                            // extrudedHeight : 1000.0,
+                            outline: true,
+                            outlineColor: Cesium.Color.WHITE.withAlpha(0.0),
+                            outlineWidth: 1,
+                            material: color
+                        }
+                    });
+                    let rangeNW = mainMap.typhoon.range.entities.add({
+                        polygon: {
+                            hierarchy: new Cesium.PolygonHierarchy(Cesium.Cartesian3.fromDegreesArray(
+                                positionArrNW
+                            )),
+                            height: 3,
+                            // extrudedHeight : 1000.0,
+                            outline: true,
+                            outlineColor: Cesium.Color.WHITE.withAlpha(0.0),
+                            outlineWidth: 1,
+                            material: color
+                        }
+                    });
+                }
+
+                //load new points
+                if (mainMap.typhoon[id][11] !== null) {
+                    Cesium.Color.fromBytes(51, 126, 255, 255, color);
+                    // draw the prediction points
+                    mainMap.typhoon[id][11].BABJ.forEach(moment => {
+                        let imageMaterial = new Cesium.ImageMaterialProperty({
+                            image: './img/map/Typhoon.png',
+                            transparent: true
+                        });
+
+                        // set positions aims to draw path
+                        points.push(moment[2]);
+                        points.push(moment[3]);
+
+                        let typhoon = mainMap.typhoon.forecastPoint.entities.add({
+                            // id: moment[0],
+                            position: Cesium.Cartesian3.fromDegrees(moment[2], moment[3]),
+                            name: dlang.typhoon_forecast,
+                            ellipse: {
+                                semiMinorAxis: 4000.0,
+                                semiMajorAxis: 4000.0,
+                                fill: true,
+                                material: color,
+                                height: 4
+                            }
+                        });
+                    });
+
+                    //draw the path of typhoon
+                    let polyline = mainMap.typhoon.forecastLine.entities.add({
+                        // id: point[0],
+                        name: dlang.typhoon_path,
+                        polyline: {
+                            positions: Cesium.Cartesian3.fromDegreesArray(points),
+                            width: 1.5,
+                            material: new Cesium.PolylineDashMaterialProperty({
+                                color: color
+                            }),
+                        }
+                    });
+                }
+
+            }
+        },
         deleteTyphoon: function () {
             //delete the original typhoon path
-            mainMap.typhoon.truePath.forEach(function (value) {
-                mainMap.viewer.entities.remove(value)
-            })
-            //delete the prediction typhoon path
-            mainMap.typhoon.prediction.forEach(function (value) {
-                mainMap.viewer.entities.remove(value)
-            })
+            mainMap.typhoon.originPoint.entities.removeAll();
+            mainMap.typhoon.originLine.entities.removeAll();
+            mainMap.typhoon.range.entities.removeAll();
+            mainMap.typhoon.forecastPoint.entities.removeAll();
+            mainMap.typhoon.forecastLine.entities.removeAll();
+        },
+        planEvacuation: function () {
+            // 读取数据
+            var start_long = [];
+            var start_lat = [];
+            var end_long = [];
+            var end_lat = [];
+            var shusan_dian = [];
+            var shusan_ronliang = [];
+            for (var i = 0; i < typhoonMap.geom_evacuationPoints.length; i++) {
+                start_long.push(typhoonMap.geom_evacuationPoints[i].getFirstCoordinate().x);
+                start_lat.push(typhoonMap.geom_evacuationPoints[i].getFirstCoordinate().y);
+                shusan_dian.push(typhoonMap.geom_evacuationPoints[i].properties.people_num);
+            }
+            for (var j = 0; j < typhoonMap.geom_sheltersFree.length; j++) {
+                end_long.push(typhoonMap.geom_sheltersFree[j].getFirstCoordinate().x);
+                end_lat.push(typhoonMap.geom_sheltersFree[j].getFirstCoordinate().y);
+                shusan_ronliang.push(typhoonMap.geom_sheltersFree[j].properties.people_num);
+            }
+            var inputData = {
+                "start_long": start_long,
+                "start_lat": start_lat,
+                "end_long": end_long,
+                "end_lat": end_lat,
+                "shusan_dian": shusan_dian,
+                "shusan_rongliang": shusan_ronliang
+            };
+            // 发起WPS请求
+            var wpsService = new WpsService({
+                url: "http://202.114.118.87:8080/wps10/WebProcessingService",
+                version: "1.0.0"
+            });
+            // inputs
+            var inputGenerator = new InputGenerator();
+            var literalInput = inputGenerator.createLiteralDataInput_wps_1_0_and_2_0(
+                "JsonData",
+                "xs:string",
+                null,
+                JSON.stringify(inputData)
+            );
+            var inputs = [literalInput];
+            var outputGenerator = new OutputGenerator();
+            var literalOutput = outputGenerator.createLiteralOutput_WPS_1_0("OutputData", false);
+            var outputs = [literalOutput];
+            wpsService.execute(
+                function (wpsResponse) {
+                    if (wpsResponse.executeResponse != null &&
+                        wpsResponse.executeResponse.responseDocument.outputs[0] != null &&
+                        wpsResponse.executeResponse.responseDocument.outputs[0].data.literalData.value.length > 0) {
+                        var result = JSON.parse(
+                            wpsResponse.executeResponse.responseDocument.outputs[0].data.literalData.value
+                        );
+                        // 显示路径图层
+                        typhoonMap.evacutionPathPeople = [];
+                        result.shusan_renshu.var.map(function (lines, idx) {
+                            for (var i = 0; i < lines.length; i++) {
+                                if (lines[i] >= 1.0) {
+                                    typhoonMap.evacutionPathPeople.push(lines[i]);
+                                }
+                            }
+                        });
+                        typhoonMap.evacutionPathCost = [];
+                        result.shusan_dis_time.distance.map(function (num, idx) {
+                            typhoonMap.evacutionPathCost.push(
+                                [num, result.shusan_dis_time.duration[idx]])
+                        });
+                        var pathData = [].concat.apply([], result.path.map(function (lines, idx) {
+                            var points = [];
+                            for (var i = 0; i < lines.length; i++) {
+                                var linePoints = lines[i].split(";");
+                                var j = 1;
+                                if (i < 1) {
+                                    j = 0;
+                                }
+                                for (j; j < linePoints.length; j++) {
+                                    var point = linePoints[j].split(",");
+                                    points.push([parseFloat(point[0]), parseFloat(point[1])]);
+                                }
+                            }
+                            return {
+                                coords: points
+                            };
+                        }));
+                        var option = {
+                            series: [{
+                                type: 'lines',
+                                coordinateSystem: 'bmap',
+                                polyline: true,
+                                data: pathData,
+                                silent: false,
+                                lineStyle: {
+                                    normal: {
+                                        color: '#fff',
+                                        opacity: 0.8,
+                                        width: 4
+                                    }
+                                },
+                                emphasis: {
+                                    lineStyle: {
+                                        color: '#fff',
+                                        opacity: 1.0,
+                                        width: 5
+                                    }
+                                },
+                                progressiveThreshold: 500,
+                                progressive: 200
+                            }]
+                        };
+                        typhoonMap.removeEvacutionLayer();
+                        typhoonMap.layer_evacuationPath = new maptalks.E3Layer('疏散规划路径图层', option)
+                            .addTo(typhoonMap.map);
+                        typhoonMap.layer_evacuationPath.getEChartsInstance().on('click', function (params) {
+                            var info = "此路径疏散人数：" + typhoonMap.evacutionPathPeople[params.dataIndex] + "\n" +
+                                "此路径长度（米）：" + typhoonMap.evacutionPathCost[params.dataIndex][0] + "\n" +
+                                "此路径耗时（秒）：" + typhoonMap.evacutionPathCost[params.dataIndex][1];
+                            alert(info);
+                        });
+                        typhoonMap.loadEvacuationPointsLayer();
+                        typhoonWin.process.loadProcess("人员疏散规划计算成功！");
+                    }
+                },
+                "ShuSanProcess",
+                "document",
+                "sync",
+                false,
+                inputs,
+                outputs
+            );
         },
         loadSatellite: function () {
             //Multi Satellites
@@ -1148,212 +1411,93 @@
                 }
                 if (Cesium.defined(pick)) {
                     let id = pick.id._id;
-                    if (mainMap.typhoon.hasOwnProperty(id)) {
-                        // clear old points
-                        mainMap.typhoon.prediction.forEach(e => {
-                            mainMap.viewer.entities.remove(e);
-                        });
-
-
-                        let points = [];
-                        // get current point
-                        let point = mainMap.viewer.entities.getById(id);
-                        points.push(point.x);
-                        points.push(point.y);
-
-                        let color = new Cesium.Color;
-                        Cesium.Color.fromBytes(126, 255, 51, 100, color);
-
-                        // draw the range of the point
-                        let range = mainMap.viewer.entities.add({
-                            // id: point[0],
-                            position: Cesium.Cartesian3.fromDegrees(point.x, point.y),
-                            name: "范围",
-                            ellipse: {
-                                height: 0,
-                                semiMinorAxis: 100000.0,
-                                semiMajorAxis: 100000.0,
-                                fill: true,
-                                material: color,
-                                outline: true,
-                                // outlineColor:,
-                                outlineWidth: 2000
-                            }
-                        });
-                        mainMap.typhoon.prediction.push(range);
-
-                        //load new points
-                        if (mainMap.typhoon[id][11] !== null) {
-                            Cesium.Color.fromBytes(51, 126, 255, 255, color);
-                            // draw the prediction points
-                            mainMap.typhoon[id][11].BABJ.forEach(moment => {
-                                let imageMaterial = new Cesium.ImageMaterialProperty({
-                                    image: './img/map/Typhoon.png',
-                                    transparent: true
-                                });
-
-                                // set positions aims to draw path
-                                points.push(moment[2]);
-                                points.push(moment[3]);
-
-                                let typhoon = mainMap.viewer.entities.add({
-                                    // id: moment[0],
-                                    position: Cesium.Cartesian3.fromDegrees(moment[2], moment[3]),
-                                    name: dlang.typhoon_forecast,
-                                    ellipse: {
-                                        semiMinorAxis: 4000.0,
-                                        semiMajorAxis: 4000.0,
-                                        fill: true,
-                                        material: color,
-                                    }
-                                });
-
-                                mainMap.typhoon.prediction.push(typhoon);
-                            });
-
-                            //draw the path of typhoon
-                            let polyline = mainMap.viewer.entities.add({
-                                // id: point[0],
-                                name: dlang.typhoon_path,
-                                polyline: {
-                                    positions: Cesium.Cartesian3.fromDegreesArray(points),
-                                    width: 1.5,
-                                    material: new Cesium.PolylineDashMaterialProperty({
-                                        color: color
-                                    }),
-                                }
-                            });
-                            mainMap.typhoon.prediction.push(polyline);
-                        }
-
-                    }
+                    mainMap.loadTyphoonArea(id)
                 }
 
 
             }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
         },
+        getAffectedAreaInfo: function () {
+            if (typhoonMap.geoms_typhoonRange != null) {
+                var featureCollection = {
+                    "type": "FeatureCollection",
+                    "features": [
+                        typhoonMap.geoms_typhoonRange[0].toGeoJSON(),
+                        typhoonMap.geoms_typhoonRange[1].toGeoJSON(),
+                        typhoonMap.geoms_typhoonRange[2].toGeoJSON(),
+                        typhoonMap.geoms_typhoonRange[3].toGeoJSON()
+                    ]
+                };
+                var wpsService = new WpsService({
+                    url: "http://202.114.118.87:8080/wps10/WebProcessingService",
+                    version: "1.0.0"
+                });
+                // inputs
+                var inputGenerator = new InputGenerator();
+                var referenceInput = inputGenerator.createComplexDataInput_wps_1_0_and_2_0(
+                    "TiffLoad",
+                    "application/geotiff",
+                    null,
+                    null,
+                    true,
+                    "http://202.114.118.87:8080/wps10/datas/GuangDong.tif"
+                );
+                var literalInput = inputGenerator.createLiteralDataInput_wps_1_0_and_2_0(
+                    "GeoJson",
+                    "xs:string",
+                    null,
+                    JSON.stringify(featureCollection)
+                );
+                var inputs = [referenceInput, literalInput];
+                var outputGenerator = new OutputGenerator();
+                var complexOutput = outputGenerator.createLiteralOutput_WPS_1_0("OutputData", false);
+                var outputs = [complexOutput];
+                wpsService.execute(
+                    function (wpsResponse) {
+                        if (wpsResponse.executeResponse.responseDocument.outputs[0] != null) {
+                            var result = wpsResponse.executeResponse.responseDocument.outputs[0].data.literalData.value.split(",");
+                            var populatiaon = result[0];
+                            var area = result[1];
+                            $("#infwin-pop").text(populatiaon);
+                            $("#infwin-area").text(area);
+                        } else {
+                            $("#infwin-pop").text("0.00");
+                            $("#infwin-area").text("0.00");
+                        }
+                    },
+                    "PNumberProcess",
+                    "document",
+                    "sync",
+                    false,
+                    inputs,
+                    outputs
+                );
+                var xhtml = '';
+                xhtml += '<div class="infwin-box" style="display: inherit;">';
+                xhtml += '<div class="infwin-ctbox">';
+                xhtml += '<div class="infwin-border-lt"></div>';
+                xhtml += '<div class="infwin-border-rt"></div>';
+                xhtml += '<div class="infwin-border-lb"></div>';
+                xhtml += '<div class="infwin-border-rb"></div>';
+                xhtml += '<div class="infwin-line"></div>';
+                xhtml += '<div class="infwin-content">';
+                xhtml += '<div class="infwin-ctitle"><span>台风影响范围</span>';
+                xhtml += '<div class="infwin-ctitle-close" onclick="typhoonMap.hideAffectedAreaInfoMarker()"></div></div>';
+                xhtml += '<div class="infwin-contbox">';
+                xhtml += '<div class="yxfwei-cbox">';
+                xhtml += '<span>影响面积（平方公里） ：<label id="infwin-area">正在计算...（On computing...）</label></span>';
+                xhtml += '<span>影响人口数（万人）：<label id="infwin-pop">正在计算...（On computing...）</label></span>';
+                xhtml += '</div>';
+                xhtml += '</div>';
+                xhtml += '</div>';
+                xhtml += '</div>';
+                xhtml += '</div>';
+            }
+        },
         loadEntity: function () {
-            // mainMap.viewer.entities.add({
-            //     id: 'id',
-            //     position: Cesium.Cartesian3.fromDegrees(103.0, 40.0),
-            //     name: 'Red ellipse on surface with outline',
-            //     ellipse: {
-            //         semiMinorAxis: 250000.0,
-            //         semiMajorAxis: 400000.0,
-            //         height: 200000.0,
-            //         extrudedHeight: 400000.0,
-            //         fill: true,
-            //         material: Cesium.Color.RED.withAlpha(0.5),
-            //         outline: true, //必须设置height，否则ouline无法显示
-            //         outlineColor: Cesium.Color.BLUE.withAlpha(0.5),
-            //         outlineWidth: 10.0//windows系统下不能设置固定为1
-            //     }
-            //
-            // });
-            //
-            // // 1. Draw a translucent ellipse on the surface with a checkerboard pattern
-            // var instance = new Cesium.GeometryInstance({
-            //     geometry: new Cesium.EllipseGeometry({
-            //         center: Cesium.Cartesian3.fromDegrees(-100.0, 20.0),
-            //         semiMinorAxis: 500000.0,
-            //         semiMajorAxis: 1000000.0,
-            //         rotation: Cesium.Math.PI_OVER_FOUR,
-            //         vertexFormat: Cesium.VertexFormat.POSITION_AND_ST
-            //     }),
-            //     id: 'object returned when this instance is picked and to get/set per-instance attributes'
-            // });
-            // mainMap.scene.primitives.add(new Cesium.Primitive({
-            //     geometryInstances: instance,
-            //     appearance: new Cesium.EllipsoidSurfaceAppearance({
-            //         material: Cesium.Material.fromType('Checkerboard')
-            //     })
-            // }));
 
-            // mainMap.viewer.entities.add({
-            //     position : Cesium.Cartesian3.fromDegrees(-75.59777, 40.03883),
-            //     billboard : {
-            //         image : './assets/flood/afterWater.png' , // default: undefined
-            //         // show : true, // default
-            //         // pixelOffset : new Cesium.Cartesian2(0, -50), // default: (0, 0)
-            //         // eyeOffset : new Cesium.Cartesian3(0.0, 0.0, 0.0), // default
-            //         // horizontalOrigin : Cesium.HorizontalOrigin.CENTER, // default
-            //         // verticalOrigin : Cesium.VerticalOrigin.BOTTOM, // default: CENTER
-            //         // scale : 2.0, // default: 1.0
-            //         // color : Cesium.Color.LIME, // default: WHITE
-            //         // rotation : Cesium.Math.PI_OVER_FOUR, // default: 0.0
-            //         // alignedAxis : Cesium.Cartesian3.ZERO, // default
-            //         width : 25, // default: undefined
-            //         height : 25 // default: undefined
-            //     }
-            // });
+        },
 
-            let wyoming = mainMap.viewer.entities.add({
-                id: 'billboard',
-                position: Cesium.Rectangle.fromDegrees(-75.59777, 40.03883, -75.49777, 40.13883),
-                // rectangle: Cesium.Rectangle.fromDegrees(108.91, 18.85, 109.10, 19.05),
-                billboard: {
-                    id: 'billboard',
-                    image: './assets/flood/afterWater.png',
-                    scale: 0.02,
-                    // position: Cesium.Rectangle.fromDegrees(-75.59777, 40.03883,-75.49777,40.13883),
-                    // width: 200, // default: undefined
-                    // height: 200 // default: undefined
-                }
-            });
-
-            // var wyoming = mainMap.viewer.entities.add({
-            //     name : 'Wyoming',
-            //     polygon : {
-            //         hierarchy : Cesium.Cartesian3.fromDegreesArray([
-            //             -109.080842,45.002073,
-            //             -105.91517,45.002073,
-            //             -104.058488,44.996596,
-            //             -104.053011,43.002989,
-            //             -104.053011,41.003906,
-            //             -105.728954,40.998429,
-            //             -107.919731,41.003906,
-            //             -109.04798,40.998429,
-            //             -111.047063,40.998429,
-            //             -111.047063,42.000709,
-            //             -111.047063,44.476286,
-            //             -111.05254,45.002073]),
-            //         height : 0,
-            //         material : Cesium.Color.RED.withAlpha(0.5),
-            //         outline : true,
-            //         outlineColor : Cesium.Color.BLACK
-            //     },
-            //     description:'divID'//方法一
-            // });
-
-
-            wyoming.description = '\
-                                <img\
-                                  width="50%"\
-                                  style="float:left; margin: 0 1em 1em 0;"\
-                                  src="//cesiumjs.org/images/2015/02-02/Flag_of_Wyoming.svg"/>\
-                                <p>\
-                                  Wyoming is a state in the mountain region of the Western \
-                                  United States.\
-                                </p>\
-                                <p>\
-                                  Wyoming is the 10th most extensive, but the least populous \
-                                  and the second least densely populated of the 50 United \
-                                  States. The western two thirds of the state is covered mostly \
-                                  with the mountain ranges and rangelands in the foothills of \
-                                  the eastern Rocky Mountains, while the eastern third of the \
-                                  state is high elevation prairie known as the High Plains. \
-                                  Cheyenne is the capital and the most populous city in Wyoming, \
-                                  with a population estimate of 62,448 in 2013.\
-                                </p>\
-                                <p>\
-                                  Source: \
-                                  <a style="color: WHITE"\
-                                    target="_blank"\
-                                    href="http://en.wikipedia.org/wiki/Wyoming">Wikpedia</a>\
-                                </p>';
-
-
-        }
 
 
     };
