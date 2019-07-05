@@ -3,13 +3,11 @@
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/js/index.js" line="9" />
     <bookmark url="file://$PROJECT_DIR$/js/lang.js" line="54" />
-    <bookmark url="file://$PROJECT_DIR$/js/cesiumTool/CesiumViewer.js" line="891" />
+    <bookmark url="file://$PROJECT_DIR$/js/cesiumTool/CesiumViewer.js" line="887" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b6473e00-0b70-4a58-bd44-8090cce42da8" name="Default" comment="build:台风范围用四个扇形显示，并生成响应的坐标点&#10;fix:台风点被台风范围遮挡的问题">
+    <list default="true" id="b6473e00-0b70-4a58-bd44-8090cce42da8" name="Default" comment="bug:click event">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/cesiumTool/CesiumViewer.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/cesiumTool/CesiumViewer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/lang.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/lang.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -44,8 +42,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/cesiumTool/CesiumViewer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4389">
-              <caret line="231" column="29" lean-forward="true" selection-start-line="231" selection-start-column="29" selection-end-line="231" selection-end-column="29" />
+            <state relative-caret-position="118">
+              <caret line="348" column="45" lean-forward="true" selection-start-line="348" selection-start-column="45" selection-end-line="348" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -185,7 +183,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -230,6 +227,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -463,6 +461,8 @@
       <workItem from="1562211097845" duration="2427000" />
       <workItem from="1562224893436" duration="8869000" />
       <workItem from="1562291689190" duration="4146000" />
+      <workItem from="1562296599093" duration="515000" />
+      <workItem from="1562298796886" duration="804000" />
     </task>
     <task id="LOCAL-00001" summary="version 0">
       <created>1547535273153</created>
@@ -527,11 +527,25 @@
       <option name="project" value="LOCAL" />
       <updated>1562209496731</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="build:根据台风范围计算受影响面积和人口">
+      <created>1562296670469</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1562296670469</updated>
+    </task>
+    <task id="LOCAL-00011" summary="bug:click event">
+      <created>1562297101727</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1562297101727</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="542839000" />
+    <option name="totallyTimeSpent" value="544158000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -544,7 +558,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="133" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49839228" visible="true" weight="0.13804004" />
       <window_info id="Structure" order="1" sideWeight="0.5016077" side_tool="true" weight="0.15384616" />
@@ -560,7 +573,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49867898" weight="0.55748373" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.506605" side_tool="true" weight="0.32531825" />
-      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.49339497" weight="0.324295" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="10" sideWeight="0.49339497" visible="true" weight="0.324295" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -627,7 +640,9 @@
     <MESSAGE value="version 0.1.4&#10;build：&#10;  1.分析结果，详细信息展示" />
     <MESSAGE value="build:添加图例信息到图层列表中;&#10;      点实体用响应颜色图标表示&#10;fix:修改实体详细信息" />
     <MESSAGE value="build:台风范围用四个扇形显示，并生成响应的坐标点&#10;fix:台风点被台风范围遮挡的问题" />
-    <option name="LAST_COMMIT_MESSAGE" value="build:台风范围用四个扇形显示，并生成响应的坐标点&#10;fix:台风点被台风范围遮挡的问题" />
+    <MESSAGE value="build:根据台风范围计算受影响面积和人口" />
+    <MESSAGE value="bug:click event" />
+    <option name="LAST_COMMIT_MESSAGE" value="bug:click event" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/plugins/ztree/css/zTreeStyle/img/zTreeStandard.gif">
@@ -802,20 +817,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16739">
-          <caret line="881" column="29" selection-start-line="881" selection-start-column="29" selection-end-line="881" selection-end-column="29" />
-          <folding>
-            <element signature="n#style#0;n#li#0;n#ul#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#span#0;n#li#5;n#ul#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ul#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ul#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ul#4;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/lang.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="456">
@@ -837,10 +838,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16739">
+          <caret line="881" column="29" selection-start-line="881" selection-start-column="29" selection-end-line="881" selection-end-column="29" />
+          <folding>
+            <element signature="n#style#0;n#li#0;n#ul#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#span#0;n#li#5;n#ul#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ul#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ul#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ul#4;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/cesiumTool/CesiumViewer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4389">
-          <caret line="231" column="29" lean-forward="true" selection-start-line="231" selection-start-column="29" selection-end-line="231" selection-end-column="29" />
+        <state relative-caret-position="118">
+          <caret line="348" column="45" lean-forward="true" selection-start-line="348" selection-start-column="45" selection-end-line="348" selection-end-column="45" />
         </state>
       </provider>
     </entry>
