@@ -467,7 +467,6 @@
             let entity = typhoon.originPoint.entities.getById(id);
 
             if (typhoon.rangeArr.length !== 0) {
-                console.log(typhoon.rangeArr)
                 var featureCollection = {
                     "type": "FeatureCollection",
                     "features": [
@@ -482,7 +481,6 @@
                     ]
                 };
 
-                console.log(featureCollection)
                 var wpsService = new WpsService({
                     url: "http://202.114.118.87:8080/wps10/WebProcessingService",
                     version: "1.0.0"
@@ -514,8 +512,6 @@
                             var result = wpsResponse.executeResponse.responseDocument.outputs[0].data.literalData.value.split(",");
                             var populatiaon = result[0];
                             var area = result[1];
-                            console.log("population:" + populatiaon);
-                            console.log("area:" + area)
                             let value = entity.description._value;
                             let i = 1
                             entity.description._value = value.replace(/正在计算/g, function () {
@@ -529,8 +525,8 @@
                                 }
                             })
                         } else {
-                            // $("#infwin-pop").text("0.00");
-                            // $("#infwin-area").text("0.00");
+                            let value = entity.description._value;
+                            entity.description._value = value.replace(/正在计算/g, '0.00')
                         }
                     },
                     "PNumberProcess",
@@ -1544,13 +1540,14 @@
             let handler = new Cesium.ScreenSpaceEventHandler(mainMap.viewer.scene.canvas);
             handler.setInputAction(function (movement) {
                 var pick = mainMap.viewer.scene.pick(movement.position);
-                if (Cesium.defined(pick) && (pick.id.id === 'typhoon_icon')) {
-                    alert("卫星数据");
-                }
+
                 if (Cesium.defined(pick)) {
                     let id = pick.id._id;
-                    mainMap.loadTyphoonArea(id);
-                    mainMap.getAffectedAreaInfo(id);
+                    if (mainMap.typhoon.originPoint.entities.getById(id)) {
+                        mainMap.loadTyphoonArea(id);
+                        mainMap.getAffectedAreaInfo(id);
+                    }
+
                 }
 
 
