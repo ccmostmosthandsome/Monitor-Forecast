@@ -3,14 +3,11 @@
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/js/index.js" line="9" />
     <bookmark url="file://$PROJECT_DIR$/js/lang.js" line="54" />
-    <bookmark url="file://$PROJECT_DIR$/js/cesiumTool/CesiumViewer.js" line="625" />
+    <bookmark url="file://$PROJECT_DIR$/js/cesiumTool/CesiumViewer.js" line="891" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b6473e00-0b70-4a58-bd44-8090cce42da8" name="Default" comment="build:添加图例信息到图层列表中;&#10;      点实体用响应颜色图标表示&#10;fix:修改实体详细信息">
-      <change afterPath="$PROJECT_DIR$/plugins/wps-js/wps-js-all.min.js" afterDir="false" />
+    <list default="true" id="b6473e00-0b70-4a58-bd44-8090cce42da8" name="Default" comment="build:台风范围用四个扇形显示，并生成响应的坐标点&#10;fix:台风点被台风范围遮挡的问题">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/typhoon/view_2306291" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/cesiumTool/CesiumViewer.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/cesiumTool/CesiumViewer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/lang.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/lang.js" afterDir="false" />
     </list>
@@ -47,20 +44,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/cesiumTool/CesiumViewer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="557">
-              <caret line="137" column="67" selection-start-line="137" selection-start-column="67" selection-end-line="137" selection-end-column="67" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/assets/typhoon/2306291.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20957">
-              <caret line="1124" column="29" selection-start-line="1124" selection-start-column="29" selection-end-line="1124" selection-end-column="29" />
+            <state relative-caret-position="4389">
+              <caret line="231" column="29" lean-forward="true" selection-start-line="231" selection-start-column="29" selection-end-line="231" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -78,9 +63,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>menu_pre_water</find>
-      <find>Roadaff</find>
-      <find>卫星</find>
       <find>ggaq-type-ul</find>
       <find>ggaq-source</find>
       <find>dis-loss</find>
@@ -108,6 +90,9 @@
       <find>受影响道路</find>
       <find>railway</find>
       <find>typhoon_speed</find>
+      <find>mainMap.typhoon</find>
+      <find>getAffectedAreaInfo</find>
+      <find>click</find>
     </findStrings>
     <dirStrings>
       <dir>D:\Workspace\HaiNan-workspace\Monitor-Forecast</dir>
@@ -188,9 +173,9 @@
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="1912" />
-    <option name="y" value="245" />
-    <option name="width" value="1552" />
-    <option name="height" value="840" />
+    <option name="y" value="133" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -229,6 +214,17 @@
               <item name="Monitor-Forecast" type="b2602c69:ProjectViewProjectNode" />
               <item name="Monitor-Forecast" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Monitor-Forecast" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Monitor-Forecast" type="462c0819:PsiDirectoryNode" />
+              <item name="plugins" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Monitor-Forecast" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Monitor-Forecast" type="462c0819:PsiDirectoryNode" />
+              <item name="plugins" type="462c0819:PsiDirectoryNode" />
+              <item name="wps-js" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -463,7 +459,10 @@
       <workItem from="1562065427455" duration="999000" />
       <workItem from="1562120980577" duration="1743000" />
       <workItem from="1562138259704" duration="6687000" />
-      <workItem from="1562202555280" duration="6543000" />
+      <workItem from="1562202555280" duration="7538000" />
+      <workItem from="1562211097845" duration="2427000" />
+      <workItem from="1562224893436" duration="8869000" />
+      <workItem from="1562291689190" duration="4146000" />
     </task>
     <task id="LOCAL-00001" summary="version 0">
       <created>1547535273153</created>
@@ -521,11 +520,18 @@
       <option name="project" value="LOCAL" />
       <updated>1561541033784</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="build:台风范围用四个扇形显示，并生成响应的坐标点&#10;fix:台风点被台风范围遮挡的问题">
+      <created>1562209496731</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1562209496731</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="526402000" />
+    <option name="totallyTimeSpent" value="542839000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -547,14 +553,14 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.329718" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49603698" weight="0.7364425" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49603698" weight="0.54772234" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.4993395" weight="0.3275488" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49867898" weight="0.55748373" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.506605" side_tool="true" weight="0.32531825" />
-      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.49339497" weight="0.3243626" />
+      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.49339497" weight="0.324295" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -620,12 +626,10 @@
     <MESSAGE value="version 0.1.3&#10;build：&#10;  1.图层管理，已实现加载wms、geoJson、png&#10;  2.cesium控件全屏&#10;  3.添加台风图层&#10;fix：&#10;  1.cesium工具栏位置调优&#10;  2.删除全局重定位功能，修复cesium点击事件" />
     <MESSAGE value="version 0.1.4&#10;build：&#10;  1.分析结果，详细信息展示" />
     <MESSAGE value="build:添加图例信息到图层列表中;&#10;      点实体用响应颜色图标表示&#10;fix:修改实体详细信息" />
-    <option name="LAST_COMMIT_MESSAGE" value="build:添加图例信息到图层列表中;&#10;      点实体用响应颜色图标表示&#10;fix:修改实体详细信息" />
+    <MESSAGE value="build:台风范围用四个扇形显示，并生成响应的坐标点&#10;fix:台风点被台风范围遮挡的问题" />
+    <option name="LAST_COMMIT_MESSAGE" value="build:台风范围用四个扇形显示，并生成响应的坐标点&#10;fix:台风点被台风范围遮挡的问题" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/plugins/ztree/css/zTreeStyle/img/loading.gif">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/plugins/ztree/css/zTreeStyle/img/zTreeStandard.gif">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -772,9 +776,6 @@
     <entry file="file://$PROJECT_DIR$/assets/geojson/public/railway.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/plugins/wps-js/wps-js-all.min.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-21717">
@@ -794,10 +795,10 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/typhoon/view_2306291" />
-    <entry file="file://$PROJECT_DIR$/js/lang.js">
+    <entry file="file://$PROJECT_DIR$/assets/typhoon/2306291.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="408" column="25" selection-start-line="408" selection-start-column="25" selection-end-line="408" selection-end-column="25" />
+        <state relative-caret-position="20957">
+          <caret line="1124" column="29" selection-start-line="1124" selection-start-column="29" selection-end-line="1124" selection-end-column="29" />
         </state>
       </provider>
     </entry>
@@ -815,20 +816,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/typhoon/2306291.json">
+    <entry file="file://$PROJECT_DIR$/js/lang.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20957">
-          <caret line="1124" column="29" selection-start-line="1124" selection-start-column="29" selection-end-line="1124" selection-end-column="29" />
+        <state relative-caret-position="456">
+          <caret line="204" column="35" selection-start-line="204" selection-start-column="35" selection-end-line="204" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plugins/jquery/jquery-3.1.1.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="3" column="14251" selection-start-line="3" selection-start-column="14251" selection-end-line="3" selection-end-column="14251" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plugins/wps-js/wps-js-all.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" column="393" selection-start-line="2" selection-start-column="393" selection-end-line="2" selection-end-column="393" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/cesiumTool/CesiumViewer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="557">
-          <caret line="137" column="67" selection-start-line="137" selection-start-column="67" selection-end-line="137" selection-end-column="67" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="4389">
+          <caret line="231" column="29" lean-forward="true" selection-start-line="231" selection-start-column="29" selection-end-line="231" selection-end-column="29" />
         </state>
       </provider>
     </entry>

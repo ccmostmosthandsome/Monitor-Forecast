@@ -17,15 +17,14 @@
             'afterWater': null,
             'rain': null
         },
-        typhoon: {//包含真实路径和预测路径的实体对象，同时会在运行中添加真实路径对象的键值对
-            truePath: [],
-            prediction: [],
+        typhoon: {//包含多个DataSource，同时会在运行中添加真实路径对象的键值对
             show: false,
             originPoint: new Cesium.CustomDataSource('originPoint'),
             originLine: new Cesium.CustomDataSource('originLine'),
             range: new Cesium.CustomDataSource('range'),
             forecastPoint: new Cesium.CustomDataSource('forecastPoint'),
             forecastLine: new Cesium.CustomDataSource('forecastLine'),
+            rangeArr: new Array(),
         },
         points_pre: [],
         init: function () {
@@ -65,8 +64,6 @@
             mainMap.loadSatellite();
             mainMap.leftClickHandler();
             mainMap.loadEntity();
-
-
         },
         fullscreen: function () {
             mainMap.viewer.canvas.requestFullscreen();
@@ -227,6 +224,12 @@
                         des += '\<p>' + dlang.typhoon_radius + ':\
                             ' + 'NE:' + point[10][0][1] + 'km' + '&nbsp;&nbsp;SE:' + point[10][0][2] + 'km' + '&nbsp;&nbsp;WS:' + point[10][0][3] + 'km' + '&nbsp;&nbsp;NW:' + point[10][0][4] + 'km' + '\
                         </p>\
+                        ' + '\<p>' + dlang.typhoon_affect_area + ':\
+                            ' + '正在计算' + 'km<sup>2</sup>' + '\
+                        </p>\
+                        ' + '\<p>' + dlang.typhoon_affect_pop + ':\
+                            ' + '正在计算' + '万人' + '\
+                        </p>\
                         ';
                     }
 
@@ -262,8 +265,15 @@
                 let color = new Cesium.Color;
                 Cesium.Color.fromBytes(126, 255, 51, 100, color);
 
-                // draw the range of the point
-                //new code
+                /**
+                 * draw the range of the point
+                 * @param lon
+                 * @param lat
+                 * @param radius
+                 * @param degree1
+                 * @param degree2
+                 * @returns {Array}
+                 */
                 function computeCirclularFlight(lon, lat, radius, degree1, degree2) {
                     let Ea = 6378137;      //   赤道半径
                     let Eb = 6356725;      // 极半径
@@ -284,7 +294,6 @@
                         positionArr.push(BJD);
                         positionArr.push(BWD);
                     }
-
                     return positionArr;
                 }
 
@@ -299,6 +308,53 @@
                     let positionArrSE = computeCirclularFlight(point.x, point.y, speedSE * 1000, 90, 180);
                     let positionArrSW = computeCirclularFlight(point.x, point.y, speedSW * 1000, 180, 270);
                     let positionArrNW = computeCirclularFlight(point.x, point.y, speedNW * 1000, 270, 360);
+
+                    //adjust coordinates from cesium to geoJson style and save it.
+                    mainMap.typhoon.rangeArr = [];
+                    let rangeArr = mainMap.typhoon.rangeArr;
+                    let NEGeoJson = [];
+                    let SEGeoJson = [];
+                    let SWGeoJson = [];
+                    let NWGeoJson = [];
+                    let temp = [];
+                    positionArrNE.forEach(function (value, index, array) {
+                        if (index % 2) {
+                            temp.push(value);
+                            NEGeoJson.push(temp);
+                            temp = [];
+                        } else {
+                            temp.push(value)
+                        }
+                    });
+                    positionArrSE.forEach(function (value, index, array) {
+                        if (index % 2) {
+                            temp.push(value);
+                            SEGeoJson.push(temp);
+                            temp = [];
+                        } else {
+                            temp.push(value)
+                        }
+                    });
+                    positionArrSW.forEach(function (value, index, array) {
+                        if (index % 2) {
+                            temp.push(value);
+                            SWGeoJson.push(temp);
+                            temp = [];
+                        } else {
+                            temp.push(value)
+                        }
+                    });
+                    positionArrNW.forEach(function (value, index, array) {
+                        if (index % 2) {
+                            temp.push(value);
+                            NWGeoJson.push(temp);
+                            temp = [];
+                        } else {
+                            temp.push(value)
+                        }
+                    });
+                    rangeArr.push(NEGeoJson, SEGeoJson, SWGeoJson, NWGeoJson);
+
                     let rangeNE = mainMap.typhoon.range.entities.add({
                         polygon: {
                             hierarchy: new Cesium.PolygonHierarchy(Cesium.Cartesian3.fromDegreesArray(
@@ -405,6 +461,88 @@
             mainMap.typhoon.forecastPoint.entities.removeAll();
             mainMap.typhoon.forecastLine.entities.removeAll();
         },
+        getAffectedAreaInfo: function (id) {
+            //Judge whether this point has range property
+            let typhoon = mainMap.typhoon;
+            let entity = typhoon.originPoint.entities.getById(id);
+
+            if (typhoon.rangeArr.length !== 0) {
+                console.log(typhoon.rangeArr)
+                var featureCollection = {
+                    "type": "FeatureCollection",
+                    "features": [
+                        {
+                            "type": "Feature",
+                            "geometry": {
+                                "type": "Polygon",
+                                "coordinates": typhoon.rangeArr,
+                            },
+                            "properties": null
+                        }
+                    ]
+                };
+
+                console.log(featureCollection)
+                var wpsService = new WpsService({
+                    url: "http://202.114.118.87:8080/wps10/WebProcessingService",
+                    version: "1.0.0"
+                });
+                // inputs
+                var inputGenerator = new InputGenerator();
+                var referenceInput = inputGenerator.createComplexDataInput_wps_1_0_and_2_0(
+                    "TiffLoad",
+                    "application/geotiff",
+                    null,
+                    null,
+                    true,
+                    "http://202.114.118.87:8080/wps10/datas/hainan.tif"
+                );
+                var literalInput = inputGenerator.createLiteralDataInput_wps_1_0_and_2_0(
+                    "GeoJson",
+                    "xs:string",
+                    null,
+                    JSON.stringify(featureCollection)
+                );
+
+                var inputs = [referenceInput, literalInput];
+                var outputGenerator = new OutputGenerator();
+                var complexOutput = outputGenerator.createLiteralOutput_WPS_1_0("OutputData", false);
+                var outputs = [complexOutput];
+                wpsService.execute(
+                    function (wpsResponse) {
+                        if (wpsResponse.executeResponse.responseDocument.outputs[0] != null) {
+                            var result = wpsResponse.executeResponse.responseDocument.outputs[0].data.literalData.value.split(",");
+                            var populatiaon = result[0];
+                            var area = result[1];
+                            console.log("population:" + populatiaon);
+                            console.log("area:" + area)
+                            let value = entity.description._value;
+                            let i = 1
+                            entity.description._value = value.replace(/正在计算/g, function () {
+                                switch (i) {
+                                    case 1:
+                                        i++;
+                                        return area;
+                                    case 2:
+                                        i++;
+                                        return populatiaon;
+                                }
+                            })
+                        } else {
+                            // $("#infwin-pop").text("0.00");
+                            // $("#infwin-area").text("0.00");
+                        }
+                    },
+                    "PNumberProcess",
+                    "document",
+                    "sync",
+                    false,
+                    inputs,
+                    outputs
+                );
+
+            }
+        },
         planEvacuation: function () {
             // 读取数据
             var start_long = [];
@@ -413,7 +551,7 @@
             var end_lat = [];
             var shusan_dian = [];
             var shusan_ronliang = [];
-            for (var i = 0; i < typhoonMap.geom_evacuationPoints.length; i++) {
+            for (var i = 0; i < mainMap.typhoon.rangeArr[0].length; i++) {
                 start_long.push(typhoonMap.geom_evacuationPoints[i].getFirstCoordinate().x);
                 start_lat.push(typhoonMap.geom_evacuationPoints[i].getFirstCoordinate().y);
                 shusan_dian.push(typhoonMap.geom_evacuationPoints[i].properties.people_num);
@@ -1411,93 +1549,16 @@
                 }
                 if (Cesium.defined(pick)) {
                     let id = pick.id._id;
-                    mainMap.loadTyphoonArea(id)
+                    mainMap.loadTyphoonArea(id);
+                    mainMap.getAffectedAreaInfo(id);
                 }
 
 
             }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
         },
-        getAffectedAreaInfo: function () {
-            if (typhoonMap.geoms_typhoonRange != null) {
-                var featureCollection = {
-                    "type": "FeatureCollection",
-                    "features": [
-                        typhoonMap.geoms_typhoonRange[0].toGeoJSON(),
-                        typhoonMap.geoms_typhoonRange[1].toGeoJSON(),
-                        typhoonMap.geoms_typhoonRange[2].toGeoJSON(),
-                        typhoonMap.geoms_typhoonRange[3].toGeoJSON()
-                    ]
-                };
-                var wpsService = new WpsService({
-                    url: "http://202.114.118.87:8080/wps10/WebProcessingService",
-                    version: "1.0.0"
-                });
-                // inputs
-                var inputGenerator = new InputGenerator();
-                var referenceInput = inputGenerator.createComplexDataInput_wps_1_0_and_2_0(
-                    "TiffLoad",
-                    "application/geotiff",
-                    null,
-                    null,
-                    true,
-                    "http://202.114.118.87:8080/wps10/datas/GuangDong.tif"
-                );
-                var literalInput = inputGenerator.createLiteralDataInput_wps_1_0_and_2_0(
-                    "GeoJson",
-                    "xs:string",
-                    null,
-                    JSON.stringify(featureCollection)
-                );
-                var inputs = [referenceInput, literalInput];
-                var outputGenerator = new OutputGenerator();
-                var complexOutput = outputGenerator.createLiteralOutput_WPS_1_0("OutputData", false);
-                var outputs = [complexOutput];
-                wpsService.execute(
-                    function (wpsResponse) {
-                        if (wpsResponse.executeResponse.responseDocument.outputs[0] != null) {
-                            var result = wpsResponse.executeResponse.responseDocument.outputs[0].data.literalData.value.split(",");
-                            var populatiaon = result[0];
-                            var area = result[1];
-                            $("#infwin-pop").text(populatiaon);
-                            $("#infwin-area").text(area);
-                        } else {
-                            $("#infwin-pop").text("0.00");
-                            $("#infwin-area").text("0.00");
-                        }
-                    },
-                    "PNumberProcess",
-                    "document",
-                    "sync",
-                    false,
-                    inputs,
-                    outputs
-                );
-                var xhtml = '';
-                xhtml += '<div class="infwin-box" style="display: inherit;">';
-                xhtml += '<div class="infwin-ctbox">';
-                xhtml += '<div class="infwin-border-lt"></div>';
-                xhtml += '<div class="infwin-border-rt"></div>';
-                xhtml += '<div class="infwin-border-lb"></div>';
-                xhtml += '<div class="infwin-border-rb"></div>';
-                xhtml += '<div class="infwin-line"></div>';
-                xhtml += '<div class="infwin-content">';
-                xhtml += '<div class="infwin-ctitle"><span>台风影响范围</span>';
-                xhtml += '<div class="infwin-ctitle-close" onclick="typhoonMap.hideAffectedAreaInfoMarker()"></div></div>';
-                xhtml += '<div class="infwin-contbox">';
-                xhtml += '<div class="yxfwei-cbox">';
-                xhtml += '<span>影响面积（平方公里） ：<label id="infwin-area">正在计算...（On computing...）</label></span>';
-                xhtml += '<span>影响人口数（万人）：<label id="infwin-pop">正在计算...（On computing...）</label></span>';
-                xhtml += '</div>';
-                xhtml += '</div>';
-                xhtml += '</div>';
-                xhtml += '</div>';
-                xhtml += '</div>';
-            }
-        },
         loadEntity: function () {
 
         },
-
 
 
     };
