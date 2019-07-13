@@ -64,6 +64,7 @@
             mainMap.loadSatellite();
             mainMap.leftClickHandler();
             mainMap.loadEntity();
+            mainMap.attributeWin();
         },
         fullscreen: function () {
             mainMap.viewer.canvas.requestFullscreen();
@@ -142,7 +143,10 @@
             if (mainMap.typhoon.show) {
                 mainMap.deleteTyphoon();
                 mainMap.typhoon.show = false;
+                mainMap.location();
             } else {
+                //Relocation to show typhoon
+                mainMap.relocation(109.3126, 20.2915, 921940);
                 //Add entities of point and polyline to dataSource
                 let color = new Cesium.Color;
                 Cesium.Color.fromBytes(255, 51, 126, 255, color);
@@ -1424,6 +1428,10 @@
                 mainMap.viewer.dataSources.remove(dataSource)
             } else {
                 mainMap.viewer.dataSources.add(dataSource)
+                if (index === 'roadAffected' || 'affected_bridge' || 'affected_school' || 'affected_st' || 'affected_village') {
+                    //  relocation
+                    mainMap.relocation(109.1295, 18.9434, 95160);
+                }
             }
         },
         menuLoadDataSource: function (index) {
@@ -1432,6 +1440,10 @@
                 mainMap.clearDataSource();
                 mainMap.clearImageryLayer();
                 mainMap.viewer.dataSources.add(dataSource)
+                if (index === 'beforeWater' || 'afterWater' || 'floodDif') {
+                    //  relocation
+                    mainMap.relocation(109.1295, 18.9434, 95160);
+                }
             } else {
                 mainMap.clearDataSource();
                 mainMap.clearImageryLayer();
@@ -1480,7 +1492,18 @@
         location: function () {
             // locate to hainan
             mainMap.viewer.camera.flyTo({
-                destination: Cesium.Cartesian3.fromDegrees(109.761547, 19.19274, 900000),
+                destination: Cesium.Cartesian3.fromDegrees(109.761547, 19.4797, 525000),
+                orientation: {
+                    heading: Cesium.Math.toRadians(0),
+                    pitch: Cesium.Math.toRadians(-90),
+                    roll: Cesium.Math.toRadians(0)
+                }
+            });
+        },
+        relocation: function (log, lat, alt) {
+            // relocation
+            mainMap.viewer.camera.flyTo({
+                destination: Cesium.Cartesian3.fromDegrees(log, lat, alt),
                 orientation: {
                     heading: Cesium.Math.toRadians(0),
                     pitch: Cesium.Math.toRadians(-90),
@@ -1513,6 +1536,8 @@
                 mainMap.clearImageryLayer();
                 mainMap.clearDataSource();
                 mainMap.viewer.imageryLayers.add(imageLayer);
+                //  relocation
+                mainMap.relocation(109.0079, 18.9708, 71830);
             }
         },
         loadImageLayer: function (index) {
@@ -1556,6 +1581,32 @@
         loadEntity: function () {
 
         },
+        // 实时展示经纬度和高度
+        attributeWin: function () {
+            // 经纬度实时显示
+            var longitude_show = document.getElementById('longitude_show');
+            var latitude_show = document.getElementById('latitude_show');
+            var altitude_show = document.getElementById('altitude_show');
+            var canvas = mainMap.viewer.scene.canvas;
+            // 具体事件的实现
+            var ellipsoid = mainMap.viewer.scene.globe.ellipsoid;
+            var handler = new Cesium.ScreenSpaceEventHandler(canvas);
+            handler.setInputAction(function (movement) {
+                // 捕获椭球体，将笛卡尔二维平面坐标转为椭球体的笛卡尔三维坐标，返回球体表面的点
+                var cartesian = mainMap.viewer.camera.pickEllipsoid(movement.endPosition, ellipsoid);
+                if (cartesian) {
+                    // 将笛卡尔三维坐标转为地图坐标（弧度）
+                    var cartographic = mainMap.viewer.scene.globe.ellipsoid.cartesianToCartographic(cartesian);
+                    // 将地图坐标（弧度）转为十进制的度数
+                    var lat_String = Cesium.Math.toDegrees(cartographic.latitude).toFixed(4);
+                    var log_String = Cesium.Math.toDegrees(cartographic.longitude).toFixed(4);
+                    var alti_String = (mainMap.viewer.camera.positionCartographic.height / 1000).toFixed(2);
+                    longitude_show.innerHTML = log_String;
+                    latitude_show.innerHTML = lat_String;
+                    altitude_show.innerHTML = alti_String;
+                }
+            }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+        }
 
 
     };
