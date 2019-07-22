@@ -872,7 +872,8 @@
                             polyline: {
                                 positions: Cesium.Cartesian3.fromDegreesArray(polyline),
                                 width: 4,
-                                material: Cesium.Color.RED.withAlpha(0.4),
+                                material: Cesium.Color.BLUE.withAlpha(0.4),
+                                height:10
                             },
                             description: description
                         });
@@ -1201,7 +1202,7 @@
                                 ';
 
                     affected_school.entities.add({
-                        name: '受影响学校',
+                        name: '受影响医院学校',
                         position: Cesium.Cartesian3.fromDegrees(coor[0], coor[1]),
                         billboard: {
                             image: './assets/img/accident/accident_school.png',
@@ -1428,10 +1429,10 @@
                 mainMap.viewer.dataSources.remove(dataSource)
             } else {
                 mainMap.viewer.dataSources.add(dataSource)
-                if (index === 'roadAffected' || 'affected_bridge' || 'affected_school' || 'affected_st' || 'affected_village') {
-                    //  relocation
-                    mainMap.relocation(109.1295, 18.9434, 95160);
-                }
+                // if (index === 'roadAffected' || 'affected_bridge' || 'affected_school' || 'affected_st' || 'affected_village') {
+                //     //  relocation
+                //     mainMap.relocation(109.1295, 18.9434, 95160);
+                // }
             }
         },
         menuLoadDataSource: function (index) {
@@ -1440,10 +1441,10 @@
                 mainMap.clearDataSource();
                 mainMap.clearImageryLayer();
                 mainMap.viewer.dataSources.add(dataSource)
-                if (index === 'beforeWater' || 'afterWater' || 'floodDif') {
-                    //  relocation
-                    mainMap.relocation(109.1295, 18.9434, 95160);
-                }
+                // if (index === 'beforeWater' || 'afterWater' || 'floodDif') {
+                //     //  relocation
+                //     mainMap.relocation(109.1295, 18.9434, 95160);
+                // }
             } else {
                 mainMap.clearDataSource();
                 mainMap.clearImageryLayer();
